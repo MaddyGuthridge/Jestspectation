@@ -4,7 +4,7 @@ Tests / List containing test
 Tests for whether the ListContaining type
 """
 import pytest
-from jespectation import (
+from jestspectation import (
     DictContainingItems,
     DictContainingKeys,
     DictContainingValues,

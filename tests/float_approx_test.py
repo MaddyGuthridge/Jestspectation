@@ -2,7 +2,7 @@
 Tests / Float Approx Test
 """
 import pytest
-from jespectation import FloatApprox
+from jestspectation import FloatApprox
 
 
 def test_magnitude():

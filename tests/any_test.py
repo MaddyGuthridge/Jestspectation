@@ -1,7 +1,7 @@
 """
 Tests for the expect any type
 """
-from jespectation import Any, Anything
+from jestspectation import Any, Anything
 import pytest
 
 
