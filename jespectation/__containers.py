@@ -1,7 +1,17 @@
 
 
 class ListContaining:
+    """
+    Matches any list containing all the given items
+    """
+
     def __init__(self, items: list) -> None:
+        """
+        Matches any list containing all the given items
+
+        Args:
+            items (list): items to check for
+        """
         self.__items = items
 
     def __repr__(self) -> str:
@@ -17,7 +27,17 @@ class ListContaining:
 
 
 class SetContaining:
+    """
+    Matches any set containing all the given items
+    """
+
     def __init__(self, items: set) -> None:
+        """
+        Matches any set containing all the given items
+
+        Args:
+            items (set): items to check for
+        """
         self.__items = items
 
     def __repr__(self) -> str:
@@ -33,7 +53,17 @@ class SetContaining:
 
 
 class DictContainingKeys:
+    """
+    Matches any dictionary containing all the given keys
+    """
+
     def __init__(self, keys: set) -> None:
+        """
+        Matches any dictionary containing all the given keys
+
+        Args:
+            keys (set): set of keys to match
+        """
         self.__keys = keys
 
     def __repr__(self) -> str:
@@ -49,7 +79,17 @@ class DictContainingKeys:
 
 
 class DictContainingValues:
+    """
+    Matches any dictionary containing all the given values
+    """
+
     def __init__(self, values: list) -> None:
+        """
+        Matches any dictionary containing all the given values
+
+        Args:
+            values (list): list of values to match
+        """
         self.__values = values
 
     def __repr__(self) -> str:
@@ -65,7 +105,19 @@ class DictContainingValues:
 
 
 class DictContainingItems:
+    """
+    Matches any dictionary containing all the given items, where an item is a
+    key-value pair.
+    """
+
     def __init__(self, items: dict) -> None:
+        """
+        Matches any dictionary containing all the given items, where an item is
+        a key-value pair.
+
+        Args:
+            items (dict): dict of items to match
+        """
         self.__items = items
 
     def __repr__(self) -> str:

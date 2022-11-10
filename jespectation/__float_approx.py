@@ -11,8 +11,26 @@ class FloatApprox:
         magnitude: Optional[float] = None,
         percent: Optional[float] = None,
     ) -> None:
+        """
+        Float approximately equal.
+
+        Args:
+            value (float): target value.
+            magnitude (Optional[float], optional): maximum magnitude
+            difference. Defaults to None.
+            percent (Optional[float], optional): maximum percentage difference.
+            Percentage differences are always calculated based on the expected
+            value, regardless of ordering. Defaults to None.
+
+        If both a magnitude and percent are specified, both will be checked.
+
+        Raises:
+            ValueError: At least one of magnitude or percent must be specified
+            ValueError: Cannot calculate a percentage difference from 0
+        """
         if magnitude is None and percent is None:
-            raise ValueError("Magnitude or percent must be specified")
+            raise ValueError(
+                "At least one of magnitude or percent must be specified")
         if percent is not None and value == 0:
             raise ValueError("Cannot calculate a percentage difference from 0")
         self.__value = value

@@ -7,6 +7,12 @@ class Any:
     """
 
     def __init__(self, match_type: type) -> None:
+        """
+        Matches any object that is an instance of the given type
+
+        Args:
+            match_type (type): type to match
+        """
         self.__match_type = match_type
 
     def __repr__(self) -> str:
@@ -20,6 +26,12 @@ class Anything:
     """
     Matches any Python object
     """
+
+    def __init__(self) -> None:
+        """
+        Matches any Python object
+        """
+
     def __repr__(self) -> str:
         return "Anything()"
 
