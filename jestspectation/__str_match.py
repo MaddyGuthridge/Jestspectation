@@ -2,8 +2,8 @@
 Matchers for strings
 """
 import re
-from typing import Optional
 from .__jestspectation_base import JestspectationBase
+from .__util import safe_diff_wrapper
 
 
 class StringMatchingRegex(JestspectationBase):
@@ -19,6 +19,7 @@ class StringMatchingRegex(JestspectationBase):
             return False
         return re.match(self.__regex, other) is not None
 
+    @safe_diff_wrapper
     def get_diff(self, other: object) -> list[str]:
         if not isinstance(other, str):
             return [
