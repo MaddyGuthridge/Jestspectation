@@ -4,6 +4,7 @@ Equals
 Matches for types of equality
 """
 from .__jestspectation_base import JestspectationBase
+from .__util import sub_diff_delegate
 
 
 class Is(JestspectationBase):
@@ -44,3 +45,33 @@ class Is(JestspectationBase):
             if self.__value == other
             else []
         )
+
+
+class Equals(JestspectationBase):
+    """
+    Matches objects that have the same value.
+
+    This is equivalent to the `==` operator, but with additional information
+    on the difference, which can help with debugging.
+    """
+    def __init__(self, value: object) -> None:
+        """
+        Matches values that have the same identity as the given value.
+
+        Args:
+            value (object): object to check
+        """
+        self.__value = value
+
+    def __repr__(self) -> str:
+        return f"Equals({self.__value})"
+
+    def __eq__(self, other: object) -> bool:
+        return self.__value == other
+
+    def get_diff(self, other: object) -> list[str]:
+        # Give a more helpful error if the objects are equal but have different
+        # identities
+        diff = sub_diff_delegate(self.__value, other)
+        assert diff is not None
+        return diff

@@ -4,6 +4,7 @@ Logicals
 Matchers that can be used to perform logical operations on other matchers
 """
 from .__jestspectation_base import JestspectationBase
+from .__util import sub_diff_delegate
 
 
 class Not(JestspectationBase):
@@ -84,13 +85,17 @@ class And(JestspectationBase):
         ))
 
     def get_diff(self, other: object) -> list[str]:
-        return [
+        ret = [
             "Not all matches fulfilled",
             f"Object {repr(other)} failed to match with",
-        ] + [
-            f" - {m}"
-            for m in self.__get_misses(other)
         ]
+        for m in self.__get_misses(other):
+            diff = sub_diff_delegate(m, other)
+            assert diff is not None
+            diff[0] = '-- ' + diff[0][3:]
+            ret += diff
+
+        return ret
 
 
 class Or(JestspectationBase):
@@ -133,13 +138,17 @@ class Or(JestspectationBase):
         ))
 
     def get_diff(self, other: object) -> list[str]:
-        return [
+        ret = [
             "No matches fulfilled",
             f"Object {repr(other)} must match with at least one of",
-        ] + [
-            f" - {m}"
-            for m in self.__matchers
         ]
+        for m in self.__matchers:
+            diff = sub_diff_delegate(m, other)
+            assert diff is not None
+            diff[0] = '-- ' + diff[0][3:]
+            ret += diff
+
+        return ret
 
 
 class Xor(JestspectationBase):
@@ -186,20 +195,26 @@ class Xor(JestspectationBase):
     def get_diff(self, other: object) -> list[str]:
         hits = self.__get_hits(other)
         if len(hits) == 0:
-            return [
+            ret = [
                 "No matches fulfilled",
-                f"Object {repr(other)} must match with exactly one of",
-            ] + [
-                f" - {m}"
-                for m in self.__matchers
+                f"Object {repr(other)} must match with at least one of",
             ]
+            for m in self.__matchers:
+                diff = sub_diff_delegate(m, other)
+                assert diff is not None
+                diff[0] = '-- ' + diff[0][3:]
+                ret += diff
         else:
-            return [
+            ret = [
                 "Too many matches fulfilled",
                 f"Object {repr(other)} matched with",
-            ] + [
-                f" - {m}"
-                for m in hits
-            ] + [
+            ]
+            for m in hits:
+                diff = sub_diff_delegate(m, other)
+                assert diff is not None
+                diff[0] = '++ ' + diff[0][3:]
+                ret += diff
+            ret += [
                 "But should only have matched with one of them",
             ]
+        return ret
