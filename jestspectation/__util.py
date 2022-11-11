@@ -1,6 +1,4 @@
 """
-Jestspectation / Util
-
 Utility functions
 """
 

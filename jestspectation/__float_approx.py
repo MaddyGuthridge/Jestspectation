@@ -1,3 +1,7 @@
+"""
+Matcher for floats of approximate value
+"""
+
 from typing import Optional
 from .__jestspectation_base import JestspectationBase
 

@@ -1,3 +1,7 @@
+"""
+Matchers that match close to anything
+"""
+
 from typing import Optional
 from .__jestspectation_base import JestspectationBase
 from .__util import get_type_name, get_object_type_name

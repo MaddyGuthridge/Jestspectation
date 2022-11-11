@@ -42,7 +42,7 @@ This should result in output similar to the following
 ```
     def test_goodbye():
 >       assert 1 == expect.Any(float)
-E       assert 1 == Any(float)
+E       assert Type mismatch
 E         Expected any object of type float
 E         Received 1 (int)
 ```

@@ -1,3 +1,7 @@
+"""
+Matchers for specific container types
+"""
+
 from abc import abstractmethod
 from collections.abc import Iterable
 from typing import Optional, TypeGuard
