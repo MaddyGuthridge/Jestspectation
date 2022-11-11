@@ -35,3 +35,28 @@ def test_divide_by_zero_avoided():
 def test_both_unspecified():
     with pytest.raises(ValueError):
         FloatApprox(10)
+
+
+def test_get_diff_equal():
+    assert FloatApprox(10, magnitude=1).get_diff(10) is None
+
+
+def test_get_diff_invalid_type():
+    assert FloatApprox(10, magnitude=1).get_diff("my string") == [
+        "Expected 'my string' to be FloatApprox(10, magnitude=1)",
+        "   But got str",
+    ]
+
+
+def test_lower_bound_diff():
+    assert FloatApprox(10, magnitude=1).get_diff(8) == [
+        "Expected 8 to be FloatApprox(10, magnitude=1)",
+        "   8 is outside lower bound",
+    ]
+
+
+def test_upper_bound_diff():
+    assert FloatApprox(10, magnitude=1).get_diff(12) == [
+        "Expected 12 to be FloatApprox(10, magnitude=1)",
+        "   12 is outside upper bound",
+    ]
