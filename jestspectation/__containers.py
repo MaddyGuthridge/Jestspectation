@@ -57,8 +57,8 @@ class JestspectationContainer(JestspectationBase):
             ]
         misses = self.get_misses(other)
         return [
-            f"Expected {other} to be {self}, but was missing",
-        ] + [f"   {i}" for i in misses]
+            f"Expected {repr(other)} to be {self}, but was missing",
+        ] + [f"   {repr(i)}" for i in misses]
 
     def __eq__(self, other: object) -> bool:
         if not self.is_allowed_type(other):
@@ -207,4 +207,4 @@ class DictContainingItems(JestspectationContainer):
 
     def match_inner_callback(self, item: object, other: Iterable) -> bool:
         # TODO: Use generics to make this type-safe
-        return other[item[0]] == item[1]  # type: ignore
+        return item[0] in other and other[item[0]] == item[1]  # type: ignore
