@@ -11,3 +11,13 @@ def test_not_inverts():
 
 def test_not_literals():
     assert 68 == Not("nice")
+
+
+def test_diff():
+    diff = Not(Any(str)).get_diff("my str")
+    assert diff == [
+        "Any(str) != 'my str'",
+        "Unwanted match",
+        "Expected object that doesn't match with Any(str)",
+        "Received 'my str'",
+    ]

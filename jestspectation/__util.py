@@ -35,12 +35,26 @@ def diff_wrapper(
     diff_function: Callable[[T, object], list[str]],
 ) -> Callable[[T, object], Optional[list[str]]]:
     """
-    Decorator around diff functions to add an equality statement if they are
-    not equal to reduce repetition
+    Decorator around diff functions to add an equality statement. Also returns
+    None if values are equal
     """
     def wrapper(matcher: T, other: object) -> Optional[list[str]]:
         if matcher == other:
             return None
+        return [
+            f"{repr(matcher)} == {repr(other)}",
+        ] + diff_function(matcher, other)
+    return wrapper
+
+
+def safe_diff_wrapper(
+    diff_function: Callable[[T, object], list[str]],
+) -> Callable[[T, object], list[str]]:
+    """
+    Decorator around diff functions to add an equality statement if they are
+    not equal to reduce repetition
+    """
+    def wrapper(matcher: T, other: object) -> list[str]:
         return [
             f"{repr(matcher)} == {repr(other)}",
         ] + diff_function(matcher, other)

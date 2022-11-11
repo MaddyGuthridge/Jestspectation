@@ -2,7 +2,7 @@
 Matchers that match close to anything
 """
 from .__jestspectation_base import JestspectationBase
-from .__util import get_type_name, get_object_type_name
+from .__util import get_type_name, get_object_type_name, safe_diff_wrapper
 
 
 class Any(JestspectationBase):
@@ -25,6 +25,7 @@ class Any(JestspectationBase):
     def __eq__(self, other: object) -> bool:
         return isinstance(other, self.__match_type)
 
+    @safe_diff_wrapper
     def get_diff(self, other: object) -> list[str]:
         return [
             'Type mismatch',

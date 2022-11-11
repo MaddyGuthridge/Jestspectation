@@ -4,7 +4,7 @@ Logicals / Xor
 Matchers that can be used to perform logical operations on other matchers
 """
 from ..__jestspectation_base import JestspectationBase
-from ..__util import sub_diff_delegate
+from ..__util import sub_diff_delegate, safe_diff_wrapper
 
 
 class Xor(JestspectationBase):
@@ -48,12 +48,13 @@ class Xor(JestspectationBase):
             self.__matchers
         ))
 
+    @safe_diff_wrapper
     def get_diff(self, other: object) -> list[str]:
         hits = self.__get_hits(other)
         if len(hits) == 0:
             ret = [
                 "No matches fulfilled",
-                f"Object {repr(other)} must match with at least one of",
+                f"{repr(other)} must match with exactly one of",
             ]
             for m in self.__matchers:
                 diff = sub_diff_delegate(m, other)
@@ -63,13 +64,10 @@ class Xor(JestspectationBase):
         else:
             ret = [
                 "Too many matches fulfilled",
-                f"Object {repr(other)} matched with",
+                f"{repr(other)} matched with",
             ]
             for m in hits:
-                diff = sub_diff_delegate(m, other)
-                assert diff is not None
-                diff[0] = '++ ' + diff[0][3:]
-                ret += diff
+                ret += [f"++ {repr(m)} == {repr(other)}"]
             ret += [
                 "But should only have matched with one of them",
             ]

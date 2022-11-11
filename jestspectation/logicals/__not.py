@@ -37,6 +37,7 @@ class Not(JestspectationBase):
 
     def get_diff(self, other: object) -> list[str]:
         return [
+            f"{repr(self.__matcher)} != {repr(other)}",
             "Unwanted match",
             f"Expected object that doesn't match with {repr(self.__matcher)}",
             f"Received {repr(other)}"

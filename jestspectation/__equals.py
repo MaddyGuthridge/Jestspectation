@@ -33,6 +33,7 @@ class Is(JestspectationBase):
         # Give a more helpful error if the objects are equal but have different
         # identities
         return [
+            f"{repr(self.__value)} is {repr(other)}",
             "Object identities not equal",
             f"Expected {repr(self.__value)} with id {id(self.__value)}",
             f"Received {repr(other)} with id {id(other)}",

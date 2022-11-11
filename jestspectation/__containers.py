@@ -6,7 +6,7 @@ from abc import abstractmethod
 from collections.abc import Iterable
 from typing import TypeGuard
 from .__jestspectation_base import JestspectationBase
-from .__util import get_object_type_name
+from .__util import get_object_type_name, safe_diff_wrapper
 
 
 class JestspectationContainer(JestspectationBase):
@@ -53,6 +53,7 @@ class JestspectationContainer(JestspectationBase):
             )
         ))
 
+    @safe_diff_wrapper
     def get_diff(self, other: object) -> list[str]:
         if not self.__is_allowed_type(other):
             return [

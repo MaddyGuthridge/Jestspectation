@@ -4,7 +4,7 @@ Logicals / And
 Matchers that can be used to perform logical operations on other matchers
 """
 from ..__jestspectation_base import JestspectationBase
-from ..__util import sub_diff_delegate
+from ..__util import sub_diff_delegate, safe_diff_wrapper
 
 
 class And(JestspectationBase):
@@ -47,10 +47,11 @@ class And(JestspectationBase):
             self.__matchers
         ))
 
+    @safe_diff_wrapper
     def get_diff(self, other: object) -> list[str]:
         ret = [
             "Not all matches fulfilled",
-            f"Object {repr(other)} failed to match with",
+            f"{repr(other)} failed to match with",
         ]
         for m in self.__get_misses(other):
             diff = sub_diff_delegate(m, other)
