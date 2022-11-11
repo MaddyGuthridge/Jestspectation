@@ -43,7 +43,7 @@ def test_any_get_diff():
     assert Any(int).get_diff("my str", "") == [
         "",
         "Expected any object of type int",
-        "Received str ('my str')",
+        "Received 'my str' (str)",
     ]
 
 

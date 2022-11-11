@@ -29,7 +29,7 @@ class Any(JestspectationBase):
         return [
             f'{expr}',
             f'Expected any object of type {get_type_name(self.__match_type)}',
-            f'Received {get_object_type_name(other)} ({repr(other)})',
+            f'Received {repr(other)} ({get_object_type_name(other)})',
         ]
 
 
