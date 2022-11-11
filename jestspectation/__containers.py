@@ -291,5 +291,6 @@ class DictContainingItems(JestspectationContainer):
         diff = sub_diff_delegate(item[1], other[item[0]])  # type: ignore
         assert diff is not None
         return [
-            f"   [{item[0]}]:"  # type: ignore
+            f"   {repr(item[0])}: {repr(item[1])} "  # type: ignore
+            f"== {repr(item[0])}: {repr(other[item[0]])}"  # type: ignore
         ] + diff

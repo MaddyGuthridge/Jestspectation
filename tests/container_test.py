@@ -109,7 +109,7 @@ def test_diff_match_dict_containing_items_incorrect():
         "DictContainingItems({1: '1'}) == {1: '2'}",
         "Incorrect properties",
         f"Expected a {dict}",
-        "!! [1]:",
+        "!! 1: '1' == 1: '2'",
         "   '1' == '2'",
         "   Value mismatch",
         "   Expected '1'",
