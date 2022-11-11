@@ -11,19 +11,19 @@ class JestspectationContainer(JestspectationBase):
 
     @staticmethod
     @abstractmethod
-    def get_allowed_types() -> tuple[type, ...]:
+    def _get_allowed_types() -> tuple[type, ...]:
         """
         Returns the allowed match types of the container
         """
 
-    def is_allowed_type(self, other) -> TypeGuard[Iterable]:
+    def __is_allowed_type(self, other) -> TypeGuard[Iterable]:
         """
         Returns whether other is an allowed type
         """
-        return isinstance(other, self.get_allowed_types())
+        return isinstance(other, self._get_allowed_types())
 
     @abstractmethod
-    def match_inner_callback(self, item: object, other: Iterable) -> bool:
+    def _match_inner_callback(self, item: object, other: Iterable) -> bool:
         """
         Returns whether item matches an entry in the container.
 
@@ -31,19 +31,19 @@ class JestspectationContainer(JestspectationBase):
         """
 
     @abstractmethod
-    def get_items(self) -> Iterable:
+    def _get_items(self) -> Iterable:
         """
         Returns the Iterable of items that should be in the container
         """
 
-    def get_misses(self, other: Iterable) -> list:
+    def __get_misses(self, other: Iterable) -> list:
         return list(map(
             lambda i: i[1],
             filter(
                 lambda i: i[0] is False,
                 (
-                    (self.match_inner_callback(i, other), i)
-                    for i in self.get_items()
+                    (self._match_inner_callback(i, other), i)
+                    for i in self._get_items()
                 )
             )
         ))
@@ -51,19 +51,19 @@ class JestspectationContainer(JestspectationBase):
     def get_diff(self, other: object) -> Optional[list[str]]:
         if self == other:
             return None
-        if not self.is_allowed_type(other):
+        if not self.__is_allowed_type(other):
             return [
                 f"Expected {self}, but received a {type(other).__name__}"
             ]
-        misses = self.get_misses(other)
+        misses = self.__get_misses(other)
         return [
             f"Expected {repr(other)} to be {self}, but was missing",
         ] + [f"   {repr(i)}" for i in misses]
 
     def __eq__(self, other: object) -> bool:
-        if not self.is_allowed_type(other):
+        if not self.__is_allowed_type(other):
             return False
-        return len(self.get_misses(other)) == 0
+        return len(self.__get_misses(other)) == 0
 
 
 class ListContaining(JestspectationContainer):
@@ -84,13 +84,13 @@ class ListContaining(JestspectationContainer):
         return f"ListContaining({repr(self.__items)})"
 
     @staticmethod
-    def get_allowed_types() -> tuple[type, ...]:
+    def _get_allowed_types() -> tuple[type, ...]:
         return (list,)
 
-    def get_items(self) -> Iterable:
+    def _get_items(self) -> Iterable:
         return self.__items
 
-    def match_inner_callback(self, item: object, other: Iterable) -> bool:
+    def _match_inner_callback(self, item: object, other: Iterable) -> bool:
         return item in other
 
 
@@ -112,13 +112,13 @@ class SetContaining(JestspectationContainer):
         return f"SetContaining({repr(self.__items)})"
 
     @staticmethod
-    def get_allowed_types() -> tuple[type, ...]:
+    def _get_allowed_types() -> tuple[type, ...]:
         return (set,)
 
-    def get_items(self) -> Iterable:
+    def _get_items(self) -> Iterable:
         return self.__items
 
-    def match_inner_callback(self, item: object, other: Iterable) -> bool:
+    def _match_inner_callback(self, item: object, other: Iterable) -> bool:
         return item in other
 
 
@@ -140,13 +140,13 @@ class DictContainingKeys(JestspectationContainer):
         return f"DictContainingKeys({repr(self.__keys)})"
 
     @staticmethod
-    def get_allowed_types() -> tuple[type, ...]:
+    def _get_allowed_types() -> tuple[type, ...]:
         return (dict,)
 
-    def get_items(self) -> Iterable:
+    def _get_items(self) -> Iterable:
         return self.__keys
 
-    def match_inner_callback(self, item: object, other: Iterable) -> bool:
+    def _match_inner_callback(self, item: object, other: Iterable) -> bool:
         return item in other
 
 
@@ -168,13 +168,13 @@ class DictContainingValues(JestspectationContainer):
         return f"DictContainingValues({repr(self.__values)})"
 
     @staticmethod
-    def get_allowed_types() -> tuple[type, ...]:
+    def _get_allowed_types() -> tuple[type, ...]:
         return (dict,)
 
-    def get_items(self) -> Iterable:
+    def _get_items(self) -> Iterable:
         return self.__values
 
-    def match_inner_callback(self, item: object, other: Iterable) -> bool:
+    def _match_inner_callback(self, item: object, other: Iterable) -> bool:
         # TODO: Fix type safety
         return item in other.values()  # type: ignore
 
@@ -199,12 +199,12 @@ class DictContainingItems(JestspectationContainer):
         return f"DictContainingItems({repr(self.__items)})"
 
     @staticmethod
-    def get_allowed_types() -> tuple[type, ...]:
+    def _get_allowed_types() -> tuple[type, ...]:
         return (dict,)
 
-    def get_items(self) -> Iterable:
+    def _get_items(self) -> Iterable:
         return self.__items.items()
 
-    def match_inner_callback(self, item: object, other: Iterable) -> bool:
+    def _match_inner_callback(self, item: object, other: Iterable) -> bool:
         # TODO: Use generics to make this type-safe
         return item[0] in other and other[item[0]] == item[1]  # type: ignore
