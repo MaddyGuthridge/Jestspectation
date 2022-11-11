@@ -3,7 +3,6 @@ Logicals
 
 Matchers that can be used to perform logical operations on other matchers
 """
-from typing import Optional
 from .__jestspectation_base import JestspectationBase
 
 
@@ -36,9 +35,7 @@ class Not(JestspectationBase):
     def __eq__(self, object: object) -> bool:
         return not self.__matcher == object
 
-    def get_diff(self, other: object) -> Optional[list[str]]:
-        if self == other:
-            return None
+    def get_diff(self, other: object) -> list[str]:
         return [
             "Unwanted match",
             f"Expected object that doesn't match with {repr(self.__matcher)}",
@@ -86,9 +83,7 @@ class And(JestspectationBase):
             self.__matchers
         ))
 
-    def get_diff(self, other: object) -> Optional[list[str]]:
-        if self == other:
-            return None
+    def get_diff(self, other: object) -> list[str]:
         return [
             "Not all matches fulfilled",
             f"Object {repr(other)} failed to match with",
@@ -137,9 +132,7 @@ class Or(JestspectationBase):
             self.__matchers
         ))
 
-    def get_diff(self, other: object) -> Optional[list[str]]:
-        if self == other:
-            return None
+    def get_diff(self, other: object) -> list[str]:
         return [
             "No matches fulfilled",
             f"Object {repr(other)} must match with at least one of",
@@ -190,9 +183,7 @@ class Xor(JestspectationBase):
             self.__matchers
         ))
 
-    def get_diff(self, other: object) -> Optional[list[str]]:
-        if self == other:
-            return None
+    def get_diff(self, other: object) -> list[str]:
         hits = self.__get_hits(other)
         if len(hits) == 0:
             return [

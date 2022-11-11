@@ -1,7 +1,6 @@
 """
 Matcher for floats of approximate value
 """
-
 from typing import Optional
 from .__jestspectation_base import JestspectationBase
 
@@ -77,9 +76,7 @@ class FloatApprox(JestspectationBase):
                 return False
         return True
 
-    def get_diff(self, other) -> Optional[list[str]]:
-        if self == other:
-            return None
+    def get_diff(self, other) -> list[str]:
         if not isinstance(other, (int, float)):
             head = "Type mismatch"
             err = f"Received object of type {type(other).__name__}"

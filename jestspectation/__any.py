@@ -1,8 +1,6 @@
 """
 Matchers that match close to anything
 """
-
-from typing import Optional
 from .__jestspectation_base import JestspectationBase
 from .__util import get_type_name, get_object_type_name
 
@@ -27,9 +25,7 @@ class Any(JestspectationBase):
     def __eq__(self, other: object) -> bool:
         return isinstance(other, self.__match_type)
 
-    def get_diff(self, other: object) -> Optional[list[str]]:
-        if self == other:
-            return None
+    def get_diff(self, other: object) -> list[str]:
         return [
             'Type mismatch',
             f'Expected any object of type {get_type_name(self.__match_type)}',
@@ -53,5 +49,5 @@ class Anything(JestspectationBase):
     def __eq__(self, other: object) -> bool:
         return True
 
-    def get_diff(self, other: object) -> Optional[list[str]]:
-        return None
+    def get_diff(self, other: object) -> list[str]:
+        raise Exception(f"Anything() should have matched {other}")

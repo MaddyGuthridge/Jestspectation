@@ -16,10 +16,6 @@ def test_no_match():
     assert StringMatchingRegex('hello*') != 'goodbye world'
 
 
-def test_diff_match():
-    assert StringMatchingRegex('hello*').get_diff('hello world') is None
-
-
 def test_diff_no_match():
     assert StringMatchingRegex('hello*').get_diff('goodbye world') == [
         "Regex failed to match",

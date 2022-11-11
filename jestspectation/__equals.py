@@ -3,7 +3,6 @@ Equals
 
 Matches for types of equality
 """
-from typing import Optional
 from .__jestspectation_base import JestspectationBase
 
 
@@ -29,9 +28,7 @@ class Is(JestspectationBase):
     def __eq__(self, other: object) -> bool:
         return self.__value is other
 
-    def get_diff(self, other: object) -> Optional[list[str]]:
-        if self == other:
-            return None
+    def get_diff(self, other: object) -> list[str]:
         # Give a more helpful error if the objects are equal but have different
         # identities
         return [

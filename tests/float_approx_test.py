@@ -37,10 +37,6 @@ def test_both_unspecified():
         FloatApprox(10)
 
 
-def test_get_diff_equal():
-    assert FloatApprox(10, magnitude=1).get_diff(10) is None
-
-
 def test_get_diff_invalid_type():
     assert FloatApprox(10, magnitude=1).get_diff("my string") == [
         "Type mismatch",

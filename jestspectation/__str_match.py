@@ -19,9 +19,7 @@ class StringMatchingRegex(JestspectationBase):
             return False
         return re.match(self.__regex, other) is not None
 
-    def get_diff(self, other: object) -> Optional[list[str]]:
-        if self == other:
-            return None
+    def get_diff(self, other: object) -> list[str]:
         if not isinstance(other, str):
             return [
                 "Type mismatch",

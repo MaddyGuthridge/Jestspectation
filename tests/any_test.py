@@ -35,10 +35,6 @@ def test_doesnt_match_wrong_type():
     assert Any(int) != "not an int"
 
 
-def test_any_get_diff_match():
-    assert Any(int).get_diff(1) is None
-
-
 def test_any_get_diff():
     assert Any(int).get_diff("my str") == [
         "Type mismatch",

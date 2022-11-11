@@ -4,7 +4,7 @@ Matchers for specific container types
 
 from abc import abstractmethod
 from collections.abc import Iterable
-from typing import Optional, TypeGuard
+from typing import TypeGuard
 from .__jestspectation_base import JestspectationBase
 from .__util import get_object_type_name
 
@@ -53,9 +53,7 @@ class JestspectationContainer(JestspectationBase):
             )
         ))
 
-    def get_diff(self, other: object) -> Optional[list[str]]:
-        if self == other:
-            return None
+    def get_diff(self, other: object) -> list[str]:
         if not self.__is_allowed_type(other):
             return [
                 "Type mismatch",
@@ -66,7 +64,7 @@ class JestspectationContainer(JestspectationBase):
         return [
             "Missing properties",
             f"Expected a {self}, but was missing properties",
-        ] + [f" - {repr(i)}" for i in misses]
+        ] + [f"-- {repr(i)}" for i in misses]
 
     def __eq__(self, other: object) -> bool:
         if not self.__is_allowed_type(other):
