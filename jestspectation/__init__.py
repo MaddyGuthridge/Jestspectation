@@ -15,6 +15,7 @@ from .__containers import (
     SetContaining,
 )
 from .__float_approx import FloatApprox
+from .__equals import Is
 from .__logicals import And, Not, Or, Xor
 from .__str_match import StringMatchingRegex
 
@@ -27,6 +28,7 @@ __all__ = [
     'DictContainingValues',
     'DictContainingItems',
     'FloatApprox',
+    'Is',
     'ListContaining',
     'Not',
     'Or',
