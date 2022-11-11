@@ -15,10 +15,12 @@ from .__containers import (
     SetContaining,
 )
 from .__float_approx import FloatApprox
+from .__logicals import And, Not, Or, Xor
 from .__str_match import StringMatchingRegex
 
 
 __all__ = [
+    'And',
     'Any',
     'Anything',
     'DictContainingKeys',
@@ -26,6 +28,9 @@ __all__ = [
     'DictContainingItems',
     'FloatApprox',
     'ListContaining',
+    'Not',
+    'Or',
     'SetContaining',
     'StringMatchingRegex',
+    'Xor',
 ]
