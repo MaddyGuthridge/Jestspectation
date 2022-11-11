@@ -46,3 +46,17 @@ E       assert Type mismatch
 E         Expected any object of type float
 E         Received 1 (int)
 ```
+
+These advanced completions can also be used for most standard Python objects
+by wrapping the expected values in an `Equals`. For example:
+
+```
+    def test_lists():
+>       assert expect.Equals([1, 2, 3, 4]) == [1, 2, 3, 5, 6]
+E       assert [1, 2, 3, 4] == [1, 2, 3, 5, 6]
+E         !! [3] 4 == 5
+E            Value mismatch
+E            Expected 4
+E            Received 5
+E         ++ [4] 6
+```
