@@ -1,7 +1,8 @@
 from typing import Optional
+from .__jestspectation_base import JestspectationBase
 
 
-class FloatApprox:
+class FloatApprox(JestspectationBase):
     """
     Float approximately equal
     """
@@ -61,3 +62,17 @@ class FloatApprox:
             if diff_percent > self.__percent:
                 return False
         return True
+
+    def get_diff(self, other) -> Optional[list[str]]:
+        if self == other:
+            return None
+        if not isinstance(other, (int, float)):
+            err = f"But got {type(other).__name__}"
+        elif other < self.__value:
+            err = f"{repr(other)} is outside lower bound"
+        else:
+            err = f"{repr(other)} is outside upper bound"
+        return [
+            f"Expected {repr(other)} to be {self}",
+            f"   {err}",
+        ]

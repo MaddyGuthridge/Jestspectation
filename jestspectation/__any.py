@@ -1,7 +1,8 @@
-# from typing import Typ
+from typing import Optional
+from .__jestspectation_base import JestspectationBase
 
 
-class Any:
+class Any(JestspectationBase):
     """
     Matches any object that is an instance of the given type
     """
@@ -21,8 +22,16 @@ class Any:
     def __eq__(self, other: object) -> bool:
         return isinstance(other, self.__match_type)
 
+    def get_diff(self, other: object) -> Optional[list[str]]:
+        if self == other:
+            return None
+        return [
+            f'Expecting {self}',
+            f'   Received {other.__class__.__name__} ({other})',
+        ]
 
-class Anything:
+
+class Anything(JestspectationBase):
     """
     Matches any Python object
     """
@@ -37,3 +46,6 @@ class Anything:
 
     def __eq__(self, other: object) -> bool:
         return True
+
+    def get_diff(self, other) -> Optional[list[str]]:
+        return None

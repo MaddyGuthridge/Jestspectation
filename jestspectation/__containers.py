@@ -1,6 +1,72 @@
+from abc import abstractmethod
+from collections.abc import Iterable
+from typing import Optional, TypeGuard
+from .__jestspectation_base import JestspectationBase
 
 
-class ListContaining:
+class JestspectationContainer(JestspectationBase):
+    """
+    Base type for container matchers
+    """
+
+    @staticmethod
+    @abstractmethod
+    def get_allowed_types() -> tuple[type, ...]:
+        """
+        Returns the allowed match types of the container
+        """
+
+    def is_allowed_type(self, other) -> TypeGuard[Iterable]:
+        """
+        Returns whether other is an allowed type
+        """
+        return isinstance(other, self.get_allowed_types())
+
+    @abstractmethod
+    def match_inner_callback(self, item: object, other: Iterable) -> bool:
+        """
+        Returns whether item matches an entry in the container.
+
+        Defined by subclasses to get the array of missing properties
+        """
+
+    @abstractmethod
+    def get_items(self) -> Iterable:
+        """
+        Returns the Iterable of items that should be in the container
+        """
+
+    def get_misses(self, other: Iterable) -> list:
+        return list(map(
+            lambda i: i[1],
+            filter(
+                lambda i: i[0] is False,
+                (
+                    (self.match_inner_callback(i, other), i)
+                    for i in self.get_items()
+                )
+            )
+        ))
+
+    def get_diff(self, other: object) -> Optional[list[str]]:
+        if self == other:
+            return None
+        if not self.is_allowed_type(other):
+            return [
+                f"Expected {self}, but received a {type(other).__name__}"
+            ]
+        misses = self.get_misses(other)
+        return [
+            f"Expected {other} to be {self}, but was missing",
+        ] + [f"   {i}" for i in misses]
+
+    def __eq__(self, other: object) -> bool:
+        if not self.is_allowed_type(other):
+            return False
+        return len(self.get_misses(other)) == 0
+
+
+class ListContaining(JestspectationContainer):
     """
     Matches any list containing all the given items
     """
@@ -17,16 +83,18 @@ class ListContaining:
     def __repr__(self) -> str:
         return f"ListContaining({repr(self.__items)})"
 
-    def __eq__(self, other: object) -> bool:
-        if not isinstance(other, list):
-            return False
-        return all(
-            i in other
-            for i in self.__items
-        )
+    @staticmethod
+    def get_allowed_types() -> tuple[type, ...]:
+        return (list,)
+
+    def get_items(self) -> Iterable:
+        return self.__items
+
+    def match_inner_callback(self, item: object, other: Iterable) -> bool:
+        return item in other
 
 
-class SetContaining:
+class SetContaining(JestspectationContainer):
     """
     Matches any set containing all the given items
     """
@@ -43,16 +111,18 @@ class SetContaining:
     def __repr__(self) -> str:
         return f"SetContaining({repr(self.__items)})"
 
-    def __eq__(self, other: object) -> bool:
-        if not isinstance(other, set):
-            return False
-        return all(
-            i in other
-            for i in self.__items
-        )
+    @staticmethod
+    def get_allowed_types() -> tuple[type, ...]:
+        return (set,)
+
+    def get_items(self) -> Iterable:
+        return self.__items
+
+    def match_inner_callback(self, item: object, other: Iterable) -> bool:
+        return item in other
 
 
-class DictContainingKeys:
+class DictContainingKeys(JestspectationContainer):
     """
     Matches any dictionary containing all the given keys
     """
@@ -69,16 +139,18 @@ class DictContainingKeys:
     def __repr__(self) -> str:
         return f"DictContainingKeys({repr(self.__keys)})"
 
-    def __eq__(self, other: object) -> bool:
-        if not isinstance(other, dict):
-            return False
-        return all(
-            i in other.keys()
-            for i in self.__keys
-        )
+    @staticmethod
+    def get_allowed_types() -> tuple[type, ...]:
+        return (dict,)
+
+    def get_items(self) -> Iterable:
+        return self.__keys
+
+    def match_inner_callback(self, item: object, other: Iterable) -> bool:
+        return item in other
 
 
-class DictContainingValues:
+class DictContainingValues(JestspectationContainer):
     """
     Matches any dictionary containing all the given values
     """
@@ -95,16 +167,19 @@ class DictContainingValues:
     def __repr__(self) -> str:
         return f"DictContainingValues({repr(self.__values)})"
 
-    def __eq__(self, other: object) -> bool:
-        if not isinstance(other, dict):
-            return False
-        return all(
-            i in other.values()
-            for i in self.__values
-        )
+    @staticmethod
+    def get_allowed_types() -> tuple[type, ...]:
+        return (dict,)
+
+    def get_items(self) -> Iterable:
+        return self.__values
+
+    def match_inner_callback(self, item: object, other: Iterable) -> bool:
+        # TODO: Fix type safety
+        return item in other.values()  # type: ignore
 
 
-class DictContainingItems:
+class DictContainingItems(JestspectationContainer):
     """
     Matches any dictionary containing all the given items, where an item is a
     key-value pair.
@@ -123,10 +198,13 @@ class DictContainingItems:
     def __repr__(self) -> str:
         return f"DictContainingItems({repr(self.__items)})"
 
-    def __eq__(self, other: object) -> bool:
-        if not isinstance(other, dict):
-            return False
-        return all(
-            other[k] == v
-            for k, v in self.__items.items()
-        )
+    @staticmethod
+    def get_allowed_types() -> tuple[type, ...]:
+        return (dict,)
+
+    def get_items(self) -> Iterable:
+        return self.__items.items()
+
+    def match_inner_callback(self, item: object, other: Iterable) -> bool:
+        # TODO: Use generics to make this type-safe
+        return other[item[0]] == item[1]  # type: ignore
