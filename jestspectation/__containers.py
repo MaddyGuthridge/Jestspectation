@@ -61,8 +61,8 @@ class JestspectationContainer(JestspectationBase):
         misses = self.__get_misses(other)
         return [
             expr,
-            f"Expected a {self}, but was missing",
-        ] + [repr(i) for i in misses]
+            f"Expected a {self}, but was missing properties",
+        ] + [f"- {repr(i)}" for i in misses]
 
     def __eq__(self, other: object) -> bool:
         if not self.__is_allowed_type(other):

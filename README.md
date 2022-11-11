@@ -23,3 +23,14 @@ assert {
 ```sh
 pip install jestspectation
 ```
+
+## Usage with Pytest
+
+The library can be used as a pytest plugin, which can give access to much more
+detailed error messages when assertions fail.
+
+You can enable it by adding the following lines to your `conftest.py`
+
+```py
+pytest_plugins = ("jestspectation.pytest",)
+```
