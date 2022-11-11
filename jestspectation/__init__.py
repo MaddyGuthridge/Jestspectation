@@ -15,6 +15,7 @@ from .__containers import (
     SetContaining,
 )
 from .__float_approx import FloatApprox
+from .__str_match import StringMatchingRegex
 
 
 __all__ = [
@@ -26,4 +27,5 @@ __all__ = [
     'FloatApprox',
     'ListContaining',
     'SetContaining',
+    'StringMatchingRegex',
 ]
