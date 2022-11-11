@@ -1,16 +1,18 @@
 # Jestspectation
 
-Pattern matching helper classes designed to be similar to Jest's expect
-matchers, but modified to suit a Pythonic style of programming.
+Pattern matching helper classes designed to allow for testing of complex data
+structures in a readable and logical format.
 
-## Basic Usage
+The design is inspired by the `expect` system from JavaScript's Jest testing
+framework.
 
 ```py
 import jestspectation as expect
+
 assert {
     "a": 1,
     "b": 2,
-    "c": 3,
+    "c": 3.0,
 } == {
     "a": 1,
     "b": expect.Any(int),
@@ -33,4 +35,14 @@ You can enable it by adding the following lines to your `conftest.py`
 
 ```py
 pytest_plugins = ("jestspectation.pytest",)
+```
+
+This should result in output similar to the following
+
+```
+    def test_goodbye():
+>       assert 1 == expect.Any(float)
+E       assert 1 == Any(float)
+E         Expected any object of type float
+E         Received 1 (int)
 ```
