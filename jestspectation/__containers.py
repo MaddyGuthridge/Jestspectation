@@ -3,13 +3,16 @@ Matchers for specific container types
 """
 
 from abc import abstractmethod
-from collections.abc import Iterable
-from typing import TypeGuard
+from collections.abc import Iterable, ItemsView
+from typing import TypeGuard, TypeVar, Generic
 from .__jestspectation_base import JestspectationBase
-from .__util import get_object_type_name, safe_diff_wrapper
+from .__util import get_object_type_name, safe_diff_wrapper, sub_diff_delegate
 
 
-class JestspectationContainer(JestspectationBase):
+T = TypeVar('T', bound=Iterable)
+
+
+class JestspectationContainer(JestspectationBase, Generic[T]):
     """
     Base type for container matchers
     """
@@ -21,33 +24,77 @@ class JestspectationContainer(JestspectationBase):
         Returns the allowed match types of the container
         """
 
-    def __is_allowed_type(self, other) -> TypeGuard[Iterable]:
+    def __is_allowed_type(self, other) -> TypeGuard[T]:
         """
         Returns whether other is an allowed type
         """
         return isinstance(other, self._get_allowed_types())
 
     @abstractmethod
-    def _match_inner_callback(self, item: object, other: Iterable) -> bool:
+    def _is_present(self, item: object, other: T) -> bool:
         """
         Returns whether item matches an entry in the container.
 
-        Defined by subclasses to get the array of missing properties
+        Defined by subclasses to calculate the array of missing properties.
         """
 
+    def _is_correct(self, item: object, other: T) -> bool:
+        """
+        Returns whether an item is correct, given that it is present
+
+        If this is called, the item is already guaranteed to be present.
+
+        By default, this assumes that all present items are correct.
+        """
+        return True
+
+    def _get_sub_diff(
+        self,
+        item: object,
+        other: T,
+    ) -> list[str]:
+        """
+        Returns the sub-diff for the given item compared to its actual value.
+        """
+        raise NotImplementedError(
+            "This should be implemented for all containers that can have "
+            "present but incorrect items"
+        )
+
     @abstractmethod
-    def _get_items(self) -> Iterable:
+    def _get_items(self) -> T:
         """
         Returns the Iterable of items that should be in the container
         """
 
-    def __get_misses(self, other: Iterable) -> list:
+    def __get_misses(self, other: T) -> list:
+        """Filter the list of items to only include the missing ones"""
         return list(map(
             lambda i: i[1],
             filter(
                 lambda i: i[0] is False,
                 (
-                    (self._match_inner_callback(i, other), i)
+                    (self._is_present(i, other), i)
+                    for i in self._get_items()
+                )
+            )
+        ))
+
+    def __get_incorrect(self, other: T) -> list:
+        """
+        Filter the list of items to only include the present but incorrect ones
+        """
+        return list(map(
+            lambda i: i[1],
+            filter(
+                lambda i: i[0] is True,
+                (
+                    (
+                        # Item is present, but not correct
+                        self._is_present(i, other)
+                        and not self._is_correct(i, other),
+                        i
+                    )
                     for i in self._get_items()
                 )
             )
@@ -62,15 +109,36 @@ class JestspectationContainer(JestspectationBase):
                 f"Received object of type {get_object_type_name(other)}"
             ]
         misses = self.__get_misses(other)
-        return [
-            "Missing properties",
-            f"Expected a {self}, but was missing properties",
-        ] + [f"-- {repr(i)}" for i in misses]
+        incorrect = self.__get_incorrect(other)
+        if len(misses) > 0 and len(incorrect) > 0:
+            ret = ["Missing and incorrect properties"]
+        elif len(misses) > 0:
+            ret = ["Missing properties"]
+        else:
+            # len(incorrect) > 0
+            ret = ["Incorrect properties"]
+        ret += [f"Expected a {repr(self)}"]
+
+        if len(misses) != 0:
+            ret += [f"-- {repr(i)}" for i in misses]
+
+        if len(incorrect) != 0:
+            for i in incorrect:
+                sub_diff = self._get_sub_diff(i, other)
+                assert sub_diff is not None
+                # Add a dot point to the first one to make it pretty
+                sub_diff[0] = '!! ' + sub_diff[0][3:]
+                ret += sub_diff
+
+        return ret
 
     def __eq__(self, other: object) -> bool:
         if not self.__is_allowed_type(other):
             return False
-        return len(self.__get_misses(other)) == 0
+        return (
+            len(self.__get_misses(other)) == 0
+            and len(self.__get_incorrect(other)) == 0
+        )
 
 
 class ListContaining(JestspectationContainer):
@@ -94,10 +162,10 @@ class ListContaining(JestspectationContainer):
     def _get_allowed_types() -> tuple[type, ...]:
         return (list,)
 
-    def _get_items(self) -> Iterable:
+    def _get_items(self) -> list:
         return self.__items
 
-    def _match_inner_callback(self, item: object, other: Iterable) -> bool:
+    def _is_present(self, item: object, other: list) -> bool:
         return item in other
 
 
@@ -122,10 +190,10 @@ class SetContaining(JestspectationContainer):
     def _get_allowed_types() -> tuple[type, ...]:
         return (set,)
 
-    def _get_items(self) -> Iterable:
+    def _get_items(self) -> set:
         return self.__items
 
-    def _match_inner_callback(self, item: object, other: Iterable) -> bool:
+    def _is_present(self, item: object, other: set) -> bool:
         return item in other
 
 
@@ -150,10 +218,10 @@ class DictContainingKeys(JestspectationContainer):
     def _get_allowed_types() -> tuple[type, ...]:
         return (dict,)
 
-    def _get_items(self) -> Iterable:
+    def _get_items(self) -> set:
         return self.__keys
 
-    def _match_inner_callback(self, item: object, other: Iterable) -> bool:
+    def _is_present(self, item: object, other: set) -> bool:
         return item in other
 
 
@@ -178,10 +246,10 @@ class DictContainingValues(JestspectationContainer):
     def _get_allowed_types() -> tuple[type, ...]:
         return (dict,)
 
-    def _get_items(self) -> Iterable:
+    def _get_items(self) -> list:
         return self.__values
 
-    def _match_inner_callback(self, item: object, other: Iterable) -> bool:
+    def _is_present(self, item: object, other: list) -> bool:
         # TODO: Fix type safety
         return item in other.values()  # type: ignore
 
@@ -209,9 +277,19 @@ class DictContainingItems(JestspectationContainer):
     def _get_allowed_types() -> tuple[type, ...]:
         return (dict,)
 
-    def _get_items(self) -> Iterable:
+    def _get_items(self) -> ItemsView:
         return self.__items.items()
 
-    def _match_inner_callback(self, item: object, other: Iterable) -> bool:
+    def _is_present(self, item: object, other: ItemsView) -> bool:
         # TODO: Use generics to make this type-safe
-        return item[0] in other and other[item[0]] == item[1]  # type: ignore
+        return item[0] in other  # type: ignore
+
+    def _is_correct(self, item: object, other: ItemsView) -> bool:
+        return other[item[0]] == item[1]  # type: ignore
+
+    def _get_sub_diff(self, item: object, other: ItemsView) -> list[str]:
+        diff = sub_diff_delegate(item[1], other[item[0]])  # type: ignore
+        assert diff is not None
+        return [
+            f"   [{item[0]}]:"  # type: ignore
+        ] + diff

@@ -46,10 +46,11 @@ def test_no_match(item, matcher):
 
 def test_diff_match_list_containing():
     list = ListContaining([1, 2, 3, 4, 5])
-    assert list.get_diff([1, 2, 3]) == [
+    diff = list.get_diff([1, 2, 3])
+    assert diff == [
         "ListContaining([1, 2, 3, 4, 5]) == [1, 2, 3]",
         "Missing properties",
-        f"Expected a {list}, but was missing properties",
+        f"Expected a {list}",
         f"-- {4}",
         f"-- {5}",
     ]
@@ -60,7 +61,7 @@ def test_diff_match_set_containing():
     assert set.get_diff({1, 2, 3}) == [
         "SetContaining({1, 2, 3, 4, 5}) == {1, 2, 3}",
         "Missing properties",
-        f"Expected a {set}, but was missing properties",
+        f"Expected a {set}",
         f"-- {4}",
         f"-- {5}",
     ]
@@ -71,7 +72,7 @@ def test_diff_match_dict_containing_keys():
     assert dict.get_diff({1: '1', 2: '2', 3: '3'}) == [
         "DictContainingKeys({1, 2, 3, 4, 5}) == {1: '1', 2: '2', 3: '3'}",
         "Missing properties",
-        f"Expected a {dict}, but was missing properties",
+        f"Expected a {dict}",
         f"-- {4}",
         f"-- {5}",
     ]
@@ -83,19 +84,34 @@ def test_diff_match_dict_containing_values():
         "DictContainingValues(['1', '2', '3', '4', '5'])"
         " == {1: '1', 2: '2', 3: '3'}",
         "Missing properties",
-        f"Expected a {dict}, but was missing properties",
+        f"Expected a {dict}",
         f"-- '{4}'",
         f"-- '{5}'",
     ]
 
 
 def test_diff_match_dict_containing_items():
-    dict = DictContainingItems({1: '1', 2: '2', 3: '3', 4: '4', 5: '5'})
-    assert dict.get_diff({1: '1', 2: '2', 3: '3'}) == [
-        "DictContainingItems({1: '1', 2: '2', 3: '3', 4: '4', 5: '5'})"
-        " == {1: '1', 2: '2', 3: '3'}",
+    dict = DictContainingItems({1: '1', 2: '2', 3: '3'})
+    assert dict.get_diff({1: '1'}) == [
+        "DictContainingItems({1: '1', 2: '2', 3: '3'})"
+        " == {1: '1'}",
         "Missing properties",
-        f"Expected a {dict}, but was missing properties",
-        f"-- {(4, '4')}",
-        f"-- {(5, '5')}",
+        f"Expected a {dict}",
+        f"-- {(2, '2')}",
+        f"-- {(3, '3')}",
+    ]
+
+
+def test_diff_match_dict_containing_items_incorrect():
+    dict = DictContainingItems({1: '1'})
+    diff = dict.get_diff({1: '2'})
+    assert diff == [
+        "DictContainingItems({1: '1'}) == {1: '2'}",
+        "Incorrect properties",
+        f"Expected a {dict}",
+        "!! [1]:",
+        "   '1' == '2'",
+        "   Value mismatch",
+        "   Expected '1'",
+        "   Received '2'",
     ]
