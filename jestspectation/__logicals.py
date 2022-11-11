@@ -12,7 +12,7 @@ class Not(JestspectationBase):
     Match the negative of the given matcher
     """
 
-    def __init__(self, matcher: JestspectationBase) -> None:
+    def __init__(self, matcher: object) -> None:
         """
         Match the negative of the given matcher
 
@@ -20,11 +20,13 @@ class Not(JestspectationBase):
 
         ```py
         # Matches anything that isn't a string
-        Not(Any(str))
+        assert 1 == Not(Any(str))
+        # Matches anything that is not "nice"
+        assert 68 == Not("nice")
         ```
 
         Args:
-            matcher (JestspectationBase): matcher to negate
+            matcher (object): matcher to negate
         """
         self.__matcher = matcher
 
@@ -49,7 +51,7 @@ class And(JestspectationBase):
     Match all of the given matchers
     """
 
-    def __init__(self, *matchers: JestspectationBase) -> None:
+    def __init__(self, *matchers: object) -> None:
         """
         Match all of the given matchers
 
@@ -62,7 +64,7 @@ class And(JestspectationBase):
         ```
 
         Args:
-            matchers (JestspectationBase): matchers to use
+            matchers (object): matchers to use
         """
         if len(matchers) < 2:
             raise TypeError(
@@ -75,7 +77,7 @@ class And(JestspectationBase):
     def __eq__(self, other: object) -> bool:
         return len(self.__get_misses(other)) == 0
 
-    def __get_misses(self, other: object) -> list[JestspectationBase]:
+    def __get_misses(self, other: object) -> list[object]:
         """
         Return matchers that didn't match
         """
@@ -101,7 +103,7 @@ class Or(JestspectationBase):
     Match at least one of the given matchers
     """
 
-    def __init__(self, *matchers: JestspectationBase) -> None:
+    def __init__(self, *matchers: object) -> None:
         """
         Match at least one of the given matchers
 
@@ -113,7 +115,7 @@ class Or(JestspectationBase):
         ```
 
         Args:
-            matchers (JestspectationBase): matchers to use
+            matchers (object): matchers to use
         """
         if len(matchers) < 2:
             raise TypeError(
@@ -126,7 +128,7 @@ class Or(JestspectationBase):
     def __eq__(self, other: object) -> bool:
         return len(self.__get_hits(other)) > 0
 
-    def __get_hits(self, other: object) -> list[JestspectationBase]:
+    def __get_hits(self, other: object) -> list[object]:
         """
         Return matchers that matched
         """
@@ -152,7 +154,7 @@ class Xor(JestspectationBase):
     Match exactly one of the given matchers
     """
 
-    def __init__(self, *matchers: JestspectationBase) -> None:
+    def __init__(self, *matchers: object) -> None:
         """
         Match exactly one of the given matchers
 
@@ -166,7 +168,7 @@ class Xor(JestspectationBase):
         ```
 
         Args:
-            matchers (JestspectationBase): matchers to use
+            matchers (object): matchers to use
         """
         if len(matchers) < 2:
             raise TypeError(
@@ -179,7 +181,7 @@ class Xor(JestspectationBase):
     def __eq__(self, other: object) -> bool:
         return len(self.__get_hits(other)) == 1
 
-    def __get_hits(self, other: object) -> list[JestspectationBase]:
+    def __get_hits(self, other: object) -> list[object]:
         """
         Return matchers that matched
         """

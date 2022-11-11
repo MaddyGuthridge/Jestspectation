@@ -24,6 +24,10 @@ def test_not_inverts():
     assert Not(Any(int)) != 1
 
 
+def test_not_literals():
+    assert 68 == Not("nice")
+
+
 def test_and_not_all_match():
     assert And(Any(int), Any(str)) != 1
 
