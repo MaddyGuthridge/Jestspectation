@@ -17,16 +17,20 @@ def test_no_match():
 
 
 def test_diff_match():
-    assert StringMatchingRegex('hello*').get_diff('hello world') is None
+    assert StringMatchingRegex('hello*').get_diff('hello world', "") is None
 
 
 def test_diff_no_match():
-    assert StringMatchingRegex('hello*').get_diff('goodbye world') == [
-        "Expected StringMatchingRegex('hello*'), but got 'goodbye world'"
+    assert StringMatchingRegex('hello*').get_diff('goodbye world', "") == [
+        "",
+        "Expected StringMatchingRegex('hello*')",
+        "Received 'goodbye world'",
     ]
 
 
 def test_diff_bad_type():
-    assert StringMatchingRegex('hello*').get_diff(1) == [
-        "Expected StringMatchingRegex('hello*'), but got int (1)"
+    assert StringMatchingRegex('hello*').get_diff(1, "") == [
+        "",
+        "Expected object of type str (StringMatchingRegex('hello*'))",
+        "Received object of type int (1)",
     ]

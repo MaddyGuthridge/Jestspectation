@@ -2,6 +2,7 @@ from abc import abstractmethod
 from collections.abc import Iterable
 from typing import Optional, TypeGuard
 from .__jestspectation_base import JestspectationBase
+from .__util import get_object_type_name
 
 
 class JestspectationContainer(JestspectationBase):
@@ -48,17 +49,20 @@ class JestspectationContainer(JestspectationBase):
             )
         ))
 
-    def get_diff(self, other: object) -> Optional[list[str]]:
+    def get_diff(self, other: object, expr: str) -> Optional[list[str]]:
         if self == other:
             return None
         if not self.__is_allowed_type(other):
             return [
-                f"Expected {self}, but received a {type(other).__name__}"
+                expr,
+                f"Expected {self}",
+                f"Received object of type {get_object_type_name(other)}"
             ]
         misses = self.__get_misses(other)
         return [
-            f"Expected {repr(other)} to be {self}, but was missing",
-        ] + [f"   {repr(i)}" for i in misses]
+            expr,
+            f"Expected a {self}, but was missing",
+        ] + [repr(i) for i in misses]
 
     def __eq__(self, other: object) -> bool:
         if not self.__is_allowed_type(other):

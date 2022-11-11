@@ -1,5 +1,6 @@
 from typing import Optional
 from .__jestspectation_base import JestspectationBase
+from .__util import get_type_name, get_object_type_name
 
 
 class Any(JestspectationBase):
@@ -17,17 +18,18 @@ class Any(JestspectationBase):
         self.__match_type = match_type
 
     def __repr__(self) -> str:
-        return f"Any({self.__match_type.__name__})"
+        return f"Any({get_type_name(self.__match_type)})"
 
     def __eq__(self, other: object) -> bool:
         return isinstance(other, self.__match_type)
 
-    def get_diff(self, other: object) -> Optional[list[str]]:
+    def get_diff(self, other: object, expr: str) -> Optional[list[str]]:
         if self == other:
             return None
         return [
-            f'Expecting {self}',
-            f'   Received {other.__class__.__name__} ({repr(other)})',
+            f'{expr}',
+            f'Expected any object of type {get_type_name(self.__match_type)}',
+            f'Received {get_object_type_name(other)} ({repr(other)})',
         ]
 
 
@@ -47,5 +49,5 @@ class Anything(JestspectationBase):
     def __eq__(self, other: object) -> bool:
         return True
 
-    def get_diff(self, other) -> Optional[list[str]]:
+    def get_diff(self, other: object, expr: str) -> Optional[list[str]]:
         return None

@@ -63,16 +63,17 @@ class FloatApprox(JestspectationBase):
                 return False
         return True
 
-    def get_diff(self, other) -> Optional[list[str]]:
+    def get_diff(self, other, expr: str) -> Optional[list[str]]:
         if self == other:
             return None
         if not isinstance(other, (int, float)):
-            err = f"But got {type(other).__name__}"
+            err = f"Received object of type {type(other).__name__}"
         elif other < self.__value:
             err = f"{repr(other)} is outside lower bound"
         else:
             err = f"{repr(other)} is outside upper bound"
         return [
-            f"Expected {repr(other)} to be {self}",
-            f"   {err}",
+            expr,
+            f"Expected {self}",
+            err,
         ]
