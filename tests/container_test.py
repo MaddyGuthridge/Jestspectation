@@ -46,8 +46,8 @@ def test_no_match(item, matcher):
 
 def test_diff_match_list_containing():
     list = ListContaining([1, 2, 3, 4, 5])
-    assert list.get_diff([1, 2, 3], "") == [
-        "",
+    assert list.get_diff([1, 2, 3]) == [
+        "Missing properties",
         f"Expected a {list}, but was missing properties",
         f"- {4}",
         f"- {5}",
@@ -56,8 +56,8 @@ def test_diff_match_list_containing():
 
 def test_diff_match_set_containing():
     set = SetContaining({1, 2, 3, 4, 5})
-    assert set.get_diff({1, 2, 3}, "") == [
-        "",
+    assert set.get_diff({1, 2, 3}) == [
+        "Missing properties",
         f"Expected a {set}, but was missing properties",
         f"- {4}",
         f"- {5}",
@@ -66,8 +66,8 @@ def test_diff_match_set_containing():
 
 def test_diff_match_dict_containing_keys():
     dict = DictContainingKeys({1, 2, 3, 4, 5})
-    assert dict.get_diff({1: '1', 2: '2', 3: '3'}, "") == [
-        "",
+    assert dict.get_diff({1: '1', 2: '2', 3: '3'}) == [
+        "Missing properties",
         f"Expected a {dict}, but was missing properties",
         f"- {4}",
         f"- {5}",
@@ -76,8 +76,8 @@ def test_diff_match_dict_containing_keys():
 
 def test_diff_match_dict_containing_values():
     dict = DictContainingValues(['1', '2', '3', '4', '5'])
-    assert dict.get_diff({1: '1', 2: '2', 3: '3'}, "") == [
-        "",
+    assert dict.get_diff({1: '1', 2: '2', 3: '3'}) == [
+        "Missing properties",
         f"Expected a {dict}, but was missing properties",
         f"- '{4}'",
         f"- '{5}'",
@@ -86,8 +86,8 @@ def test_diff_match_dict_containing_values():
 
 def test_diff_match_dict_containing_items():
     dict = DictContainingItems({1: '1', 2: '2', 3: '3', 4: '4', 5: '5'})
-    assert dict.get_diff({1: '1', 2: '2', 3: '3'}, "") == [
-        "",
+    assert dict.get_diff({1: '1', 2: '2', 3: '3'}) == [
+        "Missing properties",
         f"Expected a {dict}, but was missing properties",
         f"- {(4, '4')}",
         f"- {(5, '5')}",

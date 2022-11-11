@@ -49,18 +49,18 @@ class JestspectationContainer(JestspectationBase):
             )
         ))
 
-    def get_diff(self, other: object, expr: str) -> Optional[list[str]]:
+    def get_diff(self, other: object) -> Optional[list[str]]:
         if self == other:
             return None
         if not self.__is_allowed_type(other):
             return [
-                expr,
+                "Type mismatch",
                 f"Expected {self}",
                 f"Received object of type {get_object_type_name(other)}"
             ]
         misses = self.__get_misses(other)
         return [
-            expr,
+            "Missing properties",
             f"Expected a {self}, but was missing properties",
         ] + [f"- {repr(i)}" for i in misses]
 

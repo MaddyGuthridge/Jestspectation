@@ -17,9 +17,8 @@ def pytest_assertrepr_compare(
     Override assert expressions
     """
     if op == "==":
-        expr = f"{repr(left)} == {repr(right)}"
         if isinstance(right, JestspectationBase):
-            return right.get_diff(left, expr)
+            return right.get_diff(left)
         if isinstance(left, JestspectationBase):
-            return left.get_diff(right, expr)
+            return left.get_diff(right)
     return None

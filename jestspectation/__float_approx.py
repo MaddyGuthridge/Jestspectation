@@ -31,12 +31,22 @@ class FloatApprox(JestspectationBase):
         """
         if magnitude is None and percent is None:
             raise ValueError(
-                "At least one of magnitude or percent must be specified")
+                "One of magnitude or percent must be specified")
+        if magnitude is None and percent is None:
+            raise ValueError(
+                "Only one of magnitude or percent can be specified")
         if percent is not None and value == 0:
             raise ValueError("Cannot calculate a percentage difference from 0")
         self.__value = value
         self.__magnitude = magnitude
         self.__percent = percent
+
+    def boundary_width(self) -> float:
+        if self.__magnitude is not None:
+            return self.__magnitude
+        else:
+            assert self.__percent is not None
+            return self.__value * self.__percent / 100
 
     def __repr__(self) -> str:
         if self.__percent is None:
@@ -63,17 +73,22 @@ class FloatApprox(JestspectationBase):
                 return False
         return True
 
-    def get_diff(self, other, expr: str) -> Optional[list[str]]:
+    def get_diff(self, other) -> Optional[list[str]]:
         if self == other:
             return None
         if not isinstance(other, (int, float)):
+            head = "Type mismatch"
             err = f"Received object of type {type(other).__name__}"
         elif other < self.__value:
-            err = f"{repr(other)} is outside lower bound"
+            lower = self.__value - self.boundary_width()
+            head = "Value out of range"
+            err = f"{repr(other)} is outside lower bound ({lower})"
         else:
-            err = f"{repr(other)} is outside upper bound"
+            upper = self.__value + self.boundary_width()
+            head = "Value out of range"
+            err = f"{repr(other)} is outside upper bound ({upper})"
         return [
-            expr,
+            head,
             f"Expected {self}",
             err,
         ]

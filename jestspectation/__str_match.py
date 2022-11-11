@@ -19,18 +19,18 @@ class StringMatchingRegex(JestspectationBase):
             return False
         return re.match(self.__regex, other) is not None
 
-    def get_diff(self, other: object, expr: str) -> Optional[list[str]]:
+    def get_diff(self, other: object) -> Optional[list[str]]:
         if self == other:
             return None
         if not isinstance(other, str):
             return [
-                expr,
+                "Type mismatch",
                 f"Expected object of type str ({repr(self)})",
                 f"Received object of type {type(other).__name__} ({other})"
             ]
         else:
             return [
-                expr,
+                "Regex failed to match",
                 f"Expected {repr(self)}",
                 f"Received {repr(other)}",
             ]

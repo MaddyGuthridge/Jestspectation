@@ -38,28 +38,28 @@ def test_both_unspecified():
 
 
 def test_get_diff_equal():
-    assert FloatApprox(10, magnitude=1).get_diff(10, "") is None
+    assert FloatApprox(10, magnitude=1).get_diff(10) is None
 
 
 def test_get_diff_invalid_type():
-    assert FloatApprox(10, magnitude=1).get_diff("my string", "") == [
-        "",
+    assert FloatApprox(10, magnitude=1).get_diff("my string") == [
+        "Type mismatch",
         "Expected FloatApprox(10, magnitude=1)",
         "Received object of type str",
     ]
 
 
 def test_lower_bound_diff():
-    assert FloatApprox(10, magnitude=1).get_diff(8, "") == [
-        "",
+    assert FloatApprox(10, magnitude=1).get_diff(8) == [
+        "Value out of range",
         "Expected FloatApprox(10, magnitude=1)",
-        "8 is outside lower bound",
+        "8 is outside lower bound (9)",
     ]
 
 
 def test_upper_bound_diff():
-    assert FloatApprox(10, magnitude=1).get_diff(12, "") == [
-        "",
+    assert FloatApprox(10, magnitude=1).get_diff(12) == [
+        "Value out of range",
         "Expected FloatApprox(10, magnitude=1)",
-        "12 is outside upper bound",
+        "12 is outside upper bound (11)",
     ]

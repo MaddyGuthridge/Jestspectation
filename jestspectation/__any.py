@@ -23,11 +23,11 @@ class Any(JestspectationBase):
     def __eq__(self, other: object) -> bool:
         return isinstance(other, self.__match_type)
 
-    def get_diff(self, other: object, expr: str) -> Optional[list[str]]:
+    def get_diff(self, other: object) -> Optional[list[str]]:
         if self == other:
             return None
         return [
-            f'{expr}',
+            'Type mismatch',
             f'Expected any object of type {get_type_name(self.__match_type)}',
             f'Received {repr(other)} ({get_object_type_name(other)})',
         ]
@@ -49,5 +49,5 @@ class Anything(JestspectationBase):
     def __eq__(self, other: object) -> bool:
         return True
 
-    def get_diff(self, other: object, expr: str) -> Optional[list[str]]:
+    def get_diff(self, other: object) -> Optional[list[str]]:
         return None
