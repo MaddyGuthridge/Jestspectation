@@ -27,7 +27,7 @@ class Any(JestspectationBase):
             return None
         return [
             f'Expecting {self}',
-            f'   Received {other.__class__.__name__} ({other})',
+            f'   Received {other.__class__.__name__} ({repr(other)})',
         ]
 
 
