@@ -64,6 +64,7 @@ def safe_diff_wrapper(
 def sub_diff_delegate(
     matcher: object,
     other: object,
+    indent: bool = True,
 ) -> Optional[list[str]]:
     """
     Calculate and return a sub-diff
@@ -107,4 +108,7 @@ def sub_diff_delegate(
     diff = do_sub_diff(matcher, other)
     if diff is None:
         return None
-    return indent_lines(diff, 3)
+    if indent:
+        return indent_lines(diff, 3)
+    else:
+        return diff

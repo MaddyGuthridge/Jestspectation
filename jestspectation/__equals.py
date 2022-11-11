@@ -73,6 +73,6 @@ class Equals(JestspectationBase):
     def get_diff(self, other: object) -> list[str]:
         # Give a more helpful error if the objects are equal but have different
         # identities
-        diff = sub_diff_delegate(self.__value, other)
+        diff = sub_diff_delegate(self.__value, other, indent=False)
         assert diff is not None
         return diff
