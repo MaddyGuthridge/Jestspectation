@@ -16,7 +16,7 @@ from .__containers import (
 )
 from .__float_approx import FloatApprox
 from .__equals import Equals, Is
-from .__logicals import And, Not, Or, Xor
+from .logicals import And, Not, Or, Xor
 from .__str_match import StringMatchingRegex
 
 
