@@ -48,7 +48,7 @@ class JestspectationContainer(JestspectationBase, Generic[T]):
         """
         return True
 
-    def _get_sub_diff(
+    def _format_sub_diff(
         self,
         item: object,
         other: T,
@@ -60,6 +60,16 @@ class JestspectationContainer(JestspectationBase, Generic[T]):
             "This should be implemented for all containers that can have "
             "present but incorrect items"
         )
+
+    def _format_missing_item(
+        self,
+        item: object,
+    ) -> str:
+        """
+        Returns a string representing the missing item. By default this is just
+        the repr.
+        """
+        return repr(item)
 
     @abstractmethod
     def _get_items(self) -> T:
@@ -120,11 +130,11 @@ class JestspectationContainer(JestspectationBase, Generic[T]):
         ret += [f"Expected a {repr(self)}"]
 
         if len(misses) != 0:
-            ret += [f"-- {repr(i)}" for i in misses]
+            ret += [f"-- {self._format_missing_item(i)}" for i in misses]
 
         if len(incorrect) != 0:
             for i in incorrect:
-                sub_diff = self._get_sub_diff(i, other)
+                sub_diff = self._format_sub_diff(i, other)
                 assert sub_diff is not None
                 # Add a dot point to the first one to make it pretty
                 sub_diff[0] = '!! ' + sub_diff[0][3:]
@@ -302,10 +312,14 @@ class DictContainingItems(JestspectationContainer):
     def _is_correct(self, item: object, other: ItemsView) -> bool:
         return other[item[0]] == item[1]  # type: ignore
 
-    def _get_sub_diff(self, item: object, other: ItemsView) -> list[str]:
+    def _format_sub_diff(self, item: object, other: ItemsView) -> list[str]:
         diff = sub_diff_delegate(item[1], other[item[0]])  # type: ignore
         assert diff is not None
         return [
             f"   {repr(item[0])}: {repr(item[1])} "  # type: ignore
             f"== {repr(item[0])}: {repr(other[item[0]])}"  # type: ignore
         ] + diff
+
+    def _format_missing_item(self, item: object) -> str:
+        # Format like dict keys
+        return f"{repr(item[0])}: {repr(item[1])}"  # type: ignore
