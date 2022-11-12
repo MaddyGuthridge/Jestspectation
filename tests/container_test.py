@@ -123,7 +123,7 @@ def test_diff_match_dict_containing_items_incorrect_and_missing():
     assert diff == [
         "DictContainingItems({1: '1', 2: '2'}) == {1: '2'}",
         "Missing and incorrect properties",
-        f"Expected a DictContainingItems({1: '1', 2: '2'})",
+        "Expected a DictContainingItems({1: '1', 2: '2'})",
         "-- 2: '2'",
         "!! 1: '1' == 1: '2'",
         "   '1' == '2'",
