@@ -65,6 +65,9 @@ class JestspectationBase:
                     and len(str_contents + ', ' + curr + close) <= REPR_LEN
                 ):
                     str_contents += ', ' + curr
+                # Or if it's the first one
+                elif i == 0:
+                    str_contents += '...'
                 # Otherwise, just use the ellipsis
                 else:
                     str_contents += ', ...'

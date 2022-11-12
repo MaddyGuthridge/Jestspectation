@@ -24,3 +24,9 @@ def test_elements_trimmed():
     """Later elements get trimmed if they're too long"""
     assert repr(ListContaining([1, 2, 3, 4, 5, 6, 7, 8, 9]))\
         == "ListContaining([1, 2, 3, 4, 5, 6, 7, ...])"
+
+
+def test_no_elements_fit():
+    """Later elements get trimmed if they're too long"""
+    assert repr(ListContaining(["1234567890123456789012345"]))\
+        == "ListContaining([...])"
