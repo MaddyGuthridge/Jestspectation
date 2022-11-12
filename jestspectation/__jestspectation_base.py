@@ -4,6 +4,10 @@ Jestspectation base
 Base type used in Jestspectation
 """
 from abc import abstractmethod
+from .__util import get_object_type_name
+
+
+REPR_LEN = 25
 
 
 class JestspectationBase:
@@ -25,3 +29,51 @@ class JestspectationBase:
         Returns:
             Optional[list[str]]: difference
         """
+
+    @abstractmethod
+    def get_contents_repr(self) -> list[str]:
+        """
+        Returns a list of string representations for the inner contents
+
+        They can then be trimmed to prevent excessively long names
+
+        Returns:
+            list[str]: inner contents
+        """
+
+    @abstractmethod
+    def get_contents_repr_edges(self) -> tuple[str, str]:
+        """
+        Returns the opening and closing tokens to surround the contents with
+        """
+
+    def __repr__(self) -> str:
+        contents = self.get_contents_repr()
+        open, close = self.get_contents_repr_edges()
+        name = get_object_type_name(self)
+        str_contents = open
+
+        # Until we've exhausted the contents
+        # [a, b, c, ...]
+        # Or until we take up all the available chars
+        for i, curr in enumerate(contents):
+            # If we're about to exceed the max length
+            if len(str_contents + curr + ', ...' + close) > REPR_LEN:
+                # If this is the last one and it'll still fit
+                if (
+                    i == len(contents) - 1
+                    and len(str_contents + ', ' + curr + close) <= REPR_LEN
+                ):
+                    str_contents += ', ' + curr
+                # Otherwise, just use the ellipsis
+                else:
+                    str_contents += ', ...'
+                break
+            elif str_contents == open:
+                str_contents += curr
+            else:
+                str_contents += ', ' + curr
+
+        str_contents += close
+
+        return f"{name}({str_contents})"

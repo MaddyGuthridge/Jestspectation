@@ -2,7 +2,6 @@
 Utility functions
 """
 from typing import Optional, Callable, TypeVar
-from .__jestspectation_base import JestspectationBase
 
 T = TypeVar('T')
 
@@ -79,6 +78,7 @@ def sub_diff_delegate(
         """
         Inner function so we can wrap up the return values
         """
+        from .__jestspectation_base import JestspectationBase
         if matcher == other:
             return None
         # Handle out types

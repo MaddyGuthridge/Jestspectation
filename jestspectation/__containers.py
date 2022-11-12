@@ -155,8 +155,11 @@ class ListContaining(JestspectationContainer):
         """
         self.__items = items
 
-    def __repr__(self) -> str:
-        return f"ListContaining({repr(self.__items)})"
+    def get_contents_repr(self) -> list[str]:
+        return [repr(v) for v in self.__items]
+
+    def get_contents_repr_edges(self) -> tuple[str, str]:
+        return '[', ']'
 
     @staticmethod
     def _get_allowed_types() -> tuple[type, ...]:
@@ -183,8 +186,11 @@ class SetContaining(JestspectationContainer):
         """
         self.__items = items
 
-    def __repr__(self) -> str:
-        return f"SetContaining({repr(self.__items)})"
+    def get_contents_repr(self) -> list[str]:
+        return [repr(v) for v in self.__items]
+
+    def get_contents_repr_edges(self) -> tuple[str, str]:
+        return '{', '}'
 
     @staticmethod
     def _get_allowed_types() -> tuple[type, ...]:
@@ -211,8 +217,11 @@ class DictContainingKeys(JestspectationContainer):
         """
         self.__keys = keys
 
-    def __repr__(self) -> str:
-        return f"DictContainingKeys({repr(self.__keys)})"
+    def get_contents_repr(self) -> list[str]:
+        return [repr(v) for v in self.__keys]
+
+    def get_contents_repr_edges(self) -> tuple[str, str]:
+        return '{', '}'
 
     @staticmethod
     def _get_allowed_types() -> tuple[type, ...]:
@@ -239,8 +248,11 @@ class DictContainingValues(JestspectationContainer):
         """
         self.__values = values
 
-    def __repr__(self) -> str:
-        return f"DictContainingValues({repr(self.__values)})"
+    def get_contents_repr(self) -> list[str]:
+        return [repr(v) for v in self.__values]
+
+    def get_contents_repr_edges(self) -> tuple[str, str]:
+        return '[', ']'
 
     @staticmethod
     def _get_allowed_types() -> tuple[type, ...]:
@@ -270,8 +282,11 @@ class DictContainingItems(JestspectationContainer):
         """
         self.__items = items
 
-    def __repr__(self) -> str:
-        return f"DictContainingItems({repr(self.__items)})"
+    def get_contents_repr(self) -> list[str]:
+        return [f"{repr(i[0])}: {repr(i[1])}" for i in self.__items.items()]
+
+    def get_contents_repr_edges(self) -> tuple[str, str]:
+        return '{', '}'
 
     @staticmethod
     def _get_allowed_types() -> tuple[type, ...]:
