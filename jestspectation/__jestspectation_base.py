@@ -30,7 +30,6 @@ class JestspectationBase:
             Optional[list[str]]: difference
         """
 
-    @abstractmethod
     def get_contents_repr(self) -> list[str]:
         """
         Returns a list of string representations for the inner contents
@@ -40,12 +39,13 @@ class JestspectationBase:
         Returns:
             list[str]: inner contents
         """
+        raise NotImplementedError("Either implement this or override __repr__")
 
-    @abstractmethod
     def get_contents_repr_edges(self) -> tuple[str, str]:
         """
         Returns the opening and closing tokens to surround the contents with
         """
+        raise NotImplementedError("Either implement this or override __repr__")
 
     def __repr__(self) -> str:
         contents = self.get_contents_repr()
