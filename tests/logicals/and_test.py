@@ -13,7 +13,7 @@ def test_and_all_match():
 
 
 def test_diff():
-    diff = And(Any(int), Any(str)).get_diff(1)
+    diff = And(Any(int), Any(str)).get_diff(1, False)
     assert diff == [
         "And(Any(int), Any(str)) == 1",
         "Not all matches fulfilled",

@@ -16,7 +16,7 @@ def test_is_not():
 def test_diff_is_not():
     l1 = [1, 2, 3, 4, 5]
     l2 = [1, 2, 3, 4]
-    assert Is(l1).get_diff(l2) == [
+    assert Is(l1).get_diff(l2, False) == [
         "[1, 2, 3, 4, 5] is [1, 2, 3, 4]",
         "Object identities not equal",
         f"Expected {l1} with id {id(l1)}",
@@ -31,7 +31,7 @@ def test_diff_is_not_but_equal():
     """
     l1 = [1, 2, 3, 4, 5]
     l2 = [1, 2, 3, 4, 5]
-    assert Is(l1).get_diff(l2) == [
+    assert Is(l1).get_diff(l2, False) == [
         "[1, 2, 3, 4, 5] is [1, 2, 3, 4, 5]",
         "Object identities not equal",
         f"Expected {l1} with id {id(l1)}",
@@ -61,7 +61,7 @@ def test_diff_equals():
     Test diff for the Equals matcher
     """
     eq = Equals({'a': 1, 'b': 2, 'c': 3})
-    diff = eq.get_diff({'a': 1, 'b': 2, 'c': 2})
+    diff = eq.get_diff({'a': 1, 'b': 2, 'c': 2}, False)
     assert diff == [
         "{'a': 1, 'b': 2, 'c': 3} == {'a': 1, 'b': 2, 'c': 2}",
         "!! 'c': 3 == 'c': 2",

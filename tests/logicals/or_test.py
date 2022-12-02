@@ -17,7 +17,7 @@ def test_or_all_match():
 
 
 def test_diff():
-    diff = Or(Any(int), Any(str)).get_diff(1.0)
+    diff = Or(Any(int), Any(str)).get_diff(1.0, False)
     assert diff == [
         "Or(Any(int), Any(str)) == 1.0",
         "No matches fulfilled",

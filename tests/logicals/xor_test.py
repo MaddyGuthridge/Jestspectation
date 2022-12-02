@@ -17,7 +17,7 @@ def test_xor_all_match():
 
 
 def test_diff_none():
-    diff = Xor(Any(int), Any(str)).get_diff(1.0)
+    diff = Xor(Any(int), Any(str)).get_diff(1.0, False)
     assert diff == [
         "Xor(Any(int), Any(str)) == 1.0",
         "No matches fulfilled",
@@ -35,7 +35,7 @@ def test_diff_none():
 
 def test_diff_all():
     diff = Xor(Any(str), Not(StringMatchingRegex('hello*')))\
-        .get_diff("Goodbye world")
+        .get_diff("Goodbye world", False)
     assert diff == [
         "Xor(Any(str), Not(StringMatchingRegex('hello*'))) == 'Goodbye world'",
         "Too many matches fulfilled",

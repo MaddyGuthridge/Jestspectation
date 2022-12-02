@@ -17,7 +17,7 @@ def test_no_match():
 
 
 def test_diff_no_match():
-    assert StringMatchingRegex('hello*').get_diff('goodbye world') == [
+    assert StringMatchingRegex('hello*').get_diff('goodbye world', False) == [
         "StringMatchingRegex('hello*') == 'goodbye world'",
         "Regex failed to match",
         "Expected StringMatchingRegex('hello*')",
@@ -26,7 +26,7 @@ def test_diff_no_match():
 
 
 def test_diff_bad_type():
-    assert StringMatchingRegex('hello*').get_diff(1) == [
+    assert StringMatchingRegex('hello*').get_diff(1, False) == [
         "StringMatchingRegex('hello*') == 1",
         "Type mismatch",
         "Expected object of type str (StringMatchingRegex('hello*'))",

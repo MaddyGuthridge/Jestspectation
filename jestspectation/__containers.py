@@ -52,6 +52,7 @@ class JestspectationContainer(JestspectationBase, Generic[T]):
         self,
         item: object,
         other: T,
+        other_is_lhs: bool,
     ) -> list[str]:
         """
         Returns the sub-diff for the given item compared to its actual value.
@@ -134,7 +135,7 @@ class JestspectationContainer(JestspectationBase, Generic[T]):
 
         if len(incorrect) != 0:
             for i in incorrect:
-                sub_diff = self._format_sub_diff(i, other)
+                sub_diff = self._format_sub_diff(i, other, other_is_lhs)
                 assert sub_diff is not None
                 # Add a dot point to the first one to make it pretty
                 sub_diff[0] = '!! ' + sub_diff[0][3:]
@@ -312,13 +313,28 @@ class DictContainingItems(JestspectationContainer):
     def _is_correct(self, item: object, other: ItemsView) -> bool:
         return other[item[0]] == item[1]  # type: ignore
 
-    def _format_sub_diff(self, item: object, other: ItemsView) -> list[str]:
-        diff = sub_diff_delegate(item[1], other[item[0]])  # type: ignore
+    def _format_sub_diff(
+        self,
+        item: object,
+        other: ItemsView,
+        other_is_lhs: bool,
+    ) -> list[str]:
+        # Lots of type: ignores here because I can't figure out how to make
+        # this type-safe :(
+        # Just need to get good test coverage
+        diff = sub_diff_delegate(
+            item[1],  # type: ignore
+            other[item[0]],  # type: ignore
+            other_is_lhs,
+        )
         assert diff is not None
-        return [
-            f"   {repr(item[0])}: {repr(item[1])} "  # type: ignore
-            f"== {repr(item[0])}: {repr(other[item[0]])}"  # type: ignore
-        ] + diff
+        self_repr = self._format_missing_item(item)
+        other_repr = f"{repr(item[0])}: {repr(other[item[0]])}"  # type: ignore
+        if other_is_lhs:
+            eq_expr = f"   {other_repr} == {self_repr}"
+        else:
+            eq_expr = f"   {self_repr} == {other_repr}"
+        return [eq_expr] + diff
 
     def _format_missing_item(self, item: object) -> str:
         # Format like dict keys

@@ -17,7 +17,7 @@ def test_no_match():
 
 
 def test_diff_no_match():
-    assert StringContaining('hello').get_diff('goodbye world') == [
+    assert StringContaining('hello').get_diff('goodbye world', False) == [
         "StringContaining('hello') == 'goodbye world'",
         "String failed to match",
         "Expected StringContaining('hello')",
@@ -26,7 +26,7 @@ def test_diff_no_match():
 
 
 def test_diff_bad_type():
-    assert StringContaining('hello').get_diff(1) == [
+    assert StringContaining('hello').get_diff(1, False) == [
         "StringContaining('hello') == 1",
         "Type mismatch",
         "Expected object of type str (StringContaining('hello'))",

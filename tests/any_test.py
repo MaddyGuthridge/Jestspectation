@@ -36,7 +36,7 @@ def test_doesnt_match_wrong_type():
 
 
 def test_any_get_diff():
-    assert Any(int).get_diff("my str") == [
+    assert Any(int).get_diff("my str", False) == [
         "Any(int) == 'my str'",
         "Type mismatch",
         "Expected any object of type int",

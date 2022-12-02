@@ -14,7 +14,7 @@ def test_not_literals():
 
 
 def test_diff():
-    diff = Not(Any(str)).get_diff("my str")
+    diff = Not(Any(str)).get_diff("my str", False)
     assert diff == [
         "Any(str) != 'my str'",
         "Unwanted match",

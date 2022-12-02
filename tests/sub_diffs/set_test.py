@@ -5,11 +5,11 @@ from jestspectation.__py_diffs import diff_set
 
 
 def test_diff_set_equal():
-    assert diff_set({1, 2, 3}, {1, 2, 3}) is None
+    assert diff_set({1, 2, 3}, {1, 2, 3}, False) is None
 
 
 def test_diff_set_type():
-    assert diff_set({1, 2, 3}, [1, 2, 3]) == [
+    assert diff_set({1, 2, 3}, [1, 2, 3], False) == [
         "{1, 2, 3} == [1, 2, 3]",
         "Type mismatch",
         "Expected set",
@@ -18,21 +18,21 @@ def test_diff_set_type():
 
 
 def test_diff_set_missing():
-    assert diff_set({1}, set()) == [
+    assert diff_set({1}, set(), False) == [
         "{1} == set()",
         '-- 1',
     ]
 
 
 def test_diff_set_additional():
-    assert diff_set(set(), {1}) == [
+    assert diff_set(set(), {1}, False) == [
         "set() == {1}",
         '++ 1',
     ]
 
 
 def test_diff_set_combination():
-    assert diff_set({1, 2, 3}, {1, 3, 4}) == [
+    assert diff_set({1, 2, 3}, {1, 3, 4}, False) == [
         "{1, 2, 3} == {1, 3, 4}",
         '-- 2',
         '++ 4',
