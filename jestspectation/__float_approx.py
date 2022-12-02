@@ -35,7 +35,7 @@ class FloatApprox(JestspectationBase):
         if magnitude is None and percent is None:
             raise ValueError(
                 "One of magnitude or percent must be specified")
-        if magnitude is None and percent is None:
+        if magnitude is not None and percent is not None:
             raise ValueError(
                 "Only one of magnitude or percent can be specified")
         if percent is not None and value == 0:

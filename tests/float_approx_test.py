@@ -22,9 +22,8 @@ def test_percent_fail():
 
 
 def test_both():
-    assert 109 != FloatApprox(100, magnitude=5, percent=10)
-    assert 109 != FloatApprox(100, magnitude=10, percent=5)
-    assert 109 == FloatApprox(100, magnitude=10, percent=10)
+    with pytest.raises(ValueError):
+        FloatApprox(100, magnitude=5, percent=10)
 
 
 def test_divide_by_zero_avoided():
