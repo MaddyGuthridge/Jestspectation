@@ -111,8 +111,12 @@ def sub_diff_delegate(
         if matcher == other:
             return None
         else:
+            if other_is_lhs:
+                eq_expr = f"{repr(other)} == {repr(matcher)}"
+            else:
+                eq_expr = f"{repr(matcher)} == {repr(other)}"
             return [
-                f"{repr(matcher)} == {repr(other)}",
+                eq_expr,
                 "Value mismatch",
                 f"Expected {repr(matcher)}",
                 f"Received {repr(other)}",
