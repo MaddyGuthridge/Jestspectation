@@ -49,7 +49,7 @@ class Xor(JestspectationBase):
         ))
 
     @safe_diff_wrapper
-    def get_diff(self, other: object) -> list[str]:
+    def get_diff(self, other: object, other_is_lhs: bool) -> list[str]:
         hits = self.__get_hits(other)
         if len(hits) == 0:
             ret = [
@@ -57,7 +57,7 @@ class Xor(JestspectationBase):
                 f"{repr(other)} must match with exactly one of",
             ]
             for m in self.__matchers:
-                diff = sub_diff_delegate(m, other)
+                diff = sub_diff_delegate(m, other, other_is_lhs)
                 assert diff is not None
                 diff[0] = '-- ' + diff[0][3:]
                 ret += diff

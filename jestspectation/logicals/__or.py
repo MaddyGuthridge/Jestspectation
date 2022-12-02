@@ -47,13 +47,13 @@ class Or(JestspectationBase):
         ))
 
     @safe_diff_wrapper
-    def get_diff(self, other: object) -> list[str]:
+    def get_diff(self, other: object, other_is_lhs: bool) -> list[str]:
         ret = [
             "No matches fulfilled",
             f"{repr(other)} must match with at least one of",
         ]
         for m in self.__matchers:
-            diff = sub_diff_delegate(m, other)
+            diff = sub_diff_delegate(m, other, other_is_lhs)
             assert diff is not None
             diff[0] = '-- ' + diff[0][3:]
             ret += diff

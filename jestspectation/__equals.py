@@ -29,7 +29,7 @@ class Is(JestspectationBase):
     def __eq__(self, other: object) -> bool:
         return self.__value is other
 
-    def get_diff(self, other: object) -> list[str]:
+    def get_diff(self, other: object, other_is_lhs: bool) -> list[str]:
         # Give a more helpful error if the objects are equal but have different
         # identities
         return [
@@ -70,9 +70,14 @@ class Equals(JestspectationBase):
     def __eq__(self, other: object) -> bool:
         return self.__value == other
 
-    def get_diff(self, other: object) -> list[str]:
+    def get_diff(self, other: object, other_is_lhs: bool) -> list[str]:
         # Give a more helpful error if the objects are equal but have different
         # identities
-        diff = sub_diff_delegate(self.__value, other, indent=False)
+        diff = sub_diff_delegate(
+            self.__value,
+            other,
+            other_is_lhs,
+            indent=False,
+        )
         assert diff is not None
         return diff

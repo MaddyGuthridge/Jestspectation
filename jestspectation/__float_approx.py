@@ -76,7 +76,7 @@ class FloatApprox(JestspectationBase):
                 return False
         return True
 
-    def get_diff(self, other) -> list[str]:
+    def get_diff(self, other, other_is_lhs: bool) -> list[str]:
         if not isinstance(other, (int, float)):
             head = "Type mismatch"
             err = f"Received object of type {type(other).__name__}"

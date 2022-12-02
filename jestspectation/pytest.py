@@ -18,7 +18,7 @@ def pytest_assertrepr_compare(
     """
     if op == "==":
         if isinstance(right, JestspectationBase):
-            return right.get_diff(left)
+            return right.get_diff(left, True)
         if isinstance(left, JestspectationBase):
-            return left.get_diff(right)
+            return left.get_diff(right, False)
     return None

@@ -48,13 +48,13 @@ class And(JestspectationBase):
         ))
 
     @safe_diff_wrapper
-    def get_diff(self, other: object) -> list[str]:
+    def get_diff(self, other: object, other_is_lhs: bool) -> list[str]:
         ret = [
             "Not all matches fulfilled",
             f"{repr(other)} failed to match with",
         ]
         for m in self.__get_misses(other):
-            diff = sub_diff_delegate(m, other)
+            diff = sub_diff_delegate(m, other, other_is_lhs)
             assert diff is not None
             diff[0] = '-- ' + diff[0][3:]
             ret += diff

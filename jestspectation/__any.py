@@ -26,7 +26,7 @@ class Any(JestspectationBase):
         return isinstance(other, self.__match_type)
 
     @safe_diff_wrapper
-    def get_diff(self, other: object) -> list[str]:
+    def get_diff(self, other: object, other_is_lhs: bool) -> list[str]:
         return [
             'Type mismatch',
             f'Expected any object of type {get_type_name(self.__match_type)}',
@@ -50,5 +50,5 @@ class Anything(JestspectationBase):
     def __eq__(self, other: object) -> bool:
         return True
 
-    def get_diff(self, other: object) -> list[str]:
+    def get_diff(self, other: object, other_is_lhs: bool) -> list[str]:
         raise Exception(f"Anything() should have matched {other}")

@@ -10,7 +10,11 @@ from .__util import (
 
 
 @diff_wrapper
-def diff_list(matcher: list, other: object) -> list[str]:
+def diff_list(
+    matcher: list,
+    other: object,
+    other_is_lhs: bool,
+) -> list[str]:
     if not isinstance(other, list):
         return [
             "Type mismatch",
@@ -30,7 +34,7 @@ def diff_list(matcher: list, other: object) -> list[str]:
             # this element is missing from the other
             ret += [f'-- [{i}] {repr(m)}']
         else:
-            sub_diff = sub_diff_delegate(m, o)
+            sub_diff = sub_diff_delegate(m, o, other_is_lhs)
             if sub_diff is not None:
                 # Add a dot point to the first one to make it pretty
                 sub_diff[0] = f'!! [{i}] ' + sub_diff[0][3:]
@@ -40,7 +44,11 @@ def diff_list(matcher: list, other: object) -> list[str]:
 
 
 @diff_wrapper
-def diff_set(matcher: set, other: object) -> list[str]:
+def diff_set(
+    matcher: set,
+    other: object,
+    other_is_lhs: bool,
+) -> list[str]:
     if not isinstance(other, set):
         return [
             "Type mismatch",
@@ -62,7 +70,11 @@ def diff_set(matcher: set, other: object) -> list[str]:
 
 
 @diff_wrapper
-def diff_dict(matcher: dict, other: object) -> list[str]:
+def diff_dict(
+    matcher: dict,
+    other: object,
+    other_is_lhs: bool,
+) -> list[str]:
     if not isinstance(other, dict):
         return [
             "Type mismatch",
@@ -87,7 +99,7 @@ def diff_dict(matcher: dict, other: object) -> list[str]:
     # Non-equal keys
     for e in matcher.keys():
         if e in other.keys():
-            sub_diff = sub_diff_delegate(matcher[e], other[e])
+            sub_diff = sub_diff_delegate(matcher[e], other[e], other_is_lhs)
             if sub_diff is not None:
                 ret += [
                     f"!! {diff_str(e, matcher)} == {diff_str(e, other)}"

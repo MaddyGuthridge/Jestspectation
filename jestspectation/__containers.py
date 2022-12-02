@@ -111,7 +111,7 @@ class JestspectationContainer(JestspectationBase, Generic[T]):
         ))
 
     @safe_diff_wrapper
-    def get_diff(self, other: object) -> list[str]:
+    def get_diff(self, other: object, other_is_lhs: bool) -> list[str]:
         if not self.__is_allowed_type(other):
             return [
                 "Type mismatch",

@@ -31,38 +31,47 @@ def indent_lines(lines: list[str], amount: int) -> list[str]:
 
 
 def diff_wrapper(
-    diff_function: Callable[[T, object], list[str]],
-) -> Callable[[T, object], Optional[list[str]]]:
+    diff_function: Callable[[T, object, bool], list[str]],
+) -> Callable[[T, object, bool], Optional[list[str]]]:
     """
     Decorator around diff functions to add an equality statement. Also returns
     None if values are equal
     """
-    def wrapper(matcher: T, other: object) -> Optional[list[str]]:
+    def wrapper(
+        matcher: T,
+        other: object,
+        other_is_lhs: bool,
+    ) -> Optional[list[str]]:
         if matcher == other:
             return None
-        return [
-            f"{repr(matcher)} == {repr(other)}",
-        ] + diff_function(matcher, other)
+        if other_is_lhs:
+            eq_expr = f"{repr(other)} == {repr(matcher)}"
+        else:
+            eq_expr = f"{repr(matcher)} == {repr(other)}"
+        return [eq_expr] + diff_function(matcher, other, other_is_lhs)
     return wrapper
 
 
 def safe_diff_wrapper(
-    diff_function: Callable[[T, object], list[str]],
-) -> Callable[[T, object], list[str]]:
+    diff_function: Callable[[T, object, bool], list[str]],
+) -> Callable[[T, object, bool], list[str]]:
     """
     Decorator around diff functions to add an equality statement if they are
     not equal to reduce repetition
     """
-    def wrapper(matcher: T, other: object) -> list[str]:
-        return [
-            f"{repr(matcher)} == {repr(other)}",
-        ] + diff_function(matcher, other)
+    def wrapper(matcher: T, other: object, other_is_lhs: bool) -> list[str]:
+        if other_is_lhs:
+            eq_expr = f"{repr(other)} == {repr(matcher)}"
+        else:
+            eq_expr = f"{repr(matcher)} == {repr(other)}"
+        return [eq_expr] + diff_function(matcher, other, other_is_lhs)
     return wrapper
 
 
 def sub_diff_delegate(
     matcher: object,
     other: object,
+    other_is_lhs: bool,
     indent: bool = True,
 ) -> Optional[list[str]]:
     """
@@ -74,7 +83,11 @@ def sub_diff_delegate(
     # Avoid a circular import
     from . import __py_diffs as py_diffs
 
-    def do_sub_diff(matcher: object, other: object) -> Optional[list[str]]:
+    def do_sub_diff(
+        matcher: object,
+        other: object,
+        other_is_lhs: bool,
+    ) -> Optional[list[str]]:
         """
         Inner function so we can wrap up the return values
         """
@@ -83,16 +96,16 @@ def sub_diff_delegate(
             return None
         # Handle out types
         if isinstance(matcher, JestspectationBase):
-            return matcher.get_diff(other)
+            return matcher.get_diff(other, other_is_lhs)
 
         elif isinstance(matcher, list):
-            return py_diffs.diff_list(matcher, other)
+            return py_diffs.diff_list(matcher, other, other_is_lhs)
 
         elif isinstance(matcher, set):
-            return py_diffs.diff_set(matcher, other)
+            return py_diffs.diff_set(matcher, other, other_is_lhs)
 
         elif isinstance(matcher, dict):
-            return py_diffs.diff_dict(matcher, other)
+            return py_diffs.diff_dict(matcher, other, other_is_lhs)
 
         # For other objects, just do the repr
         if matcher == other:
@@ -105,7 +118,7 @@ def sub_diff_delegate(
                 f"Received {repr(other)}",
             ]
 
-    diff = do_sub_diff(matcher, other)
+    diff = do_sub_diff(matcher, other, other_is_lhs)
     if diff is None:
         return None
     if indent:

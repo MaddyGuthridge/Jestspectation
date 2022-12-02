@@ -15,7 +15,7 @@ class JestspectationBase:
     Base class of types used in Jestspectation
     """
     @abstractmethod
-    def get_diff(self, other: object) -> list[str]:
+    def get_diff(self, other: object, other_is_lhs: bool) -> list[str]:
         """
         Returns a list of strings showing the difference between this and some
         other object.
@@ -25,6 +25,8 @@ class JestspectationBase:
 
         Args:
             other (object): object to compare
+            other_is_rhs (bool): whether the other object is on the left hand
+            side of the expression
 
         Returns:
             Optional[list[str]]: difference

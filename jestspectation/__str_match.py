@@ -20,7 +20,7 @@ class StringMatchingRegex(JestspectationBase):
         return re.match(self.__regex, other) is not None
 
     @safe_diff_wrapper
-    def get_diff(self, other: object) -> list[str]:
+    def get_diff(self, other: object, other_is_lhs: bool) -> list[str]:
         if not isinstance(other, str):
             return [
                 "Type mismatch",
@@ -48,7 +48,7 @@ class StringContaining(JestspectationBase):
         return self.__substring in other
 
     @safe_diff_wrapper
-    def get_diff(self, other: object) -> list[str]:
+    def get_diff(self, other: object, other_is_lhs: bool) -> list[str]:
         if not isinstance(other, str):
             return [
                 "Type mismatch",
