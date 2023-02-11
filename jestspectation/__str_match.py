@@ -87,8 +87,9 @@ class TextLike(JestspectationBase):
         Args:
             text (str): text to match
             ignore_case (bool, optional): whether to ignore the case of
-               characters. Defaults to True.
-            ignored_sequences (Optional[Iterable[str]], optional): sequences of characters to ignore in the string. Defaults to None.
+                characters. Defaults to True.
+            ignored_sequences (Optional[Iterable[str]], optional): sequences
+                of characters to ignore in the string. Defaults to None.
         """
         self.__text = text
         self.__ignore_case = ignore_case
