@@ -1,6 +1,7 @@
 """
 Utility functions
 """
+from functools import wraps
 from typing import Optional, Callable, TypeVar
 
 T = TypeVar('T')
@@ -37,6 +38,7 @@ def diff_wrapper(
     Decorator around diff functions to add an equality statement. Also returns
     None if values are equal
     """
+    @wraps(diff_function)
     def wrapper(
         matcher: T,
         other: object,
@@ -59,6 +61,7 @@ def safe_diff_wrapper(
     Decorator around diff functions to add an equality statement if they are
     not equal to reduce repetition
     """
+    @wraps(diff_function)
     def wrapper(matcher: T, other: object, other_is_lhs: bool) -> list[str]:
         if other_is_lhs:
             eq_expr = f"{repr(other)} == {repr(matcher)}"
