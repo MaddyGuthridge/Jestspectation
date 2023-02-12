@@ -8,7 +8,16 @@ from .__util import safe_diff_wrapper
 
 
 class StringMatchingRegex(JestspectationBase):
+    """
+    Matches strings that match with the given regular expression.
+    """
     def __init__(self, regex: str) -> None:
+        """
+        Matches strings that match with the given regular expression.
+
+        Args:
+            regex (str): regular expression to match against
+        """
         self.__raw_regex = regex
         self.__regex = re.compile(regex)
 
@@ -37,7 +46,17 @@ class StringMatchingRegex(JestspectationBase):
 
 
 class StringContaining(JestspectationBase):
+    """
+    Matches any string that contains the given substring
+    """
     def __init__(self, substring: str) -> None:
+        """
+        Matches any string that contains the given substring
+
+        Args:
+            substring (str): string that should be contained within other
+                object
+        """
         self.__substring = substring
 
     def __repr__(self) -> str:
@@ -65,7 +84,11 @@ class StringContaining(JestspectationBase):
 
 
 class TextLike(JestspectationBase):
+    """
+    Matches text similar to the given text.
 
+    Can ignore case, and sequences of characters.
+    """
     def __simplify_text(self, text: str) -> str:
         if self.__ignore_case:
             text = text.casefold()
@@ -82,7 +105,7 @@ class TextLike(JestspectationBase):
         """
         Matches text that is similar to the given text.
 
-        Can ignore case, and sequences of characters
+        Can ignore case, and sequences of characters.
 
         Args:
             text (str): text to match

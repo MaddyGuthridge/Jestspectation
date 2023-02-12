@@ -45,6 +45,11 @@ class FloatApprox(JestspectationBase):
         self.__percent = percent
 
     def boundary_width(self) -> float:
+        """
+        Returns the width of the boundary with the float.
+
+        Any value that is between `value-width` and `value+width` will match.
+        """
         if self.__magnitude is not None:
             return self.__magnitude
         else:

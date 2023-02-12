@@ -15,6 +15,7 @@ def diff_list(
     other: object,
     other_is_lhs: bool,
 ) -> list[str]:
+    """Difference for Python lists"""
     if not isinstance(other, list):
         return [
             "Type mismatch",
@@ -49,6 +50,7 @@ def diff_set(
     other: object,
     other_is_lhs: bool,
 ) -> list[str]:
+    """Difference for Python sets"""
     if not isinstance(other, set):
         return [
             "Type mismatch",
@@ -75,6 +77,7 @@ def diff_dict(
     other: object,
     other_is_lhs: bool,
 ) -> list[str]:
+    """Difference for Python dicts"""
     if not isinstance(other, dict):
         return [
             "Type mismatch",
