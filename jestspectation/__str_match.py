@@ -99,6 +99,7 @@ class TextLike(JestspectationBase):
     def __init__(
         self,
         text: str,
+        *,
         ignore_case: bool = True,
         ignored_sequences: Optional[Iterable[str]] = None
     ) -> None:
