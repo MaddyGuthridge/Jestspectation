@@ -2,7 +2,7 @@ attrs==22.1.0
 autopep8==2.0.1
 build==0.10.0
 coverage==7.1.0
-exceptiongroup==1.0.1
+exceptiongroup==1.1.0
 flake8==6.0.0
 iniconfig==1.1.1
 mccabe==0.7.0
