@@ -1,4 +1,4 @@
-attrs==22.1.0
+attrs==22.2.0
 autopep8==2.0.1
 build==0.10.0
 coverage==7.1.0
