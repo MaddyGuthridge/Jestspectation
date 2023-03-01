@@ -29,7 +29,7 @@ def test_skip_empty_lines_other():
 
 
 def test_strip_lines():
-    assert LinesLike("Hello\nworld") == " Hello \n world  "
+    assert LinesLike("Hello\nworld", strip_lines=True) == " Hello \n world  "
 
 
 def test_no_match_missing():
@@ -73,4 +73,26 @@ def test_diff_unequal_line():
         "   Expected TextLike('Hello')",
         "   Received 'Goodbye'",
         "== [1] world",
+    ]
+
+
+def test_diff_with_list():
+    assert (
+        LinesLike("Hello\nworld").get_diff(["Hello", "world", "test"], False)
+        == [
+            "LinesLike(['Hello', 'world']) == ['Hello', 'world', 'test']",
+            "Lines failed to match",
+            "== [0] Hello",
+            "== [1] world",
+            "++ [2] test",
+        ]
+    )
+
+
+def test_diff_type_mismatch():
+    assert LinesLike("Hello").get_diff(1, False) == [
+        "LinesLike(['Hello']) == 1",
+        "Type mismatch",
+        "Expected object of type str (LinesLike(['Hello']))",
+        "Received object of type int (1)",
     ]
