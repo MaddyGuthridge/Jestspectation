@@ -13,7 +13,7 @@ def test_match_str():
 
 
 def test_match_list_self():
-    assert LinesLike("Hello\nworld") == ["Hello", "world"]
+    assert LinesLike(["Hello", "world"]) == "Hello\nworld"
 
 
 def test_match_list_other():
