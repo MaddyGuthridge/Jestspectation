@@ -108,7 +108,7 @@ class LinesLike(JestspectationBase):
         else:
             return False
 
-        if len(lines) != self.__lines:
+        if len(lines) != len(self.__lines):
             return False
 
         return all([
