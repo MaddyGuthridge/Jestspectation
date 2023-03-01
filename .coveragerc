@@ -4,8 +4,5 @@ branch = True
 exclude_lines =
     pragma: no cover
     if TYPE_CHECKING:
-    def __str__
-    def __repr__
-    def inspect
     return NotImplemented
     @overload
