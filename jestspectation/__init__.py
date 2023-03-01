@@ -23,12 +23,14 @@ from .__strings import (
     TextLike,
     LinesLike,
 )
+from .__config import configure
 
 
 __all__ = [
     'And',
     'Any',
     'Anything',
+    'configure',
     'DictContainingKeys',
     'DictContainingValues',
     'DictContainingItems',

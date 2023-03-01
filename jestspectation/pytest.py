@@ -4,6 +4,7 @@ Jestspectation / Pytest
 Hooks for Pytest
 """
 import pytest
+from typing import Optional
 from .__jestspectation_base import JestspectationBase
 
 
@@ -12,13 +13,15 @@ def pytest_assertrepr_compare(
     op: str,
     left: object,
     right: object,
-):
+) -> Optional[list[str]]:
     """
     Override assert expressions
     """
     if op == "==":
         if isinstance(right, JestspectationBase):
             return right.get_diff(left, True)
-        if isinstance(left, JestspectationBase):
+        elif isinstance(left, JestspectationBase):
             return left.get_diff(right, False)
+        # else:
+
     return None
