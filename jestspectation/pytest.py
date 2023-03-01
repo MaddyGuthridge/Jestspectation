@@ -6,6 +6,8 @@ Hooks for Pytest
 import pytest
 from typing import Optional
 from .__jestspectation_base import JestspectationBase
+from .__equals import Equals
+from .__config import configure
 
 
 def pytest_assertrepr_compare(
@@ -22,6 +24,7 @@ def pytest_assertrepr_compare(
             return right.get_diff(left, True)
         elif isinstance(left, JestspectationBase):
             return left.get_diff(right, False)
-        # else:
+        elif configure().pytest_all_diffs:
+            return Equals(left).get_diff(right, False)
 
     return None
