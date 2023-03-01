@@ -268,15 +268,15 @@ class LinesLike(JestspectationBase):
             zip_longest(self.__lines, lines)
         ):
             if expected == actual:
-                diffs.append(f" == [{i}] {expected}")
+                diffs.append(f"== [{i}] {expected}")
             elif expected is None:
-                diffs.append(f" ++ [{i}] {actual}")
+                diffs.append(f"++ [{i}] {actual}")
             elif actual is None:
-                diffs.append(f" -- [{i}] {expected}")
+                diffs.append(f"-- [{i}] {expected}")
             else:
                 sub_diff = sub_diff_delegate(expected, actual, other_is_lhs)
                 assert sub_diff is not None
-                sub_diff[0] = f" !! [{i}] {sub_diff[0][3:]}"
+                sub_diff[0] = f"!! [{i}] {sub_diff[0][3:]}"
                 diffs.extend(sub_diff)
 
         return [
