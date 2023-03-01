@@ -60,3 +60,12 @@ E            Expected 4
 E            Received 5
 E         ++ [4] 6
 ```
+
+To automatically use Jestspectation's diff parsing, you can configure
+Jestspectation.
+
+```py
+import jestspectation
+
+jestspectation.configure().pytest_all_diffs = True
+```
