@@ -9,27 +9,39 @@ def test_incorrect_type():
 
 
 def test_match_str():
-    assert LinesLike("Hello\nworld") != "Hello\nworld"
+    assert LinesLike("Hello\nworld") == "Hello\nworld"
 
 
 def test_match_list_self():
-    assert LinesLike("Hello\nworld") != ["Hello", "world"]
+    assert LinesLike("Hello\nworld") == ["Hello", "world"]
 
 
 def test_match_list_other():
-    assert LinesLike("Hello\nworld") != ["Hello", "world"]
+    assert LinesLike("Hello\nworld") == ["Hello", "world"]
 
 
 def test_skip_empty_lines_self():
-    assert LinesLike("Hello\n\nworld") != "Hello\nworld"
+    assert LinesLike("Hello\n\nworld") == "Hello\nworld"
 
 
 def test_skip_empty_lines_other():
-    assert LinesLike("Hello\nworld") != "Hello\n\nworld"
+    assert LinesLike("Hello\nworld") == "Hello\n\nworld"
 
 
 def test_strip_lines():
     assert LinesLike("Hello\nworld") == " Hello \n world  "
+
+
+def test_no_match_missing():
+    assert LinesLike("Hello\nworld") != "Hello"
+
+
+def test_no_match_extra():
+    assert LinesLike("Hello") != "Hello\nworld"
+
+
+def test_no_match_different():
+    assert LinesLike("Hello") != "Goodbye"
 
 
 def test_diff_extra_line():
