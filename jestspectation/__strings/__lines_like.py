@@ -23,6 +23,8 @@ class LinesLike(JestspectationBase):
         """
         new_lines = []
         for line in lines:
+            if self.__strip_lines:
+                line = line.strip()
             if line == "":
                 continue
             new_lines.append(TextLike(
@@ -35,6 +37,8 @@ class LinesLike(JestspectationBase):
     def __filter_lines(self, lines: list[str]) -> list[str]:
         new_lines = []
         for line in lines:
+            if self.__strip_lines:
+                line = line.strip()
             if line == "":
                 continue
             new_lines.append(line)
@@ -44,8 +48,10 @@ class LinesLike(JestspectationBase):
     def __init__(
         self,
         lines: list[str],
+        /,
         ignore_case: bool = True,
         ignored_sequences: Optional[Iterable[str]] = None,
+        strip_lines: bool = False,
     ) -> None:
         ...
 
@@ -53,16 +59,20 @@ class LinesLike(JestspectationBase):
     def __init__(
         self,
         lines: str,
+        /,
         ignore_case: bool = True,
         ignored_sequences: Optional[Iterable[str]] = None,
+        strip_lines: bool = False,
     ) -> None:
         ...
 
     def __init__(
         self,
         lines: list[str] | str,
+        /,
         ignore_case: bool = True,
         ignored_sequences: Optional[Iterable[str]] = None,
+        strip_lines: bool = False,
     ) -> None:
         """
         Matches text similar to the given text, but can display diffs of
@@ -74,15 +84,15 @@ class LinesLike(JestspectationBase):
                 characters. Defaults to True.
             ignored_sequences (Optional[Iterable[str]], optional): sequences
                 of characters to ignore in the string. Defaults to None.
+            strip_lines (bool, optional): whether to strip each line before
+                processing. Defaults to False.
         """
         if isinstance(lines, str):
             lines = lines.splitlines()
 
         self.__ignore_case = ignore_case
-        if ignored_sequences is None:
-            self.__ignored_sequences = []
-        else:
-            self.__ignored_sequences = list(ignored_sequences)
+        self.__strip_lines = strip_lines
+        self.__ignored_sequences = ignored_sequences
 
         self.__og_lines = lines
         self.__lines = self.__create_match_list(lines)
