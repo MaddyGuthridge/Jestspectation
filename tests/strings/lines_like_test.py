@@ -28,6 +28,10 @@ def test_skip_empty_lines_other():
     assert LinesLike("Hello\nworld") != "Hello\n\nworld"
 
 
+def test_strip_lines():
+    assert LinesLike("Hello\nworld") == " Hello \n world  "
+
+
 def test_diff_extra_line():
     assert LinesLike("Hello\nworld").get_diff("Hello\nworld\ntest", False) == [
         "LinesLike(['Hello', 'world']) == 'Hello\\nworld\\ntest'",

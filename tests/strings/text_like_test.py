@@ -22,6 +22,10 @@ def test_ignore_spacing():
         == "hello\tworld"
 
 
+def test_strip():
+    assert TextLike('hello', strip=True) == '  hello\n '
+
+
 def test_no_match():
     assert TextLike('hello') != 'goodbye'
 
