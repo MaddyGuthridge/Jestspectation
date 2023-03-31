@@ -339,3 +339,36 @@ class DictContainingItems(JestspectationContainer):
     def _format_missing_item(self, item: object) -> str:
         # Format like dict keys
         return f"{repr(item[0])}: {repr(item[1])}"  # type: ignore
+
+
+class ListOfLength(JestspectationBase):
+    """
+    Matches any list of the given length
+    """
+
+    def __init__(self, length: int) -> None:
+        if length < 0:
+            raise ValueError("List length cannot be < 0")
+        self.__length = length
+
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, list):
+            return False
+        return len(other) == self.__length
+
+    def __repr__(self) -> str:
+        return f"ListOfLength({self.__length})"
+
+    def get_diff(self, other: object, other_is_lhs: bool) -> list[str]:
+        if not isinstance(other, list):
+            return [
+                "Type mismatch",
+                f"Expected object of type list ({repr(self)})",
+                f"Received object of type {type(other).__name__} ({other})",
+            ]
+
+        return [
+            "Length failed to match",
+            f"Expected list of length {self.__length}",
+            f"Received list of length {len(other)} ({other})",
+        ]

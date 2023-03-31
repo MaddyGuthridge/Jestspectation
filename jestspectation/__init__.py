@@ -13,6 +13,7 @@ from .__containers import (
     DictContainingItems,
     ListContaining,
     SetContaining,
+    ListOfLength,
 )
 from .__float_approx import FloatApprox
 from .__equals import Equals, Is
@@ -39,6 +40,7 @@ __all__ = [
     'Is',
     'LinesLike',
     'ListContaining',
+    'ListOfLength',
     'Not',
     'Or',
     'SetContaining',

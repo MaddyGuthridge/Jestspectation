@@ -9,6 +9,7 @@ from jestspectation import (
     DictContainingKeys,
     DictContainingValues,
     ListContaining,
+    ListOfLength,
     SetContaining,
 )
 
@@ -30,13 +31,23 @@ def test_matches(item, matcher):
 @pytest.mark.parametrize(
     ('item', 'matcher'),
     [
+        #                 V                                  V
         ({1: 'a', 2: 'b', 3: 'c'}, DictContainingKeys({1, 2, 4})),
+
+        #                     V                                     V
         ({1: 'a', 2: 'b', 3: 'c'}, DictContainingValues(['a', 'b', 'd'])),
+
         (
+            #                    V
             {1: 'a', 2: 'b', 3: 'c'},
+            #                                        V
             DictContainingItems({1: 'a', 2: 'b', 3: 'd'}),
         ),
+
+        #       V                         V
         ([1, 2, 3], ListContaining([1, 2, 4])),
+
+        #       V                        V
         ({1, 2, 3}, SetContaining({1, 2, 4})),
     ]
 )
@@ -130,4 +141,33 @@ def test_diff_match_dict_containing_items_incorrect_and_missing():
         "   Value mismatch",
         "   Expected '1'",
         "   Received '2'",
+    ]
+
+
+def test_list_of_length():
+    assert ListOfLength(3) == [1, 2, 3]
+
+
+def test_list_of_length_incorrect():
+    assert ListOfLength(3) != [1, 2]
+
+
+def test_list_of_length_invalid_arg():
+    with pytest.raises(ValueError):
+        ListOfLength(-1)
+
+
+def test_diff_list_of_length():
+    assert ListOfLength(3).get_diff([1, 2], False) == [
+        "Length failed to match",
+        "Expected list of length 3",
+        "Received list of length 2 ([1, 2])",
+    ]
+
+
+def test_diff_invalid_type():
+    assert ListOfLength(3).get_diff({}, False) == [
+        "Type mismatch",
+        "Expected object of type list (ListOfLength(3))",
+        "Received object of type dict ({})",
     ]
