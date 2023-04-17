@@ -8,7 +8,7 @@ iniconfig==2.0.0
 mccabe==0.7.0
 mypy==1.2.0
 mypy-extensions==1.0.0
-packaging==23.0
+packaging==23.1
 pep517==0.13.0
 pluggy==1.0.0
 pycodestyle==2.10.0
