@@ -39,7 +39,7 @@ pytest_plugins = ("jestspectation.pytest",)
 
 This should result in output similar to the following
 
-```
+```txt
     def test_goodbye():
 >       assert 1 == expect.Any(float)
 E       assert Type mismatch
@@ -50,7 +50,7 @@ E         Received 1 (int)
 These advanced completions can also be used for most standard Python objects
 by wrapping the expected values in an `Equals`. For example:
 
-```
+```txt
     def test_lists():
 >       assert expect.Equals([1, 2, 3, 4]) == [1, 2, 3, 5, 6]
 E       assert [1, 2, 3, 4] == [1, 2, 3, 5, 6]
