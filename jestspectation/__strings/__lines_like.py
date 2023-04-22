@@ -3,7 +3,7 @@ Matches text similar to the given text, but with better diffs for
 multi-line text
 """
 from itertools import zip_longest
-from typing import overload, Optional, Iterable
+from typing import Union, overload, Optional, Iterable
 
 from .__text_like import TextLike
 from ..__jestspectation_base import JestspectationBase
@@ -68,7 +68,7 @@ class LinesLike(JestspectationBase):
 
     def __init__(
         self,
-        lines: list[str] | str,
+        lines: Union[list[str], str],
         /,
         ignore_case: bool = True,
         ignored_sequences: Optional[Iterable[str]] = None,

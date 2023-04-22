@@ -4,7 +4,8 @@ Matchers for specific container types
 
 from abc import abstractmethod
 from collections.abc import Iterable, ItemsView
-from typing import TypeGuard, TypeVar, Generic
+from typing import TypeVar, Generic
+from typing_extensions import TypeGuard
 from .__jestspectation_base import JestspectationBase
 from .__util import get_object_type_name, safe_diff_wrapper, sub_diff_delegate
 
