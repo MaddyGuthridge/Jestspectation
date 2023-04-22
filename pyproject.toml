@@ -32,7 +32,7 @@ packages = [
     { include = "jestspectation" }
 ]
 
-[tool.poetry.plugins."pytest11"]
+[tool.poetry.plugins.pytest11]
 jestspectation = "jestspectation.pytest"
 
 [tool.poetry.urls]
