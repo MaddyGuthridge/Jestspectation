@@ -18,6 +18,7 @@ from .__float_approx import FloatApprox
 from .__equals import Equals, Is
 from .logicals import And, Not, Or, Xor
 from .__str_match import StringMatchingRegex, StringContaining
+from .__matches_callback import MatchesCallback
 
 
 __all__ = [
@@ -31,6 +32,7 @@ __all__ = [
     'FloatApprox',
     'Is',
     'ListContaining',
+    'MatchesCallback',
     'Not',
     'Or',
     'SetContaining',
