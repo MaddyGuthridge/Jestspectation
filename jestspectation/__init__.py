@@ -12,8 +12,10 @@ from .__containers import (
     DictContainingValues,
     DictContainingItems,
     ListContaining,
-    SetContaining,
     ListOfLength,
+    SetContaining,
+    ObjectContainingProperties,
+    ObjectContainingItems,
 )
 from .__float_approx import FloatApprox
 from .__equals import Equals, Is
@@ -42,6 +44,8 @@ __all__ = [
     'ListContaining',
     'ListOfLength',
     'Not',
+    'ObjectContainingProperties',
+    'ObjectContainingItems',
     'Or',
     'SetContaining',
     'StringContaining',

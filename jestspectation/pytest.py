@@ -25,6 +25,6 @@ def pytest_assertrepr_compare(
         elif isinstance(left, JestspectationBase):
             return left.get_diff(right, False)
         elif configure().pytest_all_diffs:
-            return Equals(left).get_diff(right, False)
+            return Equals(right).get_diff(left, False)
 
     return None
