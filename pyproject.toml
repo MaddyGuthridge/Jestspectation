@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "Jestspectation"
-version = "1.0.0"
+version = "1.1.0"
 description = "Pattern matching helper classes designed to allow for testing of complex data structures in a readable and logical format"
 readme = "README.md"
 
