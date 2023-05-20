@@ -4,7 +4,7 @@ Matchers for specific container types
 
 from abc import abstractmethod
 from collections.abc import Iterable, ItemsView
-from typing import TypeVar, Generic
+from typing import Any, TypeVar, Generic, cast
 from typing_extensions import TypeGuard
 from .__jestspectation_base import JestspectationBase
 from .__util import get_object_type_name, safe_diff_wrapper, sub_diff_delegate
@@ -246,6 +246,42 @@ class DictContainingKeys(JestspectationContainer):
         return item in other
 
 
+class ObjectContainingProperties(JestspectationContainer):
+    """
+    Matches any object containing all the given properties. Note that this does
+    not check property values - just the presence of those properties.
+    """
+
+    def __init__(self, properties: set[str]) -> None:
+        """
+        Matches any object containing all the given properties. Note that this
+        does not check property values - just the presence of those properties.
+
+        Args:
+            properties (set): set of properties to match
+        """
+        self.__properties = properties
+
+    def get_contents_repr(self) -> list[str]:
+        return sorted(self.__properties)
+
+    def get_contents_repr_edges(self) -> tuple[str, str]:
+        return '', ''
+
+    @staticmethod
+    def _get_allowed_types() -> tuple[type, ...]:
+        return (object,)
+
+    def _get_items(self) -> list[str]:
+        return sorted(self.__properties)
+
+    def _is_present(self, item: object, other: set) -> bool:
+        return item in dir(other)
+
+    def _format_missing_item(self, item: object) -> str:
+        return cast(str, item)
+
+
 class DictContainingValues(JestspectationContainer):
     """
     Matches any dictionary containing all the given values
@@ -340,6 +376,78 @@ class DictContainingItems(JestspectationContainer):
     def _format_missing_item(self, item: object) -> str:
         # Format like dict keys
         return f"{repr(item[0])}: {repr(item[1])}"  # type: ignore
+
+
+class ObjectContainingItems(JestspectationContainer):
+    """
+    Matches any object containing all the given items, where an item is a
+    property-value pair.
+    """
+
+    def __init__(self, items: dict[str, Any]) -> None:
+        """
+        Matches any object containing all the given items, where an item is a
+        property-value pair.
+
+        Args:
+            items (dict): dict of items to match
+        """
+        self.__items = items
+
+    def __repr__(self) -> str:
+        inners = []
+        for property, value in self.__items.items():
+            inners.append(f"{property} = {value}")
+
+        return f"ObjectContainingItems({', '.join(inners)})"
+
+    def get_contents_repr(self) -> list[str]:
+        return [f"{repr(i[0])} == {repr(i[1])}" for i in self.__items.items()]
+
+    def get_contents_repr_edges(self) -> tuple[str, str]:
+        return '', ''
+
+    @staticmethod
+    def _get_allowed_types() -> tuple[type, ...]:
+        return (object,)
+
+    def _get_items(self) -> ItemsView:
+        return self.__items.items()
+
+    def _is_present(self, item: object, other: object) -> bool:
+        # TODO: Use generics to make this type-safe
+        return item[0] in dir(other)  # type: ignore
+
+    def _is_correct(self, item: object, other: object) -> bool:
+        return getattr(other, item[0]) == item[1]  # type: ignore
+
+    def _format_sub_diff(
+        self,
+        item: object,
+        other: ItemsView,
+        other_is_lhs: bool,
+    ) -> list[str]:
+        # Lots of type: ignores here because I can't figure out how to make
+        # this type-safe :(
+        # Just need to get good test coverage
+        other_value = getattr(other, item[0])  # type: ignore
+        diff = sub_diff_delegate(
+            item[1],  # type: ignore
+            other_value,
+            other_is_lhs,
+        )
+        assert diff is not None
+        self_repr = self._format_missing_item(item)
+        other_repr = f"{item[0]} = {repr(other_value)}"  # type: ignore
+        if other_is_lhs:
+            eq_expr = f"   {other_repr} == {self_repr}"
+        else:
+            eq_expr = f"   {self_repr} == {other_repr}"
+        return [eq_expr] + diff
+
+    def _format_missing_item(self, item: object) -> str:
+        # Format like dict keys
+        return f"{item[0]} = {repr(item[1])}"  # type: ignore
 
 
 class ListOfLength(JestspectationBase):
