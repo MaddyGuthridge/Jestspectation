@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "Jestspectation"
-version = "1.1.0"
-description = "Pattern matching helper classes designed to allow for testing of complex data structures in a readable and logical format"
+version = "1.2.0"
+description = "Pattern matching tools to test complex data structures"
 readme = "README.md"
 
 authors = ["Miguel Guthridge <hdsq@outlook.com.au>"]
@@ -38,7 +38,7 @@ packages = [
 jestspectation = "jestspectation.pytest"
 
 [tool.poetry.urls]
-"Online Documentation" = "https://github.com/MiguelGuthridge/Jestspectation"
+"Online Documentation" = "https://miguelguthridge.github.io/Jestspectation"
 "Bug Tracker" = "https://github.com/MiguelGuthridge/Jestspectation/issues"
 
 [tool.poetry.dependencies]
