@@ -1,4 +1,4 @@
-# API Reference
+# Basic Matchers
 
 ## `Any`
 
@@ -19,9 +19,3 @@
 ## `Is`
 
 ::: jestspectation.Is.__init__
-
-## `configure`
-
-::: jestspectation.configure
-
-<!-- TODO: Document all options -->
