@@ -21,10 +21,10 @@ class FloatApprox(JestspectationBase):
         Args:
             value (float): target value.
             magnitude (Optional[float], optional): maximum magnitude
-            difference. Defaults to None.
+                difference. Defaults to None.
             percent (Optional[float], optional): maximum percentage difference.
-            Percentage differences are always calculated based on the expected
-            value, regardless of ordering. Defaults to None.
+                Percentage differences are always calculated based on the
+                expected value, regardless of ordering. Defaults to None.
 
         If both a magnitude and percent are specified, both will be checked.
 
