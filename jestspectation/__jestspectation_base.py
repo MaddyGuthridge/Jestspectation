@@ -12,21 +12,21 @@ REPR_LEN = 25
 
 class JestspectationBase:
     """
-    Base class of types used in Jestspectation
+    Base class of types used in Jestspectation.
     """
     @abstractmethod
     def get_diff(self, other: object, other_is_lhs: bool) -> list[str]:
         """
         Returns a list of strings showing the difference between this and some
-        other object.
+        other object. Each string represents a single line of output.
 
         This function expects that the two objects have already been checked
-        and are not equal
+        and are not equal.
 
         Args:
             other (object): object to compare
-            other_is_rhs (bool): whether the other object is on the left hand
-            side of the expression
+            other_is_lhs (bool): whether the other object is on the left hand
+                side of the expression
 
         Returns:
             Optional[list[str]]: difference
@@ -34,9 +34,14 @@ class JestspectationBase:
 
     def get_contents_repr(self) -> list[str]:
         """
-        Returns a list of string representations for the inner contents
+        Returns a list of string representations for the inner contents.
 
-        They can then be trimmed to prevent excessively long names
+        These strings are considered to be individual tokens, and are used to
+        shorten the `__repr__` string of Jestspectation matchers by replacing
+        excess items with an ellipsis (...).
+
+        This method should be implemented if the `__repr__` method is not
+        overridden.
 
         Returns:
             list[str]: inner contents
@@ -45,7 +50,13 @@ class JestspectationBase:
 
     def get_contents_repr_edges(self) -> tuple[str, str]:
         """
-        Returns the opening and closing tokens to surround the contents with
+        Returns the opening and closing tokens to surround the contents with.
+
+        This is used to build the representation of Jestspectation matchers
+        from a list of contents gathered from the `get_contents_repr` method.
+
+        This method should be implemented if the `__repr__` method is not
+        overridden.
         """
         raise NotImplementedError("Either implement this or override __repr__")
 
