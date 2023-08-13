@@ -1,0 +1,47 @@
+site_name: Jestspectation
+site_description: Pattern matching tools to test complex data structures
+repo_name: Jestspectation
+repo_url: https://github.com/MiguelGuthridge/Jestspectation
+copyright: &copy 2023 <a href="https://github.com/MiguelGuthridge">Miguel Guthridge</a>.
+
+theme:
+  name: material
+  palette:
+    - media: '(prefers-color-scheme: dark)'
+      scheme: slate
+      toggle:
+        icon: material/lightbulb-outline
+        name: Switch to light mode
+    - media: '(prefers-color-scheme: light)'
+      scheme: default
+      toggle:
+        icon: material/lightbulb
+        name: Switch to dark mode
+  # logo: assets/logo-monochrome.png
+  # favicon: assets/logo.png
+  icon:
+    repo: fontawesome/brands/github
+  features:
+    - navigation.tracking
+
+plugins:
+  - search
+  - autorefs
+  - mkdocstrings:
+      handlers:
+        python:
+          paths:
+            - jestspectation
+          options:
+            show_source: false
+            show_root_toc_entry: false
+
+markdown_extensions:
+  - toc:
+      title: Contents
+      toc_depth: 2
+
+# extra_css:
+#   - stylesheets/extra.css
+
+docs_dir: docs
