@@ -38,7 +38,7 @@ packages = [
 jestspectation = "jestspectation.pytest"
 
 [tool.poetry.urls]
-"Online Documentation" = "https://github.com/MiguelGuthridge/Jestspectation"
+"Online Documentation" = "https://miguelguthridge.github.io/Jestspectation"
 "Bug Tracker" = "https://github.com/MiguelGuthridge/Jestspectation/issues"
 
 [tool.poetry.dependencies]
