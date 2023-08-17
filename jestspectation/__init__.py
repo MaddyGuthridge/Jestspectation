@@ -6,6 +6,7 @@ Pattern matching helper classes designed to be similar to Jest's expect
 matchers, but modified to suit a Pythonic style of programming.
 """
 
+from .__jestspectation_base import JestspectationBase
 from .__any import Any, Anything
 from .__containers import (
     DictContainingKeys,
@@ -33,6 +34,7 @@ __all__ = [
     'And',
     'Any',
     'Anything',
+    'JestspectationBase',
     'configure',
     'DictContainingKeys',
     'DictContainingValues',
