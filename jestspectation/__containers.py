@@ -456,6 +456,15 @@ class ListOfLength(JestspectationBase):
     """
 
     def __init__(self, length: int) -> None:
+        """
+        Matches any list of a given length
+
+        Args:
+            length (int): the expected length of the list
+
+        Raises:
+            ValueError: length is < 0
+        """
         if length < 0:
             raise ValueError("List length cannot be < 0")
         self.__length = length
