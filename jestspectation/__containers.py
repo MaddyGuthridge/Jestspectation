@@ -155,7 +155,11 @@ class JestspectationContainer(JestspectationBase, Generic[T]):
 
 class ListContaining(JestspectationContainer):
     """
-    Matches any list containing all the given items
+    Matches any list containing all the given items.
+
+    This differs from `ListContainingOnly`, which requires the list to only
+    contain the given items, and fails to match if there are duplicate or
+    unexpected items.
     """
 
     def __init__(self, items: list) -> None:
@@ -492,10 +496,13 @@ class ListOfLength(JestspectationBase):
         ]
 
 
-class ListContainingAll(JestspectationBase):
+class ListContainingOnly(JestspectationBase):
     """
     Matches a list, if and only if it contains all of the given items, and no
     additional items.
+
+    This differs from `ListContaining` which only requires the list to contain
+    all the items, and ignores unknown values and
     """
     def __init__(self, items: list) -> None:
         self.__items = items
