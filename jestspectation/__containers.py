@@ -504,30 +504,50 @@ class ListContainingOnly(JestspectationBase):
     This differs from `ListContaining` which only requires the list to contain
     all the items, and ignores unknown values and
     """
+
     def __init__(self, items: list) -> None:
         self.__items = items
+        self.__expected_counts = self.__calc_expected_counts(items)
+
+    @staticmethod
+    def __calc_expected_counts(items: list) -> list[int]:
+        """
+        Calculate the expected count for any type
+        """
+        counts = [0 for _ in items]
+
+        for item in items:
+            idx = items.index(item)
+            counts[idx] += 1
+
+        return counts
+
+    def __actual_counts(self, items: list) -> tuple[list[int], list]:
+        counts = [0 for _ in self.__items]
+
+        unexpected_items = []
+
+        for item in items:
+            try:
+                idx = self.__items.index(item)
+                counts[idx] += 1
+            except ValueError:
+                unexpected_items.append(item)
+
+        return counts, unexpected_items
 
     def __eq__(self, other: object) -> bool:
         if not isinstance(other, list):
             return False
 
-        items = [False for _ in self.__items]
+        actual_counts, unexpected_items = self.__actual_counts(other)
 
-        for item in other:
-            try:
-                idx = self.__items.index(item)
-            except ValueError:
-                # Value not in expected items
-                return False
+        return (
+            actual_counts == self.__expected_counts
+            and len(unexpected_items) == 0
+        )
 
-            if items[idx]:
-                # Value already encountered
-                return False
-
-            items[idx] = True
-
-        return all(items)
-
+    @safe_diff_wrapper
     def get_diff(self, other: object, other_is_lhs: bool) -> list[str]:
         if not isinstance(other, list):
             return [
@@ -536,28 +556,35 @@ class ListContainingOnly(JestspectationBase):
                 f"Received object of type {type(other).__name__} ({other})",
             ]
 
-        items = [0 for _ in self.__items]
+        expected = self.__expected_counts
 
-        unexpected_items = []
+        counts, unexpected_items = self.__actual_counts(other)
 
-        for item in other:
-            try:
-                idx = self.__items.index(item)
-            except ValueError:
-                # Value not in expected items
-                unexpected_items.append(item)
-                continue
+        missing_items = list(map(
+            lambda i: (i[1] - i[0], i[2]),
+            filter(
+                lambda n: n[0] < n[1],
+                zip(counts, expected, self.__items),
+            )
+        ))
 
-            items[idx] += 1
-
-        missing_items = list(filter(lambda n: n == 0, items))
-        duplicate_items = list(filter(lambda n: n > 1, items))
+        duplicate_items = list(map(
+            lambda i: (i[0] - i[1], i[2]),
+            filter(
+                lambda n: n[0] > n[1],
+                zip(counts, expected, self.__items),
+            )
+        ))
 
         info = []
         if len(missing_items):
-            info.append(f"{len(missing_items)} missing items")
+            info.append(
+                f"{sum(map(lambda n: n[0], missing_items))} missing items"
+            )
         if len(duplicate_items):
-            info.append(f"{len(duplicate_items)} duplicate items")
+            info.append(
+                f"{sum(map(lambda n: n[0], duplicate_items))} duplicate items"
+            )
         if len(unexpected_items):
             info.append(f"{len(unexpected_items)} unexpected items")
 
@@ -571,15 +598,23 @@ class ListContainingOnly(JestspectationBase):
         if len(missing_items):
             ret.append("Missing items:")
             ret.extend([
-                f"-- {repr(item)}"
-                for item in missing_items
+                # Only one missing
+                f"-- {repr(n[1])}"
+                if n[0] == 1
+                # Multiple missing, give count
+                else f"-- {n[0]} * {repr(n[1])}"
+                for n in missing_items
             ])
 
         if len(duplicate_items):
             ret.append("Duplicate items:")
             ret.extend([
-                f"++ {repr(item)}"
-                for item in duplicate_items
+                # Only one duplicate
+                f"++ {repr(n[1])}"
+                if n[0] == 1
+                # Multiple duplicate, give count
+                else f"++ {n[0]} * {repr(n[1])}"
+                for n in duplicate_items
             ])
 
         if len(unexpected_items):
