@@ -490,3 +490,102 @@ class ListOfLength(JestspectationBase):
             f"Expected list of length {self.__length}",
             f"Received list of length {len(other)} ({other})",
         ]
+
+
+class ListContainingAll(JestspectationBase):
+    """
+    Matches a list, if and only if it contains all of the given items, and no
+    additional items.
+    """
+    def __init__(self, items: list) -> None:
+        self.__items = items
+
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, list):
+            return False
+
+        items = [False for _ in self.__items]
+
+        for item in other:
+            try:
+                idx = self.__items.index(item)
+            except ValueError:
+                # Value not in expected items
+                return False
+
+            if items[idx]:
+                # Value already encountered
+                return False
+
+            items[idx] = True
+
+        return all(items)
+
+    def get_diff(self, other: object, other_is_lhs: bool) -> list[str]:
+        if not isinstance(other, list):
+            return [
+                "Type mismatch",
+                f"Expected object of type list ({repr(self)})",
+                f"Received object of type {type(other).__name__} ({other})",
+            ]
+
+        items = [0 for _ in self.__items]
+
+        unexpected_items = []
+
+        for item in other:
+            try:
+                idx = self.__items.index(item)
+            except ValueError:
+                # Value not in expected items
+                unexpected_items.append(item)
+                continue
+
+            items[idx] += 1
+
+        missing_items = list(filter(lambda n: n == 0, items))
+        duplicate_items = list(filter(lambda n: n > 1, items))
+
+        info = []
+        if len(missing_items):
+            info.append(f"{len(missing_items)} missing items")
+        if len(duplicate_items):
+            info.append(f"{len(duplicate_items)} duplicate items")
+        if len(unexpected_items):
+            info.append(f"{len(unexpected_items)} unexpected items")
+
+        info_str = ", ".join(info)
+
+        ret = [
+            info_str,
+            f"Expected a {repr(self)}"
+        ]
+
+        if len(missing_items):
+            ret.append("Missing items:")
+            ret.extend([
+                f"-- {repr(item)}"
+                for item in missing_items
+            ])
+
+        if len(duplicate_items):
+            ret.append("Duplicate items:")
+            ret.extend([
+                f"++ {repr(item)}"
+                for item in duplicate_items
+            ])
+
+        if len(unexpected_items):
+            ret.append("Unexpected items:")
+            ret.extend([
+                f"!! {repr(item)}"
+                for item in unexpected_items
+            ])
+
+        return ret
+
+    def get_contents_repr(self) -> list[str]:
+        return [repr(item) for item in self.__items]
+
+    def get_contents_repr_edges(self) -> tuple[str, str]:
+        return "[", "]"

@@ -9,6 +9,7 @@ from jestspectation import (
     DictContainingKeys,
     DictContainingValues,
     ListContaining,
+    ListContainingAll,
     SetContaining,
 )
 
@@ -20,6 +21,7 @@ from jestspectation import (
         ({1: 'a', 2: 'b', 3: 'c'}, DictContainingValues(['a', 'b'])),
         ({1: 'a', 2: 'b', 3: 'c'}, DictContainingItems({1: 'a', 2: 'b'})),
         ([1, 2, 3], ListContaining([1, 2])),
+        ([1, 2, 3], ListContainingAll([3, 2, 1])),
         ({1, 2, 3}, SetContaining({1, 2})),
     ]
 )
@@ -46,6 +48,12 @@ def test_matches(item, matcher):
         #       V                         V
         ([1, 2, 3], ListContaining([1, 2, 4])),
 
+        #                                       V
+        ([1, 2, 3], ListContainingAll([1, 2, 3, 4])),
+
+        #       V
+        ([1, 2, 3], ListContainingAll([1, 2])),
+
         #       V                        V
         ({1, 2, 3}, SetContaining({1, 2, 4})),
     ]
@@ -63,6 +71,59 @@ def test_diff_match_list_containing():
         f"Expected a {list}",
         f"-- {4}",
         f"-- {5}",
+    ]
+
+
+def test_diff_match_list_containing_all_missing():
+    list = ListContainingAll([1, 2, 3, 4, 5])
+    diff = list.get_diff([1, 2, 3], False)
+    assert diff == [
+        "ListContainingAll([1, 2, 3, 4, 5]) == [1, 2, 3]",
+        "2 missing items",
+        f"Expected a {list}",
+        "Missing items:",
+        f"-- {4}",
+        f"-- {5}",
+    ]
+
+
+def test_diff_match_list_containing_all_duplicate():
+    list = ListContainingAll([1, 2, 3])
+    diff = list.get_diff([1, 2, 3, 3], False)
+    assert diff == [
+        "ListContainingAll([1, 2, 3]) == [1, 2, 3, 3]",
+        "1 duplicate items",
+        f"Expected a {list}",
+        "Duplicate items:",
+        f"++ {3}",
+    ]
+
+
+def test_diff_match_list_containing_all_unexpected():
+    list = ListContainingAll([1, 2, 3])
+    diff = list.get_diff([1, 2, 3, 4], False)
+    assert diff == [
+        "ListContainingAll([1, 2, 3]) == [1, 2, 3, 4]",
+        "1 unexpected items",
+        f"Expected a {list}",
+        "Unexpected items:",
+        f"!! {4}",
+    ]
+
+
+def test_diff_match_list_containing_all_combination():
+    list = ListContainingAll([1, 2, 3])
+    diff = list.get_diff([1, 3, 3, 4], False)
+    assert diff == [
+        "ListContainingAll([1, 2, 3]) == [1, 3, 3, 4]",
+        "1 missing items, 1 duplicate items, 1 unexpected items",
+        f"Expected a {list}",
+        "Missing items:",
+        f"-- {2}",
+        "Duplicate items:",
+        f"++ {3}",
+        "Unexpected items:",
+        f"!! {2}",
     ]
 
 
