@@ -18,6 +18,9 @@ class Is(JestspectationBase):
         """
         Matches values that have the same identity as the given value.
 
+        While this isn't as useful for top-level comparisons, it can be used
+        effectively for checking nested data structures.
+
         Args:
             value (object): object to check
         """
@@ -57,7 +60,10 @@ class Equals(JestspectationBase):
     """
     def __init__(self, value: object) -> None:
         """
-        Matches values that have the same identity as the given value.
+        Matches objects that have the same value.
+
+        This is equivalent to the `==` operator, but with additional
+        information on the difference, which can help with debugging.
 
         Args:
             value (object): object to check

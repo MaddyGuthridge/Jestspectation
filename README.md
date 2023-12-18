@@ -19,6 +19,10 @@ assert {
 }
 ```
 
+## Documentation
+
+Documentation can be found [on GitHub Pages](https://miguelguthridge.github.io/Jestspectation/).
+
 ## Installation
 
 ```sh
