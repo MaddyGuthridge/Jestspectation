@@ -4,7 +4,7 @@ version = "1.2.0"
 description = "Pattern matching tools to test complex data structures"
 readme = "README.md"
 
-authors = ["Miguel Guthridge <hdsq@outlook.com.au>"]
+authors = ["Miguel Guthridge <hello@miguelguthridge.com>"]
 license = "MIT"
 
 repository = "https://github.com/MiguelGuthridge/Jestspectation"
