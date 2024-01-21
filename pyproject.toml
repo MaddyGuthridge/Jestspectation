@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "Jestspectation"
-version = "1.2.0"
+version = "1.3.0"
 description = "Pattern matching tools to test complex data structures"
 readme = "README.md"
 
@@ -44,19 +44,17 @@ jestspectation = "jestspectation.pytest"
 [tool.poetry.dependencies]
 python = "^3.9"
 typing-extensions = "^4.5.0"
-mkdocs = "^1.5.2"
-mkdocs-gen-files = "^0.5.0"
-mkdocs-autorefs = "^0.5.0"
-mkdocs-material = "^9.1.21"
-mkdocs-material-extensions = "^1.1.1"
-mkdocstrings-python = "^1.3.0"
 
 [tool.poetry.dev-dependencies]
-mypy = "^1.5.0"
-flake8 = "^6.1.0"
-pytest = "^7.4.0"
-autopep8 = "^2.0.2"
-coverage = "^7.3.0"
+mypy = "^1.8.0"
+flake8 = "^7.0.0"
+pytest = "^7.4.4"
+autopep8 = "^2.0.4"
+coverage = "^7.4.0"
+mkdocs = "^1.5.3"
+mkdocs-gen-files = "^0.5.0"
+mkdocs-material = "^9.5.3"
+mkdocstrings = {version = "^0.24.0", extras = ["python"]}
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

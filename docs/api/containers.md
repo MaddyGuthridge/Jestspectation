@@ -16,6 +16,10 @@
 
 ::: jestspectation.ListContaining.__init__
 
+## `ListContainingOnly`
+
+::: jestspectation.ListContainingOnly.__init__
+
 ## `ListOfLength`
 
 ::: jestspectation.ListOfLength.__init__
