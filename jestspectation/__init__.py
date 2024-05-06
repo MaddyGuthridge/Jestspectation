@@ -28,6 +28,7 @@ from .__strings import (
     TextLike,
     LinesLike,
 )
+from .__assert import assert_eq
 from .__config import configure
 
 
@@ -35,6 +36,7 @@ __all__ = [
     'And',
     'Any',
     'Anything',
+    'assert_eq',
     'JestspectationBase',
     'configure',
     'DictContainingKeys',
