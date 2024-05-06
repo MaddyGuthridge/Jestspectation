@@ -56,6 +56,13 @@ def test_not_equals():
     assert Equals({'a': 1, 'b': 2, 'c': 3}) != {'a': 1, 'b': 2, 'c': 2}
 
 
+def test_equals_nested():
+    """
+    Can we nest `Equals` objects and have the values still be matched?
+    """
+    assert Equals(Equals(1)) == 1
+
+
 def test_diff_equals():
     """
     Test diff for the Equals matcher
@@ -69,4 +76,20 @@ def test_diff_equals():
         "   Value mismatch",
         "   Expected 3",
         "   Received 2",
+    ]
+
+
+def test_type_match_equals_nested():
+    """
+    When we nest `Equals` objects, do we still get a sensible diff?
+
+    It should detect that we're expecting an `int`, and not an `Equals`.
+    """
+    eq = Equals(Equals(1))
+    diff = eq.get_diff("string", False)
+    assert diff == [
+        "1 == 'string'",
+        "Type mismatch",
+        "Expected 1 (int)",
+        "Received 'string' (str)",
     ]

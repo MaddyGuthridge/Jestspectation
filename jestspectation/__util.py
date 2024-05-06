@@ -97,9 +97,12 @@ def sub_diff_delegate(
         from .__jestspectation_base import JestspectationBase
         if matcher == other:
             return None
-        # Handle out types
+
+        # Handle our own types
         if isinstance(matcher, JestspectationBase):
             return matcher.get_diff(other, other_is_lhs)
+        if isinstance(other, JestspectationBase):
+            return other.get_diff(matcher, not other_is_lhs)
 
         elif isinstance(matcher, list):
             return py_diffs.diff_list(matcher, other, other_is_lhs)
@@ -118,11 +121,24 @@ def sub_diff_delegate(
                 eq_expr = f"{repr(other)} == {repr(matcher)}"
             else:
                 eq_expr = f"{repr(matcher)} == {repr(other)}"
+
+            if not (
+                isinstance(other, type(matcher))
+                or isinstance(matcher, type(other))
+            ):
+                mismatch = "Type mismatch"
+                matcher_repr = f"{repr(matcher)} ({type(matcher).__name__})"
+                other_repr = f"{repr(other)} ({type(other).__name__})"
+            else:
+                mismatch = "Value mismatch"
+                matcher_repr = repr(matcher)
+                other_repr = repr(other)
+
             return [
-                eq_expr,
-                "Value mismatch",
-                f"Expected {repr(matcher)}",
-                f"Received {repr(other)}",
+                eq_expr,  # x == y
+                mismatch,  # "Type/Value"
+                f"Expected {matcher_repr}",
+                f"Received {other_repr}",
             ]
 
     diff = do_sub_diff(matcher, other, other_is_lhs)
