@@ -4,11 +4,11 @@ version = "1.4.1"
 description = "Pattern matching tools to test complex data structures"
 readme = "README.md"
 
-authors = ["Miguel Guthridge <hello@miguelguthridge.com>"]
+authors = ["Maddy Guthridge <hello@maddyguthridge.com>"]
 license = "MIT"
 
-repository = "https://github.com/MiguelGuthridge/Jestspectation"
-documentation = "https://miguelguthridge.github.io/Jestspectation"
+repository = "https://github.com/MaddyGuthridge/Jestspectation"
+documentation = "https://maddyguthridge.github.io/Jestspectation"
 
 keywords = [
     "jest",
@@ -38,8 +38,8 @@ packages = [
 jestspectation = "jestspectation.pytest"
 
 [tool.poetry.urls]
-"Online Documentation" = "https://miguelguthridge.github.io/Jestspectation"
-"Bug Tracker" = "https://github.com/MiguelGuthridge/Jestspectation/issues"
+"Online Documentation" = "https://maddyguthridge.github.io/Jestspectation"
+"Bug Tracker" = "https://github.com/MaddyGuthridge/Jestspectation/issues"
 
 [tool.poetry.dependencies]
 python = "^3.9"

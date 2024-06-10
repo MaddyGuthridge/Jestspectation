@@ -21,7 +21,7 @@ assert {
 
 ## Documentation
 
-Documentation can be found [on GitHub Pages](https://miguelguthridge.github.io/Jestspectation/).
+Documentation can be found [on GitHub Pages](https://maddyguthridge.github.io/Jestspectation/).
 
 ## Installation
 

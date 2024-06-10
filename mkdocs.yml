@@ -1,8 +1,8 @@
 site_name: Jestspectation
 site_description: Pattern matching tools to test complex data structures
 repo_name: Jestspectation
-repo_url: https://github.com/MiguelGuthridge/Jestspectation
-copyright: &copy 2023 <a href="https://github.com/MiguelGuthridge">Miguel Guthridge</a>.
+repo_url: https://github.com/MaddyGuthridge/Jestspectation
+copyright: &copy 2023 <a href="https://github.com/MaddyGuthridge">Maddy Guthridge</a>.
 
 theme:
   name: material
