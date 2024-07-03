@@ -48,7 +48,7 @@ typing-extensions = "^4.5.0"
 [tool.poetry.dev-dependencies]
 mypy = "^1.10.0"
 flake8 = "^7.1.0"
-pytest = "^8.2.1"
+pytest = "^8.2.2"
 autopep8 = "^2.2.0"
 coverage = "^7.5.3"
 mkdocs = "^1.5.3"
