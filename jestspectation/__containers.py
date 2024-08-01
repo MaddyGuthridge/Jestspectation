@@ -155,16 +155,18 @@ class JestspectationContainer(JestspectationBase, Generic[T]):
 
 class ListContaining(JestspectationContainer):
     """
-    Matches any list containing all the given items.
+    Matches any list containing at least all the given items, in any order.
+    Additional items are ignored.
 
-    This differs from `ListContainingOnly`, which requires the list to only
-    contain the given items, and fails to match if there are duplicate or
-    unexpected items.
+    Compare with [`ListContainingOnly`][ListContainingOnly].
     """
 
     def __init__(self, items: list) -> None:
         """
-        Matches any list containing all the given items
+        Matches any list containing at least all the given items in any order.
+        Additional items are ignored.
+
+        Compare with [`ListContainingOnly`][ListContainingOnly].
 
         Args:
             items (list): items to check for
@@ -190,12 +192,14 @@ class ListContaining(JestspectationContainer):
 
 class SetContaining(JestspectationContainer):
     """
-    Matches any set containing all the given items
+    Matches any set containing at least all the given items.
+    Additional items are ignored.
     """
 
     def __init__(self, items: set) -> None:
         """
-        Matches any set containing all the given items
+        Matches any set containing at least all the given items.
+        Additional items are ignored.
 
         Args:
             items (set): items to check for
@@ -221,12 +225,14 @@ class SetContaining(JestspectationContainer):
 
 class DictContainingKeys(JestspectationContainer):
     """
-    Matches any dictionary containing all the given keys
+    Matches any dictionary containing at least all the given keys.
+    Additional items are ignored.
     """
 
     def __init__(self, keys: set) -> None:
         """
-        Matches any dictionary containing all the given keys
+        Matches any dictionary containing at least all the given keys.
+        Additional items are ignored.
 
         Args:
             keys (set): set of keys to match
@@ -498,14 +504,22 @@ class ListOfLength(JestspectationBase):
 
 class ListContainingOnly(JestspectationBase):
     """
-    Matches a list, if and only if it contains all of the given items, and no
-    additional items.
+    Matches a list, if and only if it contains all of the given items, in any
+    order, and no additional items.
 
-    This differs from `ListContaining` which only requires the list to contain
-    all the items, and ignores unknown values and
+    Compare with [`ListContaining`][ListContaining].
     """
 
     def __init__(self, items: list) -> None:
+        """
+        Matches a list, if and only if it contains all of the given items, in
+        any order, and no additional items.
+
+        Compare with [`ListContaining`][ListContaining].
+
+        Args:
+            items (list): the expected items.
+        """
         self.__items = items
         self.__expected_counts = self.__calc_expected_counts(items)
 
