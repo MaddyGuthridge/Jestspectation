@@ -53,7 +53,7 @@ autopep8 = "^2.3.1"
 coverage = "^7.6.10"
 mkdocs = "^1.5.3"
 mkdocs-gen-files = "^0.5.0"
-mkdocs-material = "^9.5.47"
+mkdocs-material = "^9.5.49"
 mkdocstrings = {version = "^0.27.0", extras = ["python"]}
 
 [build-system]
