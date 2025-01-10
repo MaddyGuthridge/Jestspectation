@@ -34,7 +34,7 @@ jestspectation = "jestspectation.pytest"
 "Bug Tracker" = "https://github.com/MaddyGuthridge/Jestspectation/issues"
 
 [tool.pytest.ini_options]
-addopts = '--doctest-glob="README.md"'
+addopts = '--doctest-glob="README.md" --doctest-glob="docs/**.md"'
 
 [tool.mypy]
 check_untyped_defs = true
