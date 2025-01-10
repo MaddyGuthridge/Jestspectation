@@ -45,7 +45,7 @@ jestspectation = "jestspectation.pytest"
 python = "^3.9"
 typing-extensions = "^4.5.0"
 
-[tool.poetry.dev-dependencies]
+[tool.poetry.group.dev.dependencies]
 mypy = "^1.14.1"
 flake8 = "^7.1.1"
 pytest = "^8.3.4"
