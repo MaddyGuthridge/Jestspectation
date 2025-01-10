@@ -6,17 +6,17 @@ The design is inspired by the `expect` system from JavaScript's Jest testing
 framework.
 
 ```py
-import jestspectation as expect
+>>> import jestspectation as expect
+>>> assert {
+...     "a": 1,
+...     "b": 2,
+...     "c": 3.0,
+... } == {
+...     "a": 1,
+...     "b": expect.Any(int),
+...     "c": expect.FloatApprox(2.5, magnitude=0.5)
+... }
 
-assert {
-    "a": 1,
-    "b": 2,
-    "c": 3.0,
-} == {
-    "a": 1,
-    "b": expect.Any(int),
-    "c": expect.FloatApprox(2.5, magnitude=0.5)
-}
 ```
 
 ## Installation
@@ -58,7 +58,7 @@ To automatically use Jestspectation's diff parsing, you can configure
 Jestspectation.
 
 ```py
-import jestspectation
+>>> import jestspectation
+>>> jestspectation.configure().pytest_all_diffs = True
 
-jestspectation.configure().pytest_all_diffs = True
 ```

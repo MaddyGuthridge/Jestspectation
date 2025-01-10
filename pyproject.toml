@@ -10,13 +10,7 @@ license = "MIT"
 repository = "https://github.com/MaddyGuthridge/Jestspectation"
 documentation = "https://maddyguthridge.github.io/Jestspectation"
 
-keywords = [
-    "jest",
-    "pattern",
-    "matching",
-    "pytest",
-    "equality",
-]
+keywords = ["jest", "pattern", "matching", "pytest", "equality"]
 classifiers = [
     "Programming Language :: Python :: 3",
     "Intended Audience :: Developers",
@@ -30,9 +24,7 @@ classifiers = [
 ]
 include = ["py.typed"]
 
-packages = [
-    { include = "jestspectation" }
-]
+packages = [{ include = "jestspectation" }]
 
 [tool.poetry.plugins.pytest11]
 jestspectation = "jestspectation.pytest"
@@ -41,11 +33,34 @@ jestspectation = "jestspectation.pytest"
 "Online Documentation" = "https://maddyguthridge.github.io/Jestspectation"
 "Bug Tracker" = "https://github.com/MaddyGuthridge/Jestspectation/issues"
 
+[tool.pytest.ini_options]
+addopts = '--doctest-glob="README.md" --doctest-glob="docs/**.md"'
+
+[tool.mypy]
+check_untyped_defs = true
+files = ["jestspectation", "tests"]
+
+[tool.flake8]
+exclude = ['.git', '__pycache__', 'dist', 'site']
+
+[tool.coverage.run]
+branch = true
+
+[tool.coverage.report]
+exclude_also = [
+    'if TYPE_CHECKING:',
+    'return NotImplemented',
+    '@overload',
+    'raise AssertionError',
+    'raise NotImplementedError',
+]
+
 [tool.poetry.dependencies]
 python = "^3.9"
 typing-extensions = "^4.5.0"
+flake8-pyproject = "^1.2.3"
 
-[tool.poetry.dev-dependencies]
+[tool.poetry.group.dev.dependencies]
 mypy = "^1.14.1"
 flake8 = "^7.1.1"
 pytest = "^8.3.4"
@@ -54,7 +69,7 @@ coverage = "^7.6.10"
 mkdocs = "^1.5.3"
 mkdocs-gen-files = "^0.5.0"
 mkdocs-material = "^9.5.49"
-mkdocstrings = {version = "^0.27.0", extras = ["python"]}
+mkdocstrings = { version = "^0.27.0", extras = ["python"] }
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
