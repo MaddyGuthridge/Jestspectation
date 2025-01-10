@@ -158,7 +158,7 @@ class ListContaining(JestspectationContainer):
     Matches any list containing at least all the given items, in any order.
     Additional items are ignored.
 
-    Compare with [`ListContainingOnly`][ListContainingOnly].
+    Compare with [`ListContainingOnly`][listcontainingonly].
     """
 
     def __init__(self, items: list) -> None:
@@ -166,7 +166,7 @@ class ListContaining(JestspectationContainer):
         Matches any list containing at least all the given items in any order.
         Additional items are ignored.
 
-        Compare with [`ListContainingOnly`][ListContainingOnly].
+        Compare with [`ListContainingOnly`][listcontainingonly].
 
         Args:
             items (list): items to check for
@@ -507,7 +507,7 @@ class ListContainingOnly(JestspectationBase):
     Matches a list, if and only if it contains all of the given items, in any
     order, and no additional items.
 
-    Compare with [`ListContaining`][ListContaining].
+    Compare with [`ListContaining`][listcontaining].
     """
 
     def __init__(self, items: list) -> None:
@@ -515,7 +515,7 @@ class ListContainingOnly(JestspectationBase):
         Matches a list, if and only if it contains all of the given items, in
         any order, and no additional items.
 
-        Compare with [`ListContaining`][ListContaining].
+        Compare with [`ListContaining`][listcontaining].
 
         Args:
             items (list): the expected items.
