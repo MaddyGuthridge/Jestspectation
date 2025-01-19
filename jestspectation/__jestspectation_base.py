@@ -3,6 +3,7 @@ Jestspectation base
 
 Base type used in Jestspectation
 """
+
 from abc import abstractmethod
 
 from .__util import get_object_type_name
@@ -14,6 +15,7 @@ class JestspectationBase:
     """
     Base class of types used in Jestspectation.
     """
+
     @abstractmethod
     def get_diff(self, other: object, other_is_lhs: bool) -> list[str]:
         """
@@ -71,24 +73,24 @@ class JestspectationBase:
         # Or until we take up all the available chars
         for i, curr in enumerate(contents):
             # If we're about to exceed the max length
-            if len(str_contents + curr + ', ...' + close) > REPR_LEN:
+            if len(str_contents + curr + ", ..." + close) > REPR_LEN:
                 # If this is the last one and it'll still fit
                 if (
                     i == len(contents) - 1
-                    and len(str_contents + ', ' + curr + close) <= REPR_LEN
+                    and len(str_contents + ", " + curr + close) <= REPR_LEN
                 ):
-                    str_contents += ', ' + curr
+                    str_contents += ", " + curr
                 # Or if it's the first one
                 elif i == 0:
-                    str_contents += '...'
+                    str_contents += "..."
                 # Otherwise, just use the ellipsis
                 else:
-                    str_contents += ', ...'
+                    str_contents += ", ..."
                 break
             elif str_contents == open:
                 str_contents += curr
             else:
-                str_contents += ', ' + curr
+                str_contents += ", " + curr
 
         str_contents += close
 

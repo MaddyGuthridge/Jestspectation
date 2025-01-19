@@ -11,7 +11,7 @@ from typing_extensions import TypeGuard
 from .__jestspectation_base import JestspectationBase
 from .__util import get_object_type_name, safe_diff_wrapper, sub_diff_delegate
 
-T = TypeVar('T', bound=Iterable)
+T = TypeVar("T", bound=Iterable)
 
 
 class JestspectationContainer(JestspectationBase, Generic[T]):
@@ -82,36 +82,40 @@ class JestspectationContainer(JestspectationBase, Generic[T]):
 
     def __get_misses(self, other: T) -> list:
         """Filter the list of items to only include the missing ones"""
-        return list(map(
-            lambda i: i[1],
-            filter(
-                lambda i: i[0] is False,
-                (
-                    (self._is_present(i, other), i)
-                    for i in self._get_items()
-                )
+        return list(
+            map(
+                lambda i: i[1],
+                filter(
+                    lambda i: i[0] is False,
+                    (
+                        (self._is_present(i, other), i)
+                        for i in self._get_items()
+                    ),
+                ),
             )
-        ))
+        )
 
     def __get_incorrect(self, other: T) -> list:
         """
         Filter the list of items to only include the present but incorrect ones
         """
-        return list(map(
-            lambda i: i[1],
-            filter(
-                lambda i: i[0] is True,
-                (
+        return list(
+            map(
+                lambda i: i[1],
+                filter(
+                    lambda i: i[0] is True,
                     (
-                        # Item is present, but not correct
-                        self._is_present(i, other)
-                        and not self._is_correct(i, other),
-                        i
-                    )
-                    for i in self._get_items()
-                )
+                        (
+                            # Item is present, but not correct
+                            self._is_present(i, other)
+                            and not self._is_correct(i, other),
+                            i,
+                        )
+                        for i in self._get_items()
+                    ),
+                ),
             )
-        ))
+        )
 
     @safe_diff_wrapper
     def get_diff(self, other: object, other_is_lhs: bool) -> list[str]:
@@ -119,7 +123,7 @@ class JestspectationContainer(JestspectationBase, Generic[T]):
             return [
                 "Type mismatch",
                 f"Expected {self}",
-                f"Received object of type {get_object_type_name(other)}"
+                f"Received object of type {get_object_type_name(other)}",
             ]
         misses = self.__get_misses(other)
         incorrect = self.__get_incorrect(other)
@@ -140,7 +144,7 @@ class JestspectationContainer(JestspectationBase, Generic[T]):
                 sub_diff = self._format_sub_diff(i, other, other_is_lhs)
                 assert sub_diff is not None
                 # Add a dot point to the first one to make it pretty
-                sub_diff[0] = '!! ' + sub_diff[0][3:]
+                sub_diff[0] = "!! " + sub_diff[0][3:]
                 ret += sub_diff
 
         return ret
@@ -178,7 +182,7 @@ class ListContaining(JestspectationContainer):
         return [repr(v) for v in self.__items]
 
     def get_contents_repr_edges(self) -> tuple[str, str]:
-        return '[', ']'
+        return "[", "]"
 
     @staticmethod
     def _get_allowed_types() -> tuple[type, ...]:
@@ -211,7 +215,7 @@ class SetContaining(JestspectationContainer):
         return [repr(v) for v in self.__items]
 
     def get_contents_repr_edges(self) -> tuple[str, str]:
-        return '{', '}'
+        return "{", "}"
 
     @staticmethod
     def _get_allowed_types() -> tuple[type, ...]:
@@ -244,7 +248,7 @@ class DictContainingKeys(JestspectationContainer):
         return [repr(v) for v in self.__keys]
 
     def get_contents_repr_edges(self) -> tuple[str, str]:
-        return '{', '}'
+        return "{", "}"
 
     @staticmethod
     def _get_allowed_types() -> tuple[type, ...]:
@@ -277,7 +281,7 @@ class ObjectContainingProperties(JestspectationContainer):
         return sorted(self.__properties)
 
     def get_contents_repr_edges(self) -> tuple[str, str]:
-        return '', ''
+        return "", ""
 
     @staticmethod
     def _get_allowed_types() -> tuple[type, ...]:
@@ -311,7 +315,7 @@ class DictContainingValues(JestspectationContainer):
         return [repr(v) for v in self.__values]
 
     def get_contents_repr_edges(self) -> tuple[str, str]:
-        return '[', ']'
+        return "[", "]"
 
     @staticmethod
     def _get_allowed_types() -> tuple[type, ...]:
@@ -345,7 +349,7 @@ class DictContainingItems(JestspectationContainer):
         return [f"{repr(i[0])}: {repr(i[1])}" for i in self.__items.items()]
 
     def get_contents_repr_edges(self) -> tuple[str, str]:
-        return '{', '}'
+        return "{", "}"
 
     @staticmethod
     def _get_allowed_types() -> tuple[type, ...]:
@@ -416,7 +420,7 @@ class ObjectContainingItems(JestspectationContainer):
         return [f"{repr(i[0])} == {repr(i[1])}" for i in self.__items.items()]
 
     def get_contents_repr_edges(self) -> tuple[str, str]:
-        return '', ''
+        return "", ""
 
     @staticmethod
     def _get_allowed_types() -> tuple[type, ...]:
@@ -575,21 +579,25 @@ class ListContainingOnly(JestspectationBase):
 
         counts, unexpected_items = self.__actual_counts(other)
 
-        missing_items = list(map(
-            lambda i: (i[1] - i[0], i[2]),
-            filter(
-                lambda n: n[0] < n[1],
-                zip(counts, expected, self.__items),
+        missing_items = list(
+            map(
+                lambda i: (i[1] - i[0], i[2]),
+                filter(
+                    lambda n: n[0] < n[1],
+                    zip(counts, expected, self.__items),
+                ),
             )
-        ))
+        )
 
-        duplicate_items = list(map(
-            lambda i: (i[0] - i[1], i[2]),
-            filter(
-                lambda n: n[0] > n[1],
-                zip(counts, expected, self.__items),
+        duplicate_items = list(
+            map(
+                lambda i: (i[0] - i[1], i[2]),
+                filter(
+                    lambda n: n[0] > n[1],
+                    zip(counts, expected, self.__items),
+                ),
             )
-        ))
+        )
 
         info = []
         if len(missing_items):
@@ -605,39 +613,37 @@ class ListContainingOnly(JestspectationBase):
 
         info_str = ", ".join(info)
 
-        ret = [
-            info_str,
-            f"Expected a {repr(self)}"
-        ]
+        ret = [info_str, f"Expected a {repr(self)}"]
 
         if len(missing_items):
             ret.append("Missing items:")
-            ret.extend([
-                # Only one missing
-                f"-- {repr(n[1])}"
-                if n[0] == 1
-                # Multiple missing, give count
-                else f"-- {n[0]} * {repr(n[1])}"
-                for n in missing_items
-            ])
+            ret.extend(
+                [
+                    # Only one missing
+                    f"-- {repr(n[1])}"
+                    if n[0] == 1
+                    # Multiple missing, give count
+                    else f"-- {n[0]} * {repr(n[1])}"
+                    for n in missing_items
+                ]
+            )
 
         if len(duplicate_items):
             ret.append("Duplicate items:")
-            ret.extend([
-                # Only one duplicate
-                f"++ {repr(n[1])}"
-                if n[0] == 1
-                # Multiple duplicate, give count
-                else f"++ {n[0]} * {repr(n[1])}"
-                for n in duplicate_items
-            ])
+            ret.extend(
+                [
+                    # Only one duplicate
+                    f"++ {repr(n[1])}"
+                    if n[0] == 1
+                    # Multiple duplicate, give count
+                    else f"++ {n[0]} * {repr(n[1])}"
+                    for n in duplicate_items
+                ]
+            )
 
         if len(unexpected_items):
             ret.append("Unexpected items:")
-            ret.extend([
-                f"!! {repr(item)}"
-                for item in unexpected_items
-            ])
+            ret.extend([f"!! {repr(item)}" for item in unexpected_items])
 
         return ret
 

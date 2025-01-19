@@ -1,6 +1,7 @@
 """
 Tests for logical combinators
 """
+
 from jestspectation import Any, Not
 
 

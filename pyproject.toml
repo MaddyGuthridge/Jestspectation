@@ -42,6 +42,9 @@ addopts = '--doctest-glob="README.md" --doctest-glob="docs/**.md"'
 check_untyped_defs = true
 files = ["jestspectation", "tests"]
 
+[tool.ruff]
+line-length = 79
+
 [tool.ruff.lint]
 select = [
     # pycodestyle

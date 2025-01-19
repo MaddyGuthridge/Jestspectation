@@ -2,6 +2,7 @@
 Matches text similar to the given text, but with better diffs for
 multi-line text
 """
+
 from collections.abc import Iterable
 from itertools import zip_longest
 from typing import Optional, Union, overload
@@ -28,11 +29,13 @@ class LinesLike(JestspectationBase):
                 line = line.strip()
             if line == "":
                 continue
-            new_lines.append(TextLike(
-                line,
-                ignore_case=self.__ignore_case,
-                ignored_sequences=self.__ignored_sequences
-            ))
+            new_lines.append(
+                TextLike(
+                    line,
+                    ignore_case=self.__ignore_case,
+                    ignored_sequences=self.__ignored_sequences,
+                )
+            )
         return new_lines
 
     def __filter_lines(self, lines: list[str]) -> list[str]:
@@ -53,8 +56,7 @@ class LinesLike(JestspectationBase):
         ignore_case: bool = True,
         ignored_sequences: Optional[Iterable[str]] = None,
         strip_lines: bool = False,
-    ) -> None:
-        ...
+    ) -> None: ...
 
     @overload
     def __init__(
@@ -64,8 +66,7 @@ class LinesLike(JestspectationBase):
         ignore_case: bool = True,
         ignored_sequences: Optional[Iterable[str]] = None,
         strip_lines: bool = False,
-    ) -> None:
-        ...
+    ) -> None: ...
 
     def __init__(
         self,
@@ -112,10 +113,12 @@ class LinesLike(JestspectationBase):
         if len(lines) != len(self.__lines):
             return False
 
-        return all([
-            actual == expected
-            for actual, expected in zip(lines, self.__lines)
-        ])
+        return all(
+            [
+                actual == expected
+                for actual, expected in zip(lines, self.__lines)
+            ]
+        )
 
     @safe_diff_wrapper
     def get_diff(self, other: object, other_is_lhs: bool) -> list[str]:
@@ -127,7 +130,7 @@ class LinesLike(JestspectationBase):
             return [
                 "Type mismatch",
                 f"Expected object of type str ({repr(self)})",
-                f"Received object of type {type(other).__name__} ({other})"
+                f"Received object of type {type(other).__name__} ({other})",
             ]
 
         # Generate the diffs for each line

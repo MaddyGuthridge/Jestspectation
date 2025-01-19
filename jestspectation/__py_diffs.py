@@ -1,6 +1,7 @@
 """
 Diff generators for Python objects
 """
+
 from itertools import zip_longest
 
 from .__util import (
@@ -21,7 +22,7 @@ def diff_list(
         return [
             "Type mismatch",
             "Expected list",
-            f"Received {get_object_type_name(other)}"
+            f"Received {get_object_type_name(other)}",
         ]
     ret = []
     # Empty object to check for missing elements
@@ -31,15 +32,15 @@ def diff_list(
     for i, (m, o) in enumerate(zip_longest(matcher, other, fillvalue=missing)):
         if m is missing:
             # this element is missing from the matcher
-            ret += [f'++ [{i}] {repr(o)}']
+            ret += [f"++ [{i}] {repr(o)}"]
         elif o is missing:
             # this element is missing from the other
-            ret += [f'-- [{i}] {repr(m)}']
+            ret += [f"-- [{i}] {repr(m)}"]
         else:
             sub_diff = sub_diff_delegate(m, o, other_is_lhs)
             if sub_diff is not None:
                 # Add a dot point to the first one to make it pretty
-                sub_diff[0] = f'!! [{i}] ' + sub_diff[0][3:]
+                sub_diff[0] = f"!! [{i}] " + sub_diff[0][3:]
                 ret += sub_diff
 
     return ret
@@ -56,7 +57,7 @@ def diff_set(
         return [
             "Type mismatch",
             "Expected set",
-            f"Received {get_object_type_name(other)}"
+            f"Received {get_object_type_name(other)}",
         ]
     ret = []
     # Missing
@@ -83,7 +84,7 @@ def diff_dict(
         return [
             "Type mismatch",
             "Expected dict",
-            f"Received {get_object_type_name(other)}"
+            f"Received {get_object_type_name(other)}",
         ]
 
     def diff_str(key, d: dict) -> str:

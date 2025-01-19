@@ -3,6 +3,7 @@ Logicals / Not
 
 Matchers that can be used to perform logical operations on other matchers
 """
+
 from ..__jestspectation_base import JestspectationBase
 
 
@@ -44,5 +45,5 @@ class Not(JestspectationBase):
             eq_expr,
             "Unwanted match",
             f"Expected object that doesn't match with {repr(self.__matcher)}",
-            f"Received {repr(other)}"
+            f"Received {repr(other)}",
         ]

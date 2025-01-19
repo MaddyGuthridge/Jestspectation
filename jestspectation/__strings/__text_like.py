@@ -1,6 +1,7 @@
 """
 Matches text similar to the given text
 """
+
 from collections.abc import Iterable
 from typing import Optional
 
@@ -14,6 +15,7 @@ class TextLike(JestspectationBase):
 
     Can ignore case, and sequences of characters.
     """
+
     def __simplify_text(self, text: str) -> str:
         if self.__strip:
             text = text.strip()
@@ -72,7 +74,7 @@ class TextLike(JestspectationBase):
             return [
                 "Type mismatch",
                 f"Expected object of type str ({repr(self)})",
-                f"Received object of type {type(other).__name__} ({other})"
+                f"Received object of type {type(other).__name__} ({other})",
             ]
         else:
             return [

@@ -1,6 +1,7 @@
 """
 Tests for logical combinators
 """
+
 from jestspectation import Any, Not, StringMatchingRegex, Xor
 
 
@@ -13,7 +14,7 @@ def test_xor_none_match():
 
 
 def test_xor_all_match():
-    assert Xor(Any(str), Not(StringMatchingRegex('hello*'))) != "Goodbye world"
+    assert Xor(Any(str), Not(StringMatchingRegex("hello*"))) != "Goodbye world"
 
 
 def test_diff_none():
@@ -34,8 +35,9 @@ def test_diff_none():
 
 
 def test_diff_all():
-    diff = Xor(Any(str), Not(StringMatchingRegex('hello*')))\
-        .get_diff("Goodbye world", False)
+    diff = Xor(Any(str), Not(StringMatchingRegex("hello*"))).get_diff(
+        "Goodbye world", False
+    )
     assert diff == [
         "Xor(Any(str), Not(StringMatchingRegex('hello*'))) == 'Goodbye world'",
         "Too many matches fulfilled",

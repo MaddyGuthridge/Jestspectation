@@ -1,6 +1,7 @@
 """
 Matches strings containing a substring
 """
+
 from ..__jestspectation_base import JestspectationBase
 from ..__util import safe_diff_wrapper
 
@@ -9,6 +10,7 @@ class StringContaining(JestspectationBase):
     """
     Matches any string that contains the given substring
     """
+
     def __init__(self, substring: str) -> None:
         """
         Matches any string that contains the given substring
@@ -33,7 +35,7 @@ class StringContaining(JestspectationBase):
             return [
                 "Type mismatch",
                 f"Expected object of type str ({repr(self)})",
-                f"Received object of type {type(other).__name__} ({other})"
+                f"Received object of type {type(other).__name__} ({other})",
             ]
         else:
             return [

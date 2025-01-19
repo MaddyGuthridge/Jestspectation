@@ -1,6 +1,7 @@
 """
 Tests for logical combinators
 """
+
 from jestspectation import Any, Not, Or, StringMatchingRegex
 
 
@@ -13,7 +14,7 @@ def test_or_none_match():
 
 
 def test_or_all_match():
-    assert Or(Any(str), Not(StringMatchingRegex('hello*'))) == "Goodbye world"
+    assert Or(Any(str), Not(StringMatchingRegex("hello*"))) == "Goodbye world"
 
 
 def test_diff():

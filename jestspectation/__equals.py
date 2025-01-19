@@ -3,6 +3,7 @@ Equals
 
 Matches for types of equality
 """
+
 from .__jestspectation_base import JestspectationBase
 from .__util import sub_diff_delegate
 
@@ -14,6 +15,7 @@ class Is(JestspectationBase):
     While this isn't as useful for top-level comparisons, it can be used
     effectively for checking nested data structures.
     """
+
     def __init__(self, value: object) -> None:
         """
         Matches values that have the same identity as the given value.
@@ -58,6 +60,7 @@ class Equals(JestspectationBase):
     This is equivalent to the `==` operator, but with additional information
     on the difference, which can help with debugging.
     """
+
     def __init__(self, value: object) -> None:
         """
         Matches objects that have the same value.

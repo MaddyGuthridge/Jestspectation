@@ -3,6 +3,7 @@ Tests / List containing test
 
 Tests for whether the ListContaining type
 """
+
 import pytest
 
 from jestspectation import (
@@ -16,49 +17,43 @@ from jestspectation import (
 
 
 @pytest.mark.parametrize(
-    ('item', 'matcher'),
+    ("item", "matcher"),
     [
-        ({1: 'a', 2: 'b', 3: 'c'}, DictContainingKeys({1, 2})),
-        ({1: 'a', 2: 'b', 3: 'c'}, DictContainingValues(['a', 'b'])),
-        ({1: 'a', 2: 'b', 3: 'c'}, DictContainingItems({1: 'a', 2: 'b'})),
+        ({1: "a", 2: "b", 3: "c"}, DictContainingKeys({1, 2})),
+        ({1: "a", 2: "b", 3: "c"}, DictContainingValues(["a", "b"])),
+        ({1: "a", 2: "b", 3: "c"}, DictContainingItems({1: "a", 2: "b"})),
         ([1, 2, 3], ListContaining([1, 2])),
         ([1, 2, 3], ListContainingOnly([3, 2, 1])),
         ([3, 3], ListContainingOnly([3, 3])),
         ({1, 2, 3}, SetContaining({1, 2})),
-    ]
+    ],
 )
 def test_matches(item, matcher):
     assert item == matcher
 
 
 @pytest.mark.parametrize(
-    ('item', 'matcher'),
+    ("item", "matcher"),
     [
         #                 V                                  V
-        ({1: 'a', 2: 'b', 3: 'c'}, DictContainingKeys({1, 2, 4})),
-
+        ({1: "a", 2: "b", 3: "c"}, DictContainingKeys({1, 2, 4})),
         #                     V                                     V
-        ({1: 'a', 2: 'b', 3: 'c'}, DictContainingValues(['a', 'b', 'd'])),
-
+        ({1: "a", 2: "b", 3: "c"}, DictContainingValues(["a", "b", "d"])),
         (
             #                    V
-            {1: 'a', 2: 'b', 3: 'c'},
+            {1: "a", 2: "b", 3: "c"},
             #                                        V
-            DictContainingItems({1: 'a', 2: 'b', 3: 'd'}),
+            DictContainingItems({1: "a", 2: "b", 3: "d"}),
         ),
-
         #       V                         V
         ([1, 2, 3], ListContaining([1, 2, 4])),
-
         #                                       V
         ([1, 2, 3], ListContainingOnly([1, 2, 3, 4])),
-
         #       V
         ([1, 2, 3], ListContainingOnly([1, 2])),
-
         #       V                        V
         ({1, 2, 3}, SetContaining({1, 2, 4})),
-    ]
+    ],
 )
 def test_no_match(item, matcher):
     assert item != matcher
@@ -154,7 +149,7 @@ def test_diff_match_set_containing():
 
 def test_diff_match_dict_containing_keys():
     dict = DictContainingKeys({1, 2, 3, 4, 5})
-    assert dict.get_diff({1: '1', 2: '2', 3: '3'}, False) == [
+    assert dict.get_diff({1: "1", 2: "2", 3: "3"}, False) == [
         "DictContainingKeys({1, 2, 3, 4, 5}) == {1: '1', 2: '2', 3: '3'}",
         "Missing properties",
         f"Expected a {dict}",
@@ -164,10 +159,9 @@ def test_diff_match_dict_containing_keys():
 
 
 def test_diff_match_dict_containing_values():
-    dict = DictContainingValues(['1', '2', '3', '4', '5'])
-    assert dict.get_diff({1: '1', 2: '2', 3: '3'}, False) == [
-        "DictContainingValues(['1', '2', '3', '4', '5'])"
-        " == {1: '1', 2: '2', 3: '3'}",
+    dict = DictContainingValues(["1", "2", "3", "4", "5"])
+    assert dict.get_diff({1: "1", 2: "2", 3: "3"}, False) == [
+        "DictContainingValues(['1', '2', '3', '4', '5']) == {1: '1', 2: '2', 3: '3'}",
         "Missing properties",
         f"Expected a {dict}",
         f"-- '{4}'",
@@ -176,10 +170,9 @@ def test_diff_match_dict_containing_values():
 
 
 def test_diff_match_dict_containing_items():
-    dict = DictContainingItems({1: '1', 2: '2', 3: '3'})
-    assert dict.get_diff({1: '1'}, False) == [
-        "DictContainingItems({1: '1', 2: '2', 3: '3'})"
-        " == {1: '1'}",
+    dict = DictContainingItems({1: "1", 2: "2", 3: "3"})
+    assert dict.get_diff({1: "1"}, False) == [
+        "DictContainingItems({1: '1', 2: '2', 3: '3'}) == {1: '1'}",
         "Missing properties",
         f"Expected a {dict}",
         "-- 2: '2'",
@@ -188,8 +181,8 @@ def test_diff_match_dict_containing_items():
 
 
 def test_diff_match_dict_containing_items_incorrect():
-    dict = DictContainingItems({1: '1'})
-    diff = dict.get_diff({1: '2'}, False)
+    dict = DictContainingItems({1: "1"})
+    diff = dict.get_diff({1: "2"}, False)
     assert diff == [
         "DictContainingItems({1: '1'}) == {1: '2'}",
         "Incorrect properties",
@@ -203,8 +196,8 @@ def test_diff_match_dict_containing_items_incorrect():
 
 
 def test_diff_match_dict_containing_items_incorrect_and_missing():
-    dict = DictContainingItems({1: '1', 2: '2'})
-    diff = dict.get_diff({1: '2'}, False)
+    dict = DictContainingItems({1: "1", 2: "2"})
+    diff = dict.get_diff({1: "2"}, False)
     assert diff == [
         "DictContainingItems({1: '1', 2: '2'}) == {1: '2'}",
         "Missing and incorrect properties",

@@ -1,6 +1,7 @@
 """
 Matchers that match close to anything
 """
+
 from .__jestspectation_base import JestspectationBase
 from .__util import get_object_type_name, get_type_name, safe_diff_wrapper
 
@@ -28,9 +29,9 @@ class Any(JestspectationBase):
     @safe_diff_wrapper
     def get_diff(self, other: object, other_is_lhs: bool) -> list[str]:
         return [
-            'Type mismatch',
-            f'Expected any object of type {get_type_name(self.__match_type)}',
-            f'Received {repr(other)} ({get_object_type_name(other)})',
+            "Type mismatch",
+            f"Expected any object of type {get_type_name(self.__match_type)}",
+            f"Received {repr(other)} ({get_object_type_name(other)})",
         ]
 
 

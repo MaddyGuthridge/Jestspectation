@@ -10,8 +10,8 @@ from .__or import Or
 from .__xor import Xor
 
 __all__ = [
-    'And',
-    'Not',
-    'Or',
-    'Xor',
+    "And",
+    "Not",
+    "Or",
+    "Xor",
 ]

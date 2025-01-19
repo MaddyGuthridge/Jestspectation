@@ -1,6 +1,7 @@
 """
 Configuration for Jestspectation
 """
+
 from dataclasses import dataclass
 
 

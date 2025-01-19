@@ -1,6 +1,7 @@
 """
 Equals test
 """
+
 from jestspectation import Equals, Is
 
 
@@ -46,14 +47,14 @@ def test_equals():
     """
     Test that equal values are equal
     """
-    assert Equals({'a': 1, 'b': 2, 'c': 3}) == {'a': 1, 'b': 2, 'c': 3}
+    assert Equals({"a": 1, "b": 2, "c": 3}) == {"a": 1, "b": 2, "c": 3}
 
 
 def test_not_equals():
     """
     Test that non-equal values are not equal
     """
-    assert Equals({'a': 1, 'b': 2, 'c': 3}) != {'a': 1, 'b': 2, 'c': 2}
+    assert Equals({"a": 1, "b": 2, "c": 3}) != {"a": 1, "b": 2, "c": 2}
 
 
 def test_equals_nested():
@@ -67,8 +68,8 @@ def test_diff_equals():
     """
     Test diff for the Equals matcher
     """
-    eq = Equals({'a': 1, 'b': 2, 'c': 3})
-    diff = eq.get_diff({'a': 1, 'b': 2, 'c': 2}, False)
+    eq = Equals({"a": 1, "b": 2, "c": 3})
+    diff = eq.get_diff({"a": 1, "b": 2, "c": 2}, False)
     assert diff == [
         "{'a': 1, 'b': 2, 'c': 3} == {'a': 1, 'b': 2, 'c': 2}",
         "!! 'c': 3 == 'c': 2",

@@ -1,6 +1,7 @@
 """
 Matcher for floats of approximate value
 """
+
 from typing import Optional
 
 from .__jestspectation_base import JestspectationBase
@@ -10,6 +11,7 @@ class FloatApprox(JestspectationBase):
     """
     Float approximately equal
     """
+
     def __init__(
         self,
         value: float,
@@ -34,11 +36,11 @@ class FloatApprox(JestspectationBase):
             ValueError: Cannot calculate a percentage difference from 0
         """
         if magnitude is None and percent is None:
-            raise ValueError(
-                "One of magnitude or percent must be specified")
+            raise ValueError("One of magnitude or percent must be specified")
         if magnitude is not None and percent is not None:
             raise ValueError(
-                "Only one of magnitude or percent can be specified")
+                "Only one of magnitude or percent can be specified"
+            )
         if percent is not None and value == 0:
             raise ValueError("Cannot calculate a percentage difference from 0")
         self.__value = value

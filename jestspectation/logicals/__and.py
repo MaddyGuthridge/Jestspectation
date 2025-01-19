@@ -3,6 +3,7 @@ Logicals / And
 
 Matchers that can be used to perform logical operations on other matchers
 """
+
 from ..__jestspectation_base import JestspectationBase
 from ..__util import safe_diff_wrapper, sub_diff_delegate
 
@@ -29,7 +30,8 @@ class And(JestspectationBase):
         """
         if len(matchers) < 2:
             raise TypeError(
-                "At least two matchers are required for an And matcher")
+                "At least two matchers are required for an And matcher"
+            )
         self.__matchers = matchers
 
     def __repr__(self) -> str:
@@ -42,10 +44,7 @@ class And(JestspectationBase):
         """
         Return matchers that didn't match
         """
-        return list(filter(
-            lambda m: m != other,
-            self.__matchers
-        ))
+        return list(filter(lambda m: m != other, self.__matchers))
 
     @safe_diff_wrapper
     def get_diff(self, other: object, other_is_lhs: bool) -> list[str]:
@@ -56,7 +55,7 @@ class And(JestspectationBase):
         for m in self.__get_misses(other):
             diff = sub_diff_delegate(m, other, other_is_lhs)
             assert diff is not None
-            diff[0] = '-- ' + diff[0][3:]
+            diff[0] = "-- " + diff[0][3:]
             ret += diff
 
         return ret

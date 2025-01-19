@@ -1,6 +1,7 @@
 """
 Tests for logical combinators
 """
+
 from jestspectation import And, Any, Not, StringMatchingRegex
 
 
@@ -9,7 +10,7 @@ def test_and_not_all_match():
 
 
 def test_and_all_match():
-    assert And(Any(str), Not(StringMatchingRegex('hello*'))) == "Goodbye world"
+    assert And(Any(str), Not(StringMatchingRegex("hello*"))) == "Goodbye world"
 
 
 def test_diff():

@@ -1,6 +1,7 @@
 """
 Tests for LinesLike matcher
 """
+
 from jestspectation import LinesLike
 
 
@@ -77,16 +78,15 @@ def test_diff_unequal_line():
 
 
 def test_diff_with_list():
-    assert (
-        LinesLike("Hello\nworld").get_diff(["Hello", "world", "test"], False)
-        == [
-            "LinesLike(['Hello', 'world']) == ['Hello', 'world', 'test']",
-            "Lines failed to match",
-            "== [0] Hello",
-            "== [1] world",
-            "++ [2] test",
-        ]
-    )
+    assert LinesLike("Hello\nworld").get_diff(
+        ["Hello", "world", "test"], False
+    ) == [
+        "LinesLike(['Hello', 'world']) == ['Hello', 'world', 'test']",
+        "Lines failed to match",
+        "== [0] Hello",
+        "== [1] world",
+        "++ [2] test",
+    ]
 
 
 def test_diff_type_mismatch():

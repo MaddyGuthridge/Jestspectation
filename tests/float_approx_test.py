@@ -1,6 +1,7 @@
 """
 Tests / Float Approx Test
 """
+
 import pytest
 
 from jestspectation import FloatApprox

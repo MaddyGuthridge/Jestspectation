@@ -3,6 +3,7 @@ Tests / Pytest test
 
 Wow this is so meta
 """
+
 from jestspectation import Equals
 from jestspectation.pytest import pytest_assertrepr_compare
 
@@ -39,9 +40,12 @@ def test_incompatible():
     """
     Test when we are given an operation that is unsupported by Jestspectation
     """
-    assert pytest_assertrepr_compare(
-        None,  # type: ignore
-        "<=",
-        1,
-        Equals(2),
-    ) is None
+    assert (
+        pytest_assertrepr_compare(
+            None,  # type: ignore
+            "<=",
+            1,
+            Equals(2),
+        )
+        is None
+    )

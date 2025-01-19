@@ -1,10 +1,11 @@
 """
 Utility functions
 """
+
 from functools import wraps
 from typing import Callable, Optional, TypeVar
 
-T = TypeVar('T')
+T = TypeVar("T")
 
 
 def get_object_type_name(obj: object) -> str:
@@ -25,10 +26,12 @@ def indent_lines(lines: list[str], amount: int) -> list[str]:
     """
     Return a list of strings indented by the given amount
     """
-    return list(map(
-        lambda line: f"{' ' * amount}{line}",
-        lines,
-    ))
+    return list(
+        map(
+            lambda line: f"{' ' * amount}{line}",
+            lines,
+        )
+    )
 
 
 def diff_wrapper(
@@ -38,6 +41,7 @@ def diff_wrapper(
     Decorator around diff functions to add an equality statement. Also returns
     None if values are equal
     """
+
     @wraps(diff_function)
     def wrapper(
         matcher: T,
@@ -51,6 +55,7 @@ def diff_wrapper(
         else:
             eq_expr = f"{repr(matcher)} == {repr(other)}"
         return [eq_expr] + diff_function(matcher, other, other_is_lhs)
+
     return wrapper
 
 
@@ -61,6 +66,7 @@ def safe_diff_wrapper(
     Decorator around diff functions to add an equality statement if they are
     not equal to reduce repetition
     """
+
     @wraps(diff_function)
     def wrapper(matcher: T, other: object, other_is_lhs: bool) -> list[str]:
         if other_is_lhs:
@@ -68,6 +74,7 @@ def safe_diff_wrapper(
         else:
             eq_expr = f"{repr(matcher)} == {repr(other)}"
         return [eq_expr] + diff_function(matcher, other, other_is_lhs)
+
     return wrapper
 
 
@@ -95,6 +102,7 @@ def sub_diff_delegate(
         Inner function so we can wrap up the return values
         """
         from .__jestspectation_base import JestspectationBase
+
         if matcher == other:
             return None
 

@@ -1,11 +1,12 @@
 """
 Helper functions for making assertions with pretty error messages.
 """
+
 from typing import TypeVar
 
 from jestspectation import Equals
 
-T = TypeVar('T')
+T = TypeVar("T")
 
 
 def assert_eq(lhs: T, rhs: T) -> None:
@@ -24,5 +25,5 @@ def assert_eq(lhs: T, rhs: T) -> None:
     wrapped = Equals(lhs)
 
     if wrapped != rhs:
-        diff = '\n'.join(wrapped.get_diff(rhs, False))
+        diff = "\n".join(wrapped.get_diff(rhs, False))
         raise AssertionError(diff)

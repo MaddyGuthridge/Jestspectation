@@ -1,6 +1,7 @@
 """
 Tests for the expect any type
 """
+
 import pytest
 
 from jestspectation import Any, Anything
@@ -11,13 +12,13 @@ TYPE_TESTS = [
     (float, 42.0),
     (list, [1, 2, 3, 4, 5]),
     (set, {1, 2, 3, 4, 5}),
-    (dict, {'a': 1, 'b': 2, 'c': 3}),
+    (dict, {"a": 1, "b": 2, "c": 3}),
     (type, int),
 ]
 
 
 @pytest.mark.parametrize(
-    ('type', 'instance'),
+    ("type", "instance"),
     TYPE_TESTS,
 )
 def test_matches_self(type, instance):
@@ -45,7 +46,7 @@ def test_any_get_diff():
 
 
 @pytest.mark.parametrize(
-    ('type', 'instance'),
+    ("type", "instance"),
     TYPE_TESTS,
 )
 def test_match_anything(type, instance):

@@ -16,4 +16,4 @@ def test_gives_diff():
     try:
         assert_eq(1, 2)
     except AssertionError as e:
-        assert e.args == ('\n'.join(Equals(1).get_diff(2, False)),)
+        assert e.args == ("\n".join(Equals(1).get_diff(2, False)),)

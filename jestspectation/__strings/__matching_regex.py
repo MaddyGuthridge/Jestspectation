@@ -1,6 +1,7 @@
 """
 Matches strings that match a regular expression
 """
+
 import re
 
 from ..__jestspectation_base import JestspectationBase
@@ -11,6 +12,7 @@ class StringMatchingRegex(JestspectationBase):
     """
     Matches strings that match with the given regular expression.
     """
+
     def __init__(self, regex: str) -> None:
         """
         Matches strings that match with the given regular expression.
@@ -35,7 +37,7 @@ class StringMatchingRegex(JestspectationBase):
             return [
                 "Type mismatch",
                 f"Expected object of type str ({repr(self)})",
-                f"Received object of type {type(other).__name__} ({other})"
+                f"Received object of type {type(other).__name__} ({other})",
             ]
         else:
             return [
