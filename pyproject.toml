@@ -1,14 +1,10 @@
-[tool.poetry]
+[project]
 name = "Jestspectation"
 version = "1.4.3"
 description = "Pattern matching tools to test complex data structures"
 readme = "README.md"
-
-authors = ["Maddy Guthridge <hello@maddyguthridge.com>"]
 license = "MIT"
-
-repository = "https://github.com/MaddyGuthridge/Jestspectation"
-documentation = "https://maddyguthridge.github.io/Jestspectation"
+authors = [{ name = "Maddy Guthridge", email = "hello@maddyguthridge.com" }]
 
 keywords = ["jest", "pattern", "matching", "pytest", "equality"]
 classifiers = [
@@ -22,16 +18,24 @@ classifiers = [
     "Topic :: Software Development :: Testing",
     "Typing :: Typed",
 ]
-include = ["py.typed"]
 
-packages = [{ include = "jestspectation" }]
+requires-python = ">=3.9"
+dependencies = [
+    "typing-extensions (>= 4.5.0)"
+]
 
-[tool.poetry.plugins.pytest11]
+[project.urls]
+homepage = "https://maddyguthridge.github.io/Jestspectation"
+repository = "https://github.com/MaddyGuthridge/Jestspectation"
+documentation = "https://maddyguthridge.github.io/Jestspectation"
+"Bug Tracker" = "https://github.com/MaddyGuthridge/Jestspectation/issues"
+
+[project.entry-points.pytest11]
 jestspectation = "jestspectation.pytest"
 
-[tool.poetry.urls]
-"Online Documentation" = "https://maddyguthridge.github.io/Jestspectation"
-"Bug Tracker" = "https://github.com/MaddyGuthridge/Jestspectation/issues"
+[tool.poetry]
+include = ["py.typed"]
+packages = [{ include = "jestspectation" }]
 
 [tool.pytest.ini_options]
 addopts = '--doctest-glob="README.md" --doctest-glob="docs/**.md"'
@@ -55,11 +59,6 @@ exclude_also = [
     'raise NotImplementedError',
 ]
 
-[tool.poetry.dependencies]
-python = "^3.9"
-typing-extensions = "^4.5.0"
-flake8-pyproject = "^1.2.3"
-
 [tool.poetry.group.dev.dependencies]
 mypy = "^1.14.1"
 flake8 = "^7.1.1"
@@ -70,6 +69,7 @@ mkdocs = "^1.5.3"
 mkdocs-gen-files = "^0.5.0"
 mkdocs-material = "^9.5.49"
 mkdocstrings = { version = "^0.27.0", extras = ["python"] }
+flake8-pyproject = "^1.2.3"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
