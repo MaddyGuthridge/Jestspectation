@@ -161,7 +161,7 @@ def test_diff_match_dict_containing_keys():
 def test_diff_match_dict_containing_values():
     dict = DictContainingValues(["1", "2", "3", "4", "5"])
     assert dict.get_diff({1: "1", 2: "2", 3: "3"}, False) == [
-        "DictContainingValues(['1', '2', '3', '4', '5']) == {1: '1', 2: '2', 3: '3'}",
+        "DictContainingValues(['1', '2', '3', '4', '5']) == {1: '1', 2: '2', 3: '3'}",  # noqa: E501
         "Missing properties",
         f"Expected a {dict}",
         f"-- '{4}'",
