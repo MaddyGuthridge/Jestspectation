@@ -3,12 +3,13 @@ Matchers for specific container types
 """
 
 from abc import abstractmethod
-from collections.abc import Iterable, ItemsView
-from typing import Any, TypeVar, Generic, cast
+from collections.abc import ItemsView, Iterable
+from typing import Any, Generic, TypeVar, cast
+
 from typing_extensions import TypeGuard
+
 from .__jestspectation_base import JestspectationBase
 from .__util import get_object_type_name, safe_diff_wrapper, sub_diff_delegate
-
 
 T = TypeVar('T', bound=Iterable)
 

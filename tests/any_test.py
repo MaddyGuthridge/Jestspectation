@@ -1,9 +1,9 @@
 """
 Tests for the expect any type
 """
-from jestspectation import Any, Anything
 import pytest
 
+from jestspectation import Any, Anything
 
 TYPE_TESTS = [
     (str, "string"),

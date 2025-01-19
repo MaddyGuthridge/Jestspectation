@@ -6,31 +6,30 @@ Pattern matching helper classes designed to be similar to Jest's expect
 matchers, but modified to suit a Pythonic style of programming.
 """
 
-from .__jestspectation_base import JestspectationBase
 from .__any import Any, Anything
+from .__assert import assert_eq
+from .__config import configure
 from .__containers import (
+    DictContainingItems,
     DictContainingKeys,
     DictContainingValues,
-    DictContainingItems,
     ListContaining,
     ListContainingOnly,
     ListOfLength,
-    SetContaining,
-    ObjectContainingProperties,
     ObjectContainingItems,
+    ObjectContainingProperties,
+    SetContaining,
 )
-from .__float_approx import FloatApprox
 from .__equals import Equals, Is
-from .logicals import And, Not, Or, Xor
+from .__float_approx import FloatApprox
+from .__jestspectation_base import JestspectationBase
 from .__strings import (
-    StringMatchingRegex,
-    StringContaining,
-    TextLike,
     LinesLike,
+    StringContaining,
+    StringMatchingRegex,
+    TextLike,
 )
-from .__assert import assert_eq
-from .__config import configure
-
+from .logicals import And, Not, Or, Xor
 
 __all__ = [
     'And',

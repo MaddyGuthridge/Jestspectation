@@ -2,7 +2,8 @@
 Tests for logical combinators
 """
 import pytest
-from jestspectation import And, Or, Xor, Any
+
+from jestspectation import And, Any, Or, Xor
 
 
 @pytest.mark.parametrize(

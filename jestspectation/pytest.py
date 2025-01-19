@@ -3,11 +3,13 @@ Jestspectation / Pytest
 
 Hooks for Pytest
 """
-import pytest
 from typing import Optional
-from .__jestspectation_base import JestspectationBase
-from .__equals import Equals
+
+import pytest
+
 from .__config import configure
+from .__equals import Equals
+from .__jestspectation_base import JestspectationBase
 
 
 def pytest_assertrepr_compare(

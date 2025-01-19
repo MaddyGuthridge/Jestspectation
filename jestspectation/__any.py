@@ -2,7 +2,7 @@
 Matchers that match close to anything
 """
 from .__jestspectation_base import JestspectationBase
-from .__util import get_type_name, get_object_type_name, safe_diff_wrapper
+from .__util import get_object_type_name, get_type_name, safe_diff_wrapper
 
 
 class Any(JestspectationBase):

@@ -3,8 +3,8 @@ Tests / Pytest test
 
 Wow this is so meta
 """
-from jestspectation.pytest import pytest_assertrepr_compare
 from jestspectation import Equals
+from jestspectation.pytest import pytest_assertrepr_compare
 
 
 def test_get_diff():

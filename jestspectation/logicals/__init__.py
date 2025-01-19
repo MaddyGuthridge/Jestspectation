@@ -9,7 +9,6 @@ from .__not import Not
 from .__or import Or
 from .__xor import Xor
 
-
 __all__ = [
     'And',
     'Not',

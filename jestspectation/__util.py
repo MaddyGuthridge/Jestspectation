@@ -2,7 +2,7 @@
 Utility functions
 """
 from functools import wraps
-from typing import Optional, Callable, TypeVar
+from typing import Callable, Optional, TypeVar
 
 T = TypeVar('T')
 

@@ -1,7 +1,7 @@
 """
 Tests for logical combinators
 """
-from jestspectation import Not, Or, Any, StringMatchingRegex
+from jestspectation import Any, Not, Or, StringMatchingRegex
 
 
 def test_or_not_all_match():

@@ -30,7 +30,7 @@ jobs:
       run: |
         poetry run coverage report
 
-  Flake8:
+  Ruff:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
@@ -47,9 +47,9 @@ jobs:
         key: ${{ runner.os }}-poetry-${{ hashFiles('poetry.lock') }}
     - run: poetry --version
     - run: poetry install
-    - name: Lint with flake8
+    - name: Lint with ruff
       run: |
-        poetry run flake8
+        poetry run ruff check
 
   Mypy:
     runs-on: ubuntu-latest

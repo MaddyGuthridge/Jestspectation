@@ -1,8 +1,9 @@
 """
 Tests for string matchers
 """
-from jestspectation import TextLike
 from string import whitespace
+
+from jestspectation import TextLike
 
 
 def test_bad_type():

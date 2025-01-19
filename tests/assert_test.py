@@ -1,5 +1,6 @@
 import pytest
-from jestspectation import assert_eq, Equals
+
+from jestspectation import Equals, assert_eq
 
 
 def test_assert_eq_success():

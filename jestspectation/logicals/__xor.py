@@ -4,7 +4,7 @@ Logicals / Xor
 Matchers that can be used to perform logical operations on other matchers
 """
 from ..__jestspectation_base import JestspectationBase
-from ..__util import sub_diff_delegate, safe_diff_wrapper
+from ..__util import safe_diff_wrapper, sub_diff_delegate
 
 
 class Xor(JestspectationBase):

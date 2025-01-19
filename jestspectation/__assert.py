@@ -2,8 +2,8 @@
 Helper functions for making assertions with pretty error messages.
 """
 from typing import TypeVar
-from jestspectation import Equals
 
+from jestspectation import Equals
 
 T = TypeVar('T')
 

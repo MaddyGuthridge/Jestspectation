@@ -2,10 +2,11 @@
 Diff generators for Python objects
 """
 from itertools import zip_longest
+
 from .__util import (
+    diff_wrapper,
     get_object_type_name,
     sub_diff_delegate,
-    diff_wrapper,
 )
 
 
@@ -90,18 +91,18 @@ def diff_dict(
 
     ret = []
     # Missing
-    for e in matcher.keys():
-        if e not in other.keys():
+    for e in matcher:
+        if e not in other:
             ret += [f"-- {diff_str(e, matcher)}"]
 
     # Additional
-    for e in other.keys():
-        if e not in matcher.keys():
+    for e in other:
+        if e not in matcher:
             ret += [f"++ {diff_str(e, other)}"]
 
     # Non-equal keys
-    for e in matcher.keys():
-        if e in other.keys():
+    for e in matcher:
+        if e in other:
             sub_diff = sub_diff_delegate(matcher[e], other[e], other_is_lhs)
             if sub_diff is not None:
                 ret += [

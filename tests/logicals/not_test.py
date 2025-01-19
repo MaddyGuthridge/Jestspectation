@@ -1,7 +1,7 @@
 """
 Tests for logical combinators
 """
-from jestspectation import Not, Any
+from jestspectation import Any, Not
 
 
 def test_not_inverts():
@@ -10,7 +10,7 @@ def test_not_inverts():
 
 
 def test_not_literals():
-    assert 68 == Not("nice")
+    assert Not("nice") == 68
 
 
 def test_diff():

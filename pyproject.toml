@@ -1,6 +1,6 @@
 [project]
 name = "Jestspectation"
-version = "1.4.3"
+version = "1.4.4"
 description = "Pattern matching tools to test complex data structures"
 readme = "README.md"
 license = "MIT"
@@ -20,9 +20,7 @@ classifiers = [
 ]
 
 requires-python = ">=3.9"
-dependencies = [
-    "typing-extensions (>= 4.5.0)"
-]
+dependencies = ["typing-extensions (>= 4.5.0)"]
 
 [project.urls]
 homepage = "https://maddyguthridge.github.io/Jestspectation"
@@ -44,8 +42,21 @@ addopts = '--doctest-glob="README.md" --doctest-glob="docs/**.md"'
 check_untyped_defs = true
 files = ["jestspectation", "tests"]
 
-[tool.flake8]
-exclude = ['.git', '__pycache__', 'dist', 'site']
+[tool.ruff.lint]
+select = [
+    # pycodestyle
+    "E",
+    # Pyflakes
+    "F",
+    # pyupgrade
+    "UP",
+    # flake8-bugbear
+    "B",
+    # flake8-simplify
+    "SIM",
+    # isort
+    "I",
+]
 
 [tool.coverage.run]
 branch = true
@@ -61,7 +72,6 @@ exclude_also = [
 
 [tool.poetry.group.dev.dependencies]
 mypy = "^1.14.1"
-flake8 = "^7.1.1"
 pytest = "^8.3.4"
 autopep8 = "^2.3.1"
 coverage = "^7.6.10"
@@ -69,7 +79,7 @@ mkdocs = "^1.5.3"
 mkdocs-gen-files = "^0.5.0"
 mkdocs-material = "^9.5.49"
 mkdocstrings = { version = "^0.27.0", extras = ["python"] }
-flake8-pyproject = "^1.2.3"
+ruff = "^0.9.2"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

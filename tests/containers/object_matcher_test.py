@@ -1,4 +1,4 @@
-from jestspectation import ObjectContainingProperties, ObjectContainingItems
+from jestspectation import ObjectContainingItems, ObjectContainingProperties
 
 
 class DummyObject:

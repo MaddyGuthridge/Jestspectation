@@ -4,8 +4,8 @@ Jestspectation base
 Base type used in Jestspectation
 """
 from abc import abstractmethod
-from .__util import get_object_type_name
 
+from .__util import get_object_type_name
 
 REPR_LEN = 25
 

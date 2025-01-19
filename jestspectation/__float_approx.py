@@ -2,6 +2,7 @@
 Matcher for floats of approximate value
 """
 from typing import Optional
+
 from .__jestspectation_base import JestspectationBase
 
 
@@ -72,9 +73,8 @@ class FloatApprox(JestspectationBase):
         if not isinstance(other, (float, int)):
             return False
         diff_magnitude = abs(self.__value - other)
-        if self.__magnitude is not None:
-            if diff_magnitude > self.__magnitude:
-                return False
+        if self.__magnitude is not None and diff_magnitude > self.__magnitude:
+            return False
         if self.__percent is not None:
             diff_percent = diff_magnitude / self.__value * 100
             if diff_percent > self.__percent:

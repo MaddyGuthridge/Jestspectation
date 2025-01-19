@@ -1,7 +1,7 @@
 """
 Equals test
 """
-from jestspectation import Is, Equals
+from jestspectation import Equals, Is
 
 
 def test_is_exact():

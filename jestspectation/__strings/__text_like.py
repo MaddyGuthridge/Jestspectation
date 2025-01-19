@@ -1,7 +1,8 @@
 """
 Matches text similar to the given text
 """
-from typing import Optional, Iterable
+from collections.abc import Iterable
+from typing import Optional
 
 from ..__jestspectation_base import JestspectationBase
 from ..__util import safe_diff_wrapper

@@ -2,12 +2,13 @@
 Matches text similar to the given text, but with better diffs for
 multi-line text
 """
+from collections.abc import Iterable
 from itertools import zip_longest
-from typing import Union, overload, Optional, Iterable
+from typing import Optional, Union, overload
 
-from .__text_like import TextLike
 from ..__jestspectation_base import JestspectationBase
-from ..__util import sub_diff_delegate, safe_diff_wrapper
+from ..__util import safe_diff_wrapper, sub_diff_delegate
+from .__text_like import TextLike
 
 
 class LinesLike(JestspectationBase):
