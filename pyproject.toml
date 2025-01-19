@@ -1,6 +1,6 @@
 [project]
 name = "Jestspectation"
-version = "1.4.4"
+version = "1.4.5"
 description = "Pattern matching tools to test complex data structures"
 readme = "README.md"
 license = "MIT"
