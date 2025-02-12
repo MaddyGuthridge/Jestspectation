@@ -7,7 +7,9 @@ matchers, but modified to suit a Pythonic style of programming.
 """
 
 # Don't organise root imports or we get circular import errors
-from .__jestspectation_base import JestspectationBase  # noqa: I001
+import importlib.metadata  # noqa: I001
+
+from .__jestspectation_base import JestspectationBase
 from .__any import Any, Anything
 from .__containers import (
     DictContainingItems,
@@ -31,6 +33,8 @@ from .__strings import (
 from .logicals import And, Not, Or, Xor
 from .__assert import assert_eq
 from .__config import configure
+
+__version__ = importlib.metadata.version("jestspectation")
 
 __all__ = [
     "And",
@@ -58,4 +62,5 @@ __all__ = [
     "StringMatchingRegex",
     "TextLike",
     "Xor",
+    "__version__",
 ]
