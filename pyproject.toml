@@ -81,7 +81,7 @@ coverage = "^7.8.2"
 mkdocs = "^1.5.3"
 mkdocs-material = "^9.6.14"
 mkdocstrings = { version = "^0.27.0", extras = ["python"] }
-ruff = "^0.11.7"
+ruff = "^0.11.12"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
