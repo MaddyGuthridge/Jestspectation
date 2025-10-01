@@ -55,7 +55,7 @@ jobs:
       # Upload artifact from the ./site/ directory using the expected format for GitHub Pages
       - name: Upload Artifact
         id: upload
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v4
         with:
           path: ./site/
 
