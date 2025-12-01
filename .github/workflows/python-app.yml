@@ -9,7 +9,7 @@ jobs:
   Pytest:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v5
+    - uses: actions/checkout@v6
       with:
         submodules: 'recursive'
     - name: Set up Python 3.9
@@ -33,7 +33,7 @@ jobs:
   Ruff:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v5
+    - uses: actions/checkout@v6
       with:
         submodules: 'recursive'
     - name: Set up Python 3.9
@@ -54,7 +54,7 @@ jobs:
   Mypy:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v5
+    - uses: actions/checkout@v6
       with:
         submodules: 'recursive'
     - name: Set up Python 3.9
