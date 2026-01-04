@@ -39,14 +39,14 @@ jobs:
 
       # Upload build outputs
       - name: Upload build artifacts markdown
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         if: always()
         with:
           name: markdown output
           path: docs_build/*
 
       - name: Upload build artifacts HTML
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         if: always()
         with:
           name: HTML output
