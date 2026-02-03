@@ -1,50 +1,38 @@
 name: Generate documentation dryrun
+permissions:
+  contents: read
 on:
-  # Documentation can be either manually updated or is automatically updated when pushed to main branch
+  # Documentation can be either manually updated or is automatically updated
+  # when pushed to main branch
   workflow_dispatch:
   push:
+    branches:
+      - '*'
+      - '!main'
 
 jobs:
   deploy:
     name: Build documentation site
     runs-on: ubuntu-latest
     steps:
-      # Checkout repository including submodules
-      - name: Checkout
-        id: checkout
-        uses: actions/checkout@v6
+      - uses: actions/checkout@v6
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
         with:
-          submodules: true
-
-      # Setup Python 3.9
-      - name: Setup Python
-        id: python
+          enable-cache: true
+      - name: Set up Python
         uses: actions/setup-python@v6
         with:
-          python-version: '3.9'
-
-      # Install dependencies using Poetry
-      - uses: Gr1N/setup-poetry@v9
-      - uses: actions/cache@v5
-        with:
-            path: ~/.cache/pypoetry/virtualenvs
-            key: ${{ runner.os }}-poetry-${{ hashFiles('poetry.lock') }}
-      - run: poetry --version
-      - run: poetry install
+          # Pinned Python version
+          python-version-file: ".python-version"
+      - run: uv sync
 
       # Build documentation to ./site/ directory
       - name: Build Documentation
         id: build
-        run: poetry run mkdocs build
+        run: uv run mkdocs build
 
       # Upload build outputs
-      - name: Upload build artifacts markdown
-        uses: actions/upload-artifact@v6
-        if: always()
-        with:
-          name: markdown output
-          path: docs_build/*
-
       - name: Upload build artifacts HTML
         uses: actions/upload-artifact@v6
         if: always()

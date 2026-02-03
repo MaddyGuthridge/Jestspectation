@@ -2,10 +2,10 @@
 name = "Jestspectation"
 version = "1.4.5"
 description = "Pattern matching tools to test complex data structures"
-readme = "README.md"
-license = "MIT"
 authors = [{ name = "Maddy Guthridge", email = "hello@maddyguthridge.com" }]
-
+license = {text = "MIT"}
+readme = "README.md"
+requires-python = ">=3.9"
 keywords = ["jest", "pattern", "matching", "pytest", "equality"]
 classifiers = [
     "Programming Language :: Python :: 3",
@@ -18,8 +18,6 @@ classifiers = [
     "Topic :: Software Development :: Testing",
     "Typing :: Typed",
 ]
-
-requires-python = ">=3.9"
 dependencies = ["typing-extensions (>= 4.5.0)"]
 
 [project.urls]
@@ -28,12 +26,24 @@ repository = "https://github.com/MaddyGuthridge/Jestspectation"
 documentation = "https://maddyguthridge.github.io/Jestspectation"
 "Bug Tracker" = "https://github.com/MaddyGuthridge/Jestspectation/issues"
 
-[project.entry-points.pytest11]
-jestspectation = "jestspectation.pytest"
+[dependency-groups]
+dev = [
+    "mypy>=1.19.1",
+    "pytest>=8.4.2",
+    "coverage>=7.10.7",
+    "mkdocs>=1.5.3",
+    "mkdocs-material>=9.7.1",
+    "mkdocstrings[python]>=0.30.1",
+    "ruff>=0.14.10",
+]
 
-[tool.poetry]
-include = ["py.typed"]
-packages = [{ include = "jestspectation" }]
+[build-system]
+requires = ["uv_build>=0.7.20,<0.10.0"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = "jestspectation"
+module-root = ""
 
 [tool.pytest.ini_options]
 addopts = '--doctest-glob="README.md" --doctest-glob="docs/**.md"'
@@ -72,17 +82,3 @@ exclude_also = [
     'raise AssertionError',
     'raise NotImplementedError',
 ]
-
-[tool.poetry.group.dev.dependencies]
-mypy = "^1.19.1"
-pytest = "^8.4.2"
-autopep8 = "^2.3.1"
-coverage = "^7.10.7"
-mkdocs = "^1.5.3"
-mkdocs-material = "^9.7.1"
-mkdocstrings = { version = "^0.30.1", extras = ["python"] }
-ruff = "^0.14.10"
-
-[build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
