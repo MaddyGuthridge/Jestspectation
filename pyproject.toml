@@ -5,7 +5,7 @@ description = "Pattern matching tools to test complex data structures"
 authors = [{ name = "Maddy Guthridge", email = "hello@maddyguthridge.com" }]
 license = {text = "MIT"}
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 keywords = ["jest", "pattern", "matching", "pytest", "equality"]
 classifiers = [
     "Programming Language :: Python :: 3",
