@@ -18,7 +18,7 @@ classifiers = [
     "Topic :: Software Development :: Testing",
     "Typing :: Typed",
 ]
-dependencies = ["typing-extensions (>= 4.5.0)"]
+dependencies = []
 
 [project.urls]
 homepage = "https://maddyguthridge.github.io/Jestspectation"
