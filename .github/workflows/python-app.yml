@@ -17,6 +17,8 @@ jobs:
       with:
         python-version: 3.9
     - uses: Gr1N/setup-poetry@v9
+    - if: always()
+      run: cat "/home/runner/work/Jestspectation/Jestspectation/poetry-installer-error-*.log"
     - uses: actions/cache@v5
       with:
         path: ~/.cache/pypoetry/virtualenvs
