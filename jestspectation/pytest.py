@@ -4,7 +4,6 @@ Jestspectation / Pytest
 Hooks for Pytest
 """
 
-from typing import Optional
 
 import pytest
 
@@ -18,7 +17,7 @@ def pytest_assertrepr_compare(
     op: str,
     left: object,
     right: object,
-) -> Optional[list[str]]:
+) -> list[str] | None:
     """
     Override assert expressions
     """

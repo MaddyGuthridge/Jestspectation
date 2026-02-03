@@ -2,7 +2,6 @@
 Matcher for floats of approximate value
 """
 
-from typing import Optional
 
 from .__jestspectation_base import JestspectationBase
 
@@ -15,8 +14,8 @@ class FloatApprox(JestspectationBase):
     def __init__(
         self,
         value: float,
-        magnitude: Optional[float] = None,
-        percent: Optional[float] = None,
+        magnitude: float | None = None,
+        percent: float | None = None,
     ) -> None:
         """
         Float approximately equal.

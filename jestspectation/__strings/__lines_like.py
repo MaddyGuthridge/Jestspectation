@@ -5,7 +5,7 @@ multi-line text
 
 from collections.abc import Iterable
 from itertools import zip_longest
-from typing import Optional, Union, overload
+from typing import overload
 
 from ..__jestspectation_base import JestspectationBase
 from ..__util import safe_diff_wrapper, sub_diff_delegate
@@ -54,7 +54,7 @@ class LinesLike(JestspectationBase):
         lines: list[str],
         /,
         ignore_case: bool = True,
-        ignored_sequences: Optional[Iterable[str]] = None,
+        ignored_sequences: Iterable[str] | None = None,
         strip_lines: bool = False,
     ) -> None: ...
 
@@ -64,16 +64,16 @@ class LinesLike(JestspectationBase):
         lines: str,
         /,
         ignore_case: bool = True,
-        ignored_sequences: Optional[Iterable[str]] = None,
+        ignored_sequences: Iterable[str] | None = None,
         strip_lines: bool = False,
     ) -> None: ...
 
     def __init__(
         self,
-        lines: Union[list[str], str],
+        lines: list[str] | str,
         /,
         ignore_case: bool = True,
-        ignored_sequences: Optional[Iterable[str]] = None,
+        ignored_sequences: Iterable[str] | None = None,
         strip_lines: bool = False,
     ) -> None:
         """
@@ -116,7 +116,7 @@ class LinesLike(JestspectationBase):
         return all(
             [
                 actual == expected
-                for actual, expected in zip(lines, self.__lines)
+                for actual, expected in zip(lines, self.__lines, strict=True)
             ]
         )
 

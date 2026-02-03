@@ -3,7 +3,6 @@ Matches text similar to the given text
 """
 
 from collections.abc import Iterable
-from typing import Optional
 
 from ..__jestspectation_base import JestspectationBase
 from ..__util import safe_diff_wrapper
@@ -30,7 +29,7 @@ class TextLike(JestspectationBase):
         text: str,
         /,
         ignore_case: bool = True,
-        ignored_sequences: Optional[Iterable[str]] = None,
+        ignored_sequences: Iterable[str] | None = None,
         strip: bool = False,
     ) -> None:
         """

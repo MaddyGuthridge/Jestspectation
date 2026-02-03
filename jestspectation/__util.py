@@ -2,8 +2,9 @@
 Utility functions
 """
 
+from collections.abc import Callable
 from functools import wraps
-from typing import Callable, Optional, TypeVar
+from typing import TypeVar
 
 T = TypeVar("T")
 
@@ -36,7 +37,7 @@ def indent_lines(lines: list[str], amount: int) -> list[str]:
 
 def diff_wrapper(
     diff_function: Callable[[T, object, bool], list[str]],
-) -> Callable[[T, object, bool], Optional[list[str]]]:
+) -> Callable[[T, object, bool], list[str] | None]:
     """
     Decorator around diff functions to add an equality statement. Also returns
     None if values are equal
@@ -47,7 +48,7 @@ def diff_wrapper(
         matcher: T,
         other: object,
         other_is_lhs: bool,
-    ) -> Optional[list[str]]:
+    ) -> list[str] | None:
         if matcher == other:
             return None
         if other_is_lhs:
@@ -83,7 +84,7 @@ def sub_diff_delegate(
     other: object,
     other_is_lhs: bool,
     indent: bool = True,
-) -> Optional[list[str]]:
+) -> list[str] | None:
     """
     Calculate and return a sub-diff
 
@@ -97,7 +98,7 @@ def sub_diff_delegate(
         matcher: object,
         other: object,
         other_is_lhs: bool,
-    ) -> Optional[list[str]]:
+    ) -> list[str] | None:
         """
         Inner function so we can wrap up the return values
         """

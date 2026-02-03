@@ -4,9 +4,7 @@ Matchers for specific container types
 
 from abc import abstractmethod
 from collections.abc import ItemsView, Iterable
-from typing import Any, Generic, TypeVar, cast
-
-from typing_extensions import TypeGuard
+from typing import Any, Generic, TypeGuard, TypeVar, cast
 
 from .__jestspectation_base import JestspectationBase
 from .__util import get_object_type_name, safe_diff_wrapper, sub_diff_delegate
@@ -584,7 +582,7 @@ class ListContainingOnly(JestspectationBase):
                 lambda i: (i[1] - i[0], i[2]),
                 filter(
                     lambda n: n[0] < n[1],
-                    zip(counts, expected, self.__items),
+                    zip(counts, expected, self.__items, strict=False),
                 ),
             )
         )
@@ -594,7 +592,7 @@ class ListContainingOnly(JestspectationBase):
                 lambda i: (i[0] - i[1], i[2]),
                 filter(
                     lambda n: n[0] > n[1],
-                    zip(counts, expected, self.__items),
+                    zip(counts, expected, self.__items, strict=False),
                 ),
             )
         )
