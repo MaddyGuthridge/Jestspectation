@@ -1,8 +1,6 @@
 # Publish a Python package to PyPi using uv
 name: Publish Package on PyPi
 
-permissions:
-  contents: read
 on:
   release:
     types: [published]
@@ -10,12 +8,17 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    environment: pypi
+    permissions:
+      contents: read
+      id-token: write
     steps:
       - uses: actions/checkout@v6
       - name: Install uv
         uses: astral-sh/setup-uv@v7
         with:
-          enable-cache: true
+          # Intentionally disabled to prevent poisoning
+          enable-cache: false
       - name: Set up Python
         uses: actions/setup-python@v6
         with:
@@ -24,4 +27,4 @@ jobs:
       - name: Build package
         run: uv build
       - name: Publish package
-        run: uv publish -t ${{ secrets.PYPI_API_TOKEN }}
+        run: uv publish
