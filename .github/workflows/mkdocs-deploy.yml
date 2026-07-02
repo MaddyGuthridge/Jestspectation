@@ -35,12 +35,11 @@ jobs:
         with:
           # Pinned Python version
           python-version-file: ".python-version"
-      - run: uv sync
 
       # Build documentation to ./site/ directory
       - name: Build Documentation
         id: build
-        run: uv run mkdocs build
+        run: uv run --locked mkdocs build
 
       # Upload artifact from the ./site/ directory using the expected format for GitHub Pages
       - name: Upload Artifact

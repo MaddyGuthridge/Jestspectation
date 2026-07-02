@@ -54,7 +54,7 @@ jobs:
           enable-cache: true
       - name: Test with pytest
         run: |
-          uv run pytest
+          uv run --locked pytest
 
   # Only run coverage once
   Coverage:
@@ -72,14 +72,14 @@ jobs:
           enable-cache: true
       - name: Pytest with coverage
         run: |
-          uv run coverage run -m pytest
+          uv run --locked coverage run -m pytest
       - name: Print coverage output
         run: |
-          uv run coverage report
+          uv run --locked coverage report
       - name: Generate code coverage report
         if: ${{ github.event_name == 'pull_request' }}
         run: |
-          uv run coverage xml
+          uv run --locked coverage xml
       - name: Create code coverage comment
         if: ${{ github.event_name == 'pull_request' }}
         uses: orgoro/coverage@v3
@@ -103,7 +103,7 @@ jobs:
           enable-cache: true
       - name: Lint with ruff
         run: |
-          uv run ruff check
+          uv run --locked ruff check
 
   # Run type-checking with mypy
   Type-check:
@@ -121,4 +121,4 @@ jobs:
           enable-cache: true
       - name: Type-check with mypy
         run: |
-          uv run mypy
+          uv run --locked mypy
